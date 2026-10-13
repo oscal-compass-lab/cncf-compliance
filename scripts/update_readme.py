@@ -53,30 +53,36 @@ def primary_repo_url(item):
     return item.get("homepage_url") or item.get("website") or ""
 
 
-def load_existing_statuses():
+def load_projects():
     if not DATA_FILE.exists():
-        return {}
-    existing = json.loads(DATA_FILE.read_text(encoding="utf-8"))
-    return {p["id"]: p.get("cncf_controls_status", DEFAULT_STATUS) for p in existing}
+        return []
+    return json.loads(DATA_FILE.read_text(encoding="utf-8"))
 
 
-def build_projects(items, statuses):
+def load_existing():
+    """Existing data/projects.json entries by id, so assessed fields survive a refresh."""
+    return {p["id"]: p for p in load_projects()}
+
+
+def build_projects(items, existing):
     wanted = {key for key, _ in SECTIONS}
     projects = []
     for item in items:
         maturity = item.get("maturity")
         if maturity not in wanted:
             continue
-        projects.append(
-            {
-                "id": item["id"],
-                "name": item["name"],
-                "maturity": maturity,
-                "logo": item.get("logo", ""),
-                "repo_url": primary_repo_url(item),
-                "cncf_controls_status": statuses.get(item["id"], DEFAULT_STATUS),
-            }
-        )
+        previous = existing.get(item["id"], {})
+        project = {
+            "id": item["id"],
+            "name": item["name"],
+            "maturity": maturity,
+            "logo": item.get("logo", ""),
+            "repo_url": primary_repo_url(item),
+            "cncf_controls_status": previous.get("cncf_controls_status", DEFAULT_STATUS),
+        }
+        if previous.get("cncf_controls_report"):
+            project["cncf_controls_report"] = previous["cncf_controls_report"]
+        projects.append(project)
     projects.sort(key=lambda p: (p["maturity"], p["name"].casefold(), p["id"]))
     return projects
 
@@ -91,7 +97,10 @@ def render_row(project):
         logo_url = f"{LANDSCAPE_BASE}/{project['logo']}"
         logo = f'<img src="{logo_url}" alt="{md_cell(project["name"])} logo" width="48">'
     repo = f"[{md_cell(project['repo_url'])}]({project['repo_url']})" if project["repo_url"] else ""
-    return f"| {logo} | {md_cell(project['name'])} | {repo} | {md_cell(project['cncf_controls_status'])} |"
+    status = md_cell(project["cncf_controls_status"])
+    if project.get("cncf_controls_report"):
+        status = f"[{status}]({project['cncf_controls_report']})"
+    return f"| {logo} | {md_cell(project['name'])} | {repo} | {status} |"
 
 
 def render_tables(projects):
@@ -120,7 +129,7 @@ def update_readme(tables):
 
 def main():
     items = fetch_landscape_items()
-    projects = build_projects(items, load_existing_statuses())
+    projects = build_projects(items, load_existing())
     if not projects:
         print("No CNCF projects found in landscape data; aborting.", file=sys.stderr)
         return 1

@@ -1,0 +1,1838 @@
+{
+  "component-definition": {
+    "uuid": "e831657b-c2bf-4a97-96aa-d1fddb6c6883",
+    "metadata": {
+      "title": "CNCF Source Repository — Shared Base Component Definition",
+      "last-modified": "2026-10-13T12:59:59.178+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "722e3a5b-21ca-4ae2-8d6f-93cd67b5ad6d",
+          "type": "organization",
+          "name": "CNCF TAG Security and Compliance"
+        }
+      ]
+    },
+    "components": [
+      {
+        "uuid": "13ca0da3-b64b-46b3-a512-bb190394caed",
+        "type": "software",
+        "title": "CNCF Source Repository",
+        "description": "Shared component representing any CNCF source repository. Defines rules, check types, and default parameter values for all controls selected by the cncf-repo profile. Per-project component definitions import this base and override only the parameters that differ from these defaults.",
+        "purpose": "Provide a reusable compliance baseline for CNCF source repositories.",
+        "control-implementations": [
+          {
+            "uuid": "e22099d2-4f68-4f12-b9f4-723894ef14ea",
+            "source": "trestle://profiles/cncf-repo/profile.json",
+            "description": "Shared implementation of cncf-repo profile controls for all CNCF source repositories.",
+            "set-parameters": [
+              {
+                "param-id": "pipeline-vuln-scan-target",
+                "values": [
+                  "audit-deps"
+                ],
+                "remarks": "Pipeline target that runs vulnerability scanning."
+              },
+              {
+                "param-id": "test-dir",
+                "values": [
+                  "tests"
+                ],
+                "remarks": "Directory containing test suites."
+              },
+              {
+                "param-id": "test-target",
+                "values": [
+                  "test"
+                ],
+                "remarks": "Pipeline target that runs tests locally."
+              },
+              {
+                "param-id": "default-branch",
+                "values": [
+                  "main"
+                ],
+                "remarks": "The repository default branch name."
+              },
+              {
+                "param-id": "min-reviewers",
+                "values": [
+                  "2"
+                ],
+                "remarks": "Minimum number of required non-author reviewers."
+              },
+              {
+                "param-id": "pipeline-file",
+                "values": [
+                  "Makefile"
+                ],
+                "remarks": "The pipeline-as-code file (Makefile, Taskfile.yml, etc.)."
+              },
+              {
+                "param-id": "threat-model-file",
+                "values": [
+                  "THREAT_MODEL.md"
+                ],
+                "remarks": "Path to the threat model document."
+              },
+              {
+                "param-id": "security-policy-file",
+                "values": [
+                  "SECURITY.md"
+                ],
+                "remarks": "Path to the security policy document."
+              },
+              {
+                "param-id": "sast-target",
+                "values": [
+                  "sast"
+                ],
+                "remarks": "Pipeline target that runs SAST."
+              },
+              {
+                "param-id": "sast-tool",
+                "values": [
+                  "bandit"
+                ],
+                "remarks": "SAST tool (bandit, semgrep, gosec, etc.)."
+              },
+              {
+                "param-id": "validate-target",
+                "values": [
+                  "validate-catalog"
+                ],
+                "remarks": "Pipeline target that validates manifests/artifacts."
+              },
+              {
+                "param-id": "dependency-file",
+                "values": [
+                  "requirements.txt"
+                ],
+                "remarks": "Dependency declaration file (requirements.txt, go.mod, package.json, etc.)."
+              },
+              {
+                "param-id": "lock-file",
+                "values": [
+                  "requirements.lock"
+                ],
+                "remarks": "Dependency lock file (requirements.lock, go.sum, package-lock.json, etc.)."
+              },
+              {
+                "param-id": "hash-pin-pattern",
+                "values": [
+                  "--require-hashes"
+                ],
+                "remarks": "Pattern in the pipeline file that activates hash verification."
+              },
+              {
+                "param-id": "env-setup-target",
+                "values": [
+                  "venv"
+                ],
+                "remarks": "Pipeline target that creates the build environment."
+              },
+              {
+                "param-id": "all-target",
+                "values": [
+                  "all"
+                ],
+                "remarks": "The single top-level pipeline entry point target."
+              },
+              {
+                "param-id": "output-artifact-path",
+                "values": [
+                  "dist"
+                ],
+                "remarks": "Path to the primary secured pipeline output artifact or directory."
+              },
+              {
+                "param-id": "codeowners-file",
+                "values": [
+                  "CODEOWNERS"
+                ],
+                "remarks": "Path to the CODEOWNERS file."
+              },
+              {
+                "param-id": "sbom-output-path",
+                "values": [
+                  "sbom.json"
+                ],
+                "remarks": "Path to the generated SBOM file."
+              },
+              {
+                "param-id": "trusted-registry-pattern",
+                "values": [
+                  "pip install"
+                ],
+                "remarks": "Pattern confirming use of a trusted package manager in the pipeline file."
+              },
+              {
+                "param-id": "sbom-target",
+                "values": [
+                  "generate-sbom"
+                ],
+                "remarks": "Pipeline target that generates the SBOM."
+              },
+              {
+                "param-id": "vulnerability-scanner",
+                "values": [
+                  "pip-audit"
+                ],
+                "remarks": "Vulnerability scanner tool (pip-audit, trivy, grype, govulncheck, etc.)."
+              },
+              {
+                "param-id": "license-scan-target",
+                "values": [
+                  "license-check"
+                ],
+                "remarks": "Pipeline target that runs license compliance scanning."
+              },
+              {
+                "param-id": "license-scanner",
+                "values": [
+                  "pip-licenses"
+                ],
+                "remarks": "License scanner tool (pip-licenses, golicense, license-checker, etc.)."
+              },
+              {
+                "param-id": "sca-target",
+                "values": [
+                  "sca"
+                ],
+                "remarks": "Pipeline target that runs software composition analysis."
+              },
+              {
+                "param-id": "signed-commits-lookback",
+                "values": [
+                  "10"
+                ],
+                "remarks": "Number of recent commits to verify for signatures."
+              },
+              {
+                "param-id": "secrets-scan-extensions",
+                "values": [
+                  "py,sh,yaml,yml,env,cfg,ini"
+                ],
+                "remarks": "Comma-separated file extensions to scan for hardcoded secrets."
+              },
+              {
+                "param-id": "secrets-scan-exclude-paths",
+                "values": [
+                  ".venv,trestle.ws,.git,dist"
+                ],
+                "remarks": "Comma-separated directory names to exclude from secrets scanning."
+              },
+              {
+                "param-id": "contributing-file",
+                "values": [
+                  "CONTRIBUTING.md"
+                ],
+                "remarks": "Path to the contribution policy document."
+              },
+              {
+                "param-id": "mfa-enforcement-scope",
+                "values": [
+                  "organization"
+                ],
+                "remarks": "Scope at which MFA is enforced (organization, team, repository)."
+              },
+              {
+                "param-id": "git-config-file",
+                "values": [
+                  ".git/config"
+                ],
+                "remarks": "Path to the git configuration file."
+              },
+              {
+                "param-id": "ssh-remote-pattern",
+                "values": [
+                  "git@github\\.com"
+                ],
+                "remarks": "Pattern confirming SSH remote URL in git config."
+              }
+            ],
+            "implemented-requirements": [
+              {
+                "uuid": "361a8c80-132f-429b-b8c5-d66d923404af",
+                "control-id": "CNSC-65",
+                "description": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "pipeline-vuln-scan-target",
+                    "values": [
+                      "audit-deps"
+                    ],
+                    "remarks": "Pipeline target that runs vulnerability scanning."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-65_smt",
+                    "uuid": "32a7d821-59cc-4563-bf74-2a0c3ff17a9d",
+                    "description": "Rule: Vulnerability and configuration scanning must be integrated at the pull-request or CI stage. | Check: makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "f8d2b32c-f10f-4bba-b3e8-afe6b9d10bda",
+                "control-id": "CNSC-67",
+                "description": "Tests must exist for business-critical code paths.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Tests must exist for business-critical code paths."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: test-dir"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "test-dir",
+                    "values": [
+                      "tests"
+                    ],
+                    "remarks": "Directory containing test suites."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-67_smt",
+                    "uuid": "888511d5-908b-4358-bfbb-c129ee17f86b",
+                    "description": "Rule: Tests must exist for business-critical code paths. | Check: file-exists | param: test-dir"
+                  }
+                ]
+              },
+              {
+                "uuid": "4059353d-fe26-47ae-8576-28a47ff2cd4d",
+                "control-id": "CNSC-68",
+                "description": "Tests must exist for business-critical infrastructure.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Tests must exist for business-critical infrastructure."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: test-dir"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-68_smt",
+                    "uuid": "235dfa87-9a63-4f3b-a4fc-96a1f7a67dac",
+                    "description": "Rule: Tests must exist for business-critical infrastructure. | Check: file-exists | param: test-dir"
+                  }
+                ]
+              },
+              {
+                "uuid": "31fcfe77-25e2-41f4-a035-06aa338960a8",
+                "control-id": "CNSC-69",
+                "description": "Test suites must be runnable locally without external dependencies.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Test suites must be runnable locally without external dependencies."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: test-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "test-target",
+                    "values": [
+                      "test"
+                    ],
+                    "remarks": "Pipeline target that runs tests locally."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-69_smt",
+                    "uuid": "dddf8155-7531-45a4-8040-48685ca8d6bb",
+                    "description": "Rule: Test suites must be runnable locally without external dependencies. | Check: makefile-target | param: test-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "dc41daa0-c50f-465f-9787-d882e9384e76",
+                "control-id": "CNSC-71",
+                "description": "At least two non-author reviewers must approve before merging.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "At least two non-author reviewers must approve before merging."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch; min-reviewers"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "default-branch",
+                    "values": [
+                      "main"
+                    ],
+                    "remarks": "The repository default branch name."
+                  },
+                  {
+                    "param-id": "min-reviewers",
+                    "values": [
+                      "2"
+                    ],
+                    "remarks": "Minimum number of required non-author reviewers."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-71_smt",
+                    "uuid": "d1b0a7b2-f659-4892-b38e-5b1fc20a49d3",
+                    "description": "Rule: At least two non-author reviewers must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
+                  }
+                ]
+              },
+              {
+                "uuid": "3aa0bbc3-f65a-4f33-8198-210a2a05ee96",
+                "control-id": "CNSC-72",
+                "description": "Code must be clean and well commented.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Code must be clean and well commented."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: pipeline-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "pipeline-file",
+                    "values": [
+                      "Makefile"
+                    ],
+                    "remarks": "The pipeline-as-code file (Makefile, Taskfile.yml, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-72_smt",
+                    "uuid": "29e2efa3-84a4-495f-9c15-05b2f2ef0138",
+                    "description": "Rule: Code must be clean and well commented. | Check: file-exists | param: pipeline-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "d706d99e-17a6-4f33-90bf-6f2c6124e78c",
+                "control-id": "CNSC-73",
+                "description": "Full infrastructure tests must be present.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Full infrastructure tests must be present."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: test-dir"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-73_smt",
+                    "uuid": "31252d53-e6fc-4069-bbb9-36dfb39f9d79",
+                    "description": "Rule: Full infrastructure tests must be present. | Check: file-exists | param: test-dir"
+                  }
+                ]
+              },
+              {
+                "uuid": "7fd444e8-3da2-4d40-b6e4-e3b3550d5435",
+                "control-id": "CNSC-74",
+                "description": "Regression tests must be present.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Regression tests must be present."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: test-dir"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-74_smt",
+                    "uuid": "e50d2066-bf5d-44d2-a45c-08ba30da4c09",
+                    "description": "Rule: Regression tests must be present. | Check: file-exists | param: test-dir"
+                  }
+                ]
+              },
+              {
+                "uuid": "9fb105c8-0854-4aae-93da-288843b38c18",
+                "control-id": "CNSC-75",
+                "description": "Test suites must be updated against new and emerging threats.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Test suites must be updated against new and emerging threats."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: test-dir"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-75_smt",
+                    "uuid": "734a8185-8876-4f48-ac58-4080cdb5597c",
+                    "description": "Rule: Test suites must be updated against new and emerging threats. | Check: file-exists | param: test-dir"
+                  }
+                ]
+              },
+              {
+                "uuid": "a86f92c2-804a-4411-8b9b-90e2f554516b",
+                "control-id": "CNSC-78",
+                "description": "Threat model results must be used to determine test development priorities.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Threat model results must be used to determine test development priorities."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: threat-model-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "threat-model-file",
+                    "values": [
+                      "THREAT_MODEL.md"
+                    ],
+                    "remarks": "Path to the threat model document."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-78_smt",
+                    "uuid": "f4ab0f7d-8f1a-4bc3-b53d-8e3c3d7230d5",
+                    "description": "Rule: Threat model results must be used to determine test development priorities. | Check: file-exists | param: threat-model-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "e3ffc6bd-0386-4225-bdcf-c030020fe36c",
+                "control-id": "CNSC-195",
+                "description": "Secure configuration must be the default state of the system.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Secure configuration must be the default state of the system."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: security-policy-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "security-policy-file",
+                    "values": [
+                      "SECURITY.md"
+                    ],
+                    "remarks": "Path to the security policy document."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-195_smt",
+                    "uuid": "6cb72832-d3a6-457b-bb20-549f2a967973",
+                    "description": "Rule: Secure configuration must be the default state of the system. | Check: file-exists | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "7fc16051-8da6-4200-9c53-0e0c9202a7fe",
+                "control-id": "CNSC-259",
+                "description": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-259_smt",
+                    "uuid": "cb5b0b1f-c583-4591-bbbc-26df5387c3fb",
+                    "description": "Rule: Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline. | Check: makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "4cf96557-557b-4c48-9133-b5b3554b3326",
+                "control-id": "CNSC-265",
+                "description": "At least one non-author reviewer must approve before merging.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "At least one non-author reviewer must approve before merging."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch; min-reviewers"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-265_smt",
+                    "uuid": "9f804fe9-bc7a-453a-8c06-3819ac338152",
+                    "description": "Rule: At least one non-author reviewer must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
+                  }
+                ]
+              },
+              {
+                "uuid": "36b8da8c-1ac8-4f0f-8598-4fa58b818f60",
+                "control-id": "CNSC-82",
+                "description": "Static application security testing (SAST) must be performed.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Static application security testing (SAST) must be performed."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: sast-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "sast-target",
+                    "values": [
+                      "sast"
+                    ],
+                    "remarks": "Pipeline target that runs SAST."
+                  },
+                  {
+                    "param-id": "sast-tool",
+                    "values": [
+                      "bandit"
+                    ],
+                    "remarks": "SAST tool (bandit, semgrep, gosec, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-82_smt",
+                    "uuid": "c6132cd1-620d-4268-b939-4279b1be7e81",
+                    "description": "Rule: Static application security testing (SAST) must be performed. | Check: makefile-target | param: sast-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "b4120854-f503-48ee-9511-7a124ab71230",
+                "control-id": "CNSC-85",
+                "description": "Application manifests and OSCAL artifacts must be validated in the pipeline.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Application manifests and OSCAL artifacts must be validated in the pipeline."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: validate-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "validate-target",
+                    "values": [
+                      "validate-catalog"
+                    ],
+                    "remarks": "Pipeline target that validates manifests/artifacts."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-85_smt",
+                    "uuid": "13554d54-f148-4636-97fd-b79751801780",
+                    "description": "Rule: Application manifests and OSCAL artifacts must be validated in the pipeline. | Check: makefile-target | param: validate-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "7076aa03-6300-43c8-bd3d-9ce90960bae5",
+                "control-id": "CNSC-150",
+                "description": "Build environments and dependencies must be validated before use.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Build environments and dependencies must be validated before use."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: dependency-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "dependency-file",
+                    "values": [
+                      "requirements.txt"
+                    ],
+                    "remarks": "Dependency declaration file (requirements.txt, go.mod, package.json, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-150_smt",
+                    "uuid": "10f5b026-2822-4042-bc5a-0c8b2e4c2aef",
+                    "description": "Rule: Build environments and dependencies must be validated before use. | Check: file-exists | param: dependency-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "aac37049-07c1-4689-83b7-2ce51ac8dddb",
+                "control-id": "CNSC-152",
+                "description": "Build artifacts must be reproducible; a dependency lock file must be present.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Build artifacts must be reproducible; a dependency lock file must be present."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: lock-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "lock-file",
+                    "values": [
+                      "requirements.lock"
+                    ],
+                    "remarks": "Dependency lock file (requirements.lock, go.sum, package-lock.json, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-152_smt",
+                    "uuid": "9165061a-155e-46b9-ac38-8decfeb52b5d",
+                    "description": "Rule: Build artifacts must be reproducible; a dependency lock file must be present. | Check: file-exists | param: lock-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "e1a93991-b967-44cf-b6e6-e94f9d8872de",
+                "control-id": "CNSC-153",
+                "description": "External requirements must be locked and verified with hash pinning.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "External requirements must be locked and verified with hash pinning."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-contains | param: pipeline-file; hash-pin-pattern"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "hash-pin-pattern",
+                    "values": [
+                      "--require-hashes"
+                    ],
+                    "remarks": "Pattern in the pipeline file that activates hash verification."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-153_smt",
+                    "uuid": "396fc96d-d644-40e1-94ca-9ab6b61c39d5",
+                    "description": "Rule: External requirements must be locked and verified with hash pinning. | Check: file-contains | param: pipeline-file; hash-pin-pattern"
+                  }
+                ]
+              },
+              {
+                "uuid": "e049473c-8570-417a-a164-902b6751556e",
+                "control-id": "CNSC-154",
+                "description": "Sources of non-determinism must be eliminated; a lock file must be present.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Sources of non-determinism must be eliminated; a lock file must be present."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: lock-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-154_smt",
+                    "uuid": "20b00453-1165-4f98-966c-f6125d13db92",
+                    "description": "Rule: Sources of non-determinism must be eliminated; a lock file must be present. | Check: file-exists | param: lock-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "7970df48-25fa-4d36-a302-ce4b651e0053",
+                "control-id": "CNSC-155",
+                "description": "The build environment must be recorded.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "The build environment must be recorded."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: lock-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-155_smt",
+                    "uuid": "7751442d-3fd9-482b-90a9-46e881f618c0",
+                    "description": "Rule: The build environment must be recorded. | Check: file-exists | param: lock-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "e691c1c0-db78-4d93-ac03-51f02ea7f036",
+                "control-id": "CNSC-156",
+                "description": "Creation of the build environment must be automated.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Creation of the build environment must be automated."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: env-setup-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "env-setup-target",
+                    "values": [
+                      "venv"
+                    ],
+                    "remarks": "Pipeline target that creates the build environment."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-156_smt",
+                    "uuid": "7cafe5ea-864b-4a88-a4a6-a2847d784078",
+                    "description": "Rule: Creation of the build environment must be automated. | Check: makefile-target | param: env-setup-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "4f81d291-aa8b-4ad6-9b06-c88a2d7b6547",
+                "control-id": "CNSC-158",
+                "description": "Build and CI/CD steps must be automated through pipeline-as-code.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Build and CI/CD steps must be automated through pipeline-as-code."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: pipeline-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-158_smt",
+                    "uuid": "22e98a25-0c13-4b06-85ed-d318df0e9bb6",
+                    "description": "Rule: Build and CI/CD steps must be automated through pipeline-as-code. | Check: file-exists | param: pipeline-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "8f162027-72c0-4942-a2ca-08c17f6faea6",
+                "control-id": "CNSC-159",
+                "description": "Pipelines must be standardized across projects using a single entry point.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Pipelines must be standardized across projects using a single entry point."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: all-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "all-target",
+                    "values": [
+                      "all"
+                    ],
+                    "remarks": "The single top-level pipeline entry point target."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-159_smt",
+                    "uuid": "c79fc188-2727-4798-890e-8c73d4fa9a7f",
+                    "description": "Rule: Pipelines must be standardized across projects using a single entry point. | Check: makefile-target | param: all-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "e493e4f6-5a89-4b77-9ffc-e78be4d62627",
+                "control-id": "CNSC-165",
+                "description": "Pipeline output must be written to a separate secured storage location.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Pipeline output must be written to a separate secured storage location."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: output-artifact-path"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "output-artifact-path",
+                    "values": [
+                      "dist"
+                    ],
+                    "remarks": "Path to the primary secured pipeline output artifact or directory."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-165_smt",
+                    "uuid": "17b3fc67-585c-4593-bd39-17440d100521",
+                    "description": "Rule: Pipeline output must be written to a separate secured storage location. | Check: file-exists | param: output-artifact-path"
+                  }
+                ]
+              },
+              {
+                "uuid": "bb677281-62a9-4deb-975b-4133f9df082d",
+                "control-id": "CNSC-166",
+                "description": "Pipeline modification must only be allowed through pipeline-as-code with branch protection.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Pipeline modification must only be allowed through pipeline-as-code with branch protection."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-166_smt",
+                    "uuid": "fbee182e-9333-4698-80a1-98c67bf2b1a5",
+                    "description": "Rule: Pipeline modification must only be allowed through pipeline-as-code with branch protection. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "0c1625ed-d9ae-407e-b598-fd04793678d2",
+                "control-id": "CNSC-167",
+                "description": "User roles must be defined for the repository.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "User roles must be defined for the repository."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: codeowners-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "codeowners-file",
+                    "values": [
+                      "CODEOWNERS"
+                    ],
+                    "remarks": "Path to the CODEOWNERS file."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-167_smt",
+                    "uuid": "577950b8-a334-47b3-a398-f3e62d05121e",
+                    "description": "Rule: User roles must be defined for the repository. | Check: file-exists | param: codeowners-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "0416fe78-ec21-4d54-aef9-ccbc657602e8",
+                "control-id": "CNSC-168",
+                "description": "A root-of-trust establishment procedure must be documented.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "A root-of-trust establishment procedure must be documented."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-168_smt",
+                    "uuid": "06e1aef1-28c2-489d-8be8-c4bd48feae86",
+                    "description": "Rule: A root-of-trust establishment procedure must be documented. | Check: file-exists | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "31567bc8-7da9-470e-8e84-fb73b190dc93",
+                "control-id": "CNSC-173",
+                "description": "Third-party artifacts and open source libraries must be declared and verified.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Third-party artifacts and open source libraries must be declared and verified."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: dependency-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-173_smt",
+                    "uuid": "835ed744-435a-453c-86ca-4ae6f4d78b2c",
+                    "description": "Rule: Third-party artifacts and open source libraries must be declared and verified. | Check: file-exists | param: dependency-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "2e30fb99-ada7-457d-8d11-c101b4fc5289",
+                "control-id": "CNSC-174",
+                "description": "An SBOM must be required from third-party suppliers.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "An SBOM must be required from third-party suppliers."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: sbom-output-path"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "sbom-output-path",
+                    "values": [
+                      "sbom.json"
+                    ],
+                    "remarks": "Path to the generated SBOM file."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-174_smt",
+                    "uuid": "177623dc-8efb-47d0-846e-ae2e966519ac",
+                    "description": "Rule: An SBOM must be required from third-party suppliers. | Check: file-exists | param: sbom-output-path"
+                  }
+                ]
+              },
+              {
+                "uuid": "24a601f8-3ce9-412b-9bcb-e872fb444329",
+                "control-id": "CNSC-175",
+                "description": "Dependencies between open source components must be tracked.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Dependencies between open source components must be tracked."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: dependency-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-175_smt",
+                    "uuid": "17b2fdbc-1f8a-4c9d-b164-699e8dd463de",
+                    "description": "Rule: Dependencies between open source components must be tracked. | Check: file-exists | param: dependency-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "52c07ab2-af84-48b4-9642-871d70bfb98a",
+                "control-id": "CNSC-177",
+                "description": "Only trusted package managers and repositories must be used.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Only trusted package managers and repositories must be used."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-contains | param: pipeline-file; trusted-registry-pattern"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "trusted-registry-pattern",
+                    "values": [
+                      "pip install"
+                    ],
+                    "remarks": "Pattern confirming use of a trusted package manager in the pipeline file."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-177_smt",
+                    "uuid": "acfd71c3-0939-4bba-9ac6-e52d5402f503",
+                    "description": "Rule: Only trusted package managers and repositories must be used. | Check: file-contains | param: pipeline-file; trusted-registry-pattern"
+                  }
+                ]
+              },
+              {
+                "uuid": "3ae4fa28-dd68-4747-be07-e8eb86579214",
+                "control-id": "CNSC-178",
+                "description": "An immutable SBOM of the code must be generated.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "An immutable SBOM of the code must be generated."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: sbom-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "sbom-target",
+                    "values": [
+                      "generate-sbom"
+                    ],
+                    "remarks": "Pipeline target that generates the SBOM."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-178_smt",
+                    "uuid": "8aa5950f-4028-4a8b-ba13-f84e66991bc7",
+                    "description": "Rule: An immutable SBOM of the code must be generated. | Check: makefile-target | param: sbom-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "d4d9a0be-6f25-4f21-baf7-eade4c6fa472",
+                "control-id": "CNSC-179",
+                "description": "Software must be scanned for known vulnerabilities.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Software must be scanned for known vulnerabilities."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "vulnerability-scanner",
+                    "values": [
+                      "pip-audit"
+                    ],
+                    "remarks": "Vulnerability scanner tool (pip-audit, trivy, grype, govulncheck, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-179_smt",
+                    "uuid": "6cd65c26-b3d0-4507-bebc-69d43f098758",
+                    "description": "Rule: Software must be scanned for known vulnerabilities. | Check: makefile-target | param: pipeline-vuln-scan-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "c996d672-822d-4296-bb0b-0a654f7acb71",
+                "control-id": "CNSC-180",
+                "description": "Software must be scanned for license compliance.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Software must be scanned for license compliance."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: license-scan-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "license-scan-target",
+                    "values": [
+                      "license-check"
+                    ],
+                    "remarks": "Pipeline target that runs license compliance scanning."
+                  },
+                  {
+                    "param-id": "license-scanner",
+                    "values": [
+                      "pip-licenses"
+                    ],
+                    "remarks": "License scanner tool (pip-licenses, golicense, license-checker, etc.)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-180_smt",
+                    "uuid": "4087d86f-75b4-45a3-a80d-fa30fe7a87f6",
+                    "description": "Rule: Software must be scanned for license compliance. | Check: makefile-target | param: license-scan-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "a4b1fc80-2fd4-4200-9ade-cdd7bebe4195",
+                "control-id": "CNSC-181",
+                "description": "Software composition analysis must be run on ingested software.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Software composition analysis must be run on ingested software."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: sca-target"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "sca-target",
+                    "values": [
+                      "sca"
+                    ],
+                    "remarks": "Pipeline target that runs software composition analysis."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-181_smt",
+                    "uuid": "3f2394af-f154-45be-aaa5-e24f7899b91e",
+                    "description": "Rule: Software composition analysis must be run on ingested software. | Check: makefile-target | param: sca-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "0c64467d-bc87-4a3e-8870-c947549c2d5c",
+                "control-id": "CNSC-182",
+                "description": "All commits and tags must carry a valid GPG or SSH cryptographic signature.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "All commits and tags must carry a valid GPG or SSH cryptographic signature."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-commits-signed | param: signed-commits-lookback"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "signed-commits-lookback",
+                    "values": [
+                      "10"
+                    ],
+                    "remarks": "Number of recent commits to verify for signatures."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-182_smt",
+                    "uuid": "d0fdf3b6-dd59-4ec0-bd71-886f5190b3f7",
+                    "description": "Rule: All commits and tags must carry a valid GPG or SSH cryptographic signature. | Check: git-commits-signed | param: signed-commits-lookback"
+                  }
+                ]
+              },
+              {
+                "uuid": "e0ea9d1d-4091-4107-8e91-66d54d3dd174",
+                "control-id": "CNSC-183",
+                "description": "Full attestation and verification must be enforced for the default branch.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Full attestation and verification must be enforced for the default branch."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-183_smt",
+                    "uuid": "eaea8862-5f1a-410a-99c7-b7627cd81507",
+                    "description": "Rule: Full attestation and verification must be enforced for the default branch. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "436f9c25-6657-49d1-bbba-2446fce2346c",
+                "control-id": "CNSC-184",
+                "description": "No unencrypted secrets must be committed to the repository.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "No unencrypted secrets must be committed to the repository."
+                  },
+                  {
+                    "name": "check",
+                    "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "secrets-scan-extensions",
+                    "values": [
+                      "py,sh,yaml,yml,env,cfg,ini"
+                    ],
+                    "remarks": "Comma-separated file extensions to scan for hardcoded secrets."
+                  },
+                  {
+                    "param-id": "secrets-scan-exclude-paths",
+                    "values": [
+                      ".venv,trestle.ws,.git,dist"
+                    ],
+                    "remarks": "Comma-separated directory names to exclude from secrets scanning."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-184_smt",
+                    "uuid": "ba5eeff3-85bb-4a98-9d3d-645143d4cc2e",
+                    "description": "Rule: No unencrypted secrets must be committed to the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                  }
+                ]
+              },
+              {
+                "uuid": "1943e7cb-c6c6-4534-a276-2bd0ce2c9627",
+                "control-id": "CNSC-185",
+                "description": "Individuals or teams with write access must be explicitly defined.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Individuals or teams with write access must be explicitly defined."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: codeowners-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-185_smt",
+                    "uuid": "4abcbf72-b2b1-4b77-a2b1-dff02fcc003c",
+                    "description": "Rule: Individuals or teams with write access must be explicitly defined. | Check: file-exists | param: codeowners-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "bb55e90f-ea57-4da0-8499-6d839b72ab5e",
+                "control-id": "CNSC-186",
+                "description": "Software security scanning and testing must be automated in the pipeline.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Software security scanning and testing must be automated in the pipeline."
+                  },
+                  {
+                    "name": "check",
+                    "value": "makefile-target | param: sast-target"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-186_smt",
+                    "uuid": "16d90c5d-3e34-45b8-8305-861be7f8001b",
+                    "description": "Rule: Software security scanning and testing must be automated in the pipeline. | Check: makefile-target | param: sast-target"
+                  }
+                ]
+              },
+              {
+                "uuid": "0c9a44cf-99bf-47a2-94fc-dae04492ef06",
+                "control-id": "CNSC-187",
+                "description": "Contribution policies must be established and documented.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Contribution policies must be established and documented."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: contributing-file"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "contributing-file",
+                    "values": [
+                      "CONTRIBUTING.md"
+                    ],
+                    "remarks": "Path to the contribution policy document."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-187_smt",
+                    "uuid": "8d50af28-c4c5-4c62-8b38-8c7932671fe2",
+                    "description": "Rule: Contribution policies must be established and documented. | Check: file-exists | param: contributing-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "64f9d571-5e1c-438e-a2cb-7c3fdd1e828c",
+                "control-id": "CNSC-188",
+                "description": "Roles must be defined and aligned to functional responsibilities.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Roles must be defined and aligned to functional responsibilities."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: codeowners-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-188_smt",
+                    "uuid": "34b20c4a-7902-4e06-b7cf-ea5439b9234d",
+                    "description": "Rule: Roles must be defined and aligned to functional responsibilities. | Check: file-exists | param: codeowners-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "a2e734ba-10b5-4734-a646-51d6f7aeeed1",
+                "control-id": "CNSC-189",
+                "description": "An independent four-eyes principle must be enforced via branch protection.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "An independent four-eyes principle must be enforced via branch protection."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-189_smt",
+                    "uuid": "4b9104a1-b19a-42e8-a2ae-80038a5145d3",
+                    "description": "Rule: An independent four-eyes principle must be enforced via branch protection. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "49d62304-9cb8-4397-92b3-d8d60c433fe7",
+                "control-id": "CNSC-190",
+                "description": "Branch protection rules must be enabled on the default branch.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Branch protection rules must be enabled on the default branch."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-190_smt",
+                    "uuid": "c204364a-55ab-420f-bf46-751f149f4b8b",
+                    "description": "Rule: Branch protection rules must be enabled on the default branch. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "54b91156-d645-46cb-9c4c-44f4a5d754b9",
+                "control-id": "CNSC-191",
+                "description": "MFA must be enforced for accessing source code repositories.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "MFA must be enforced for accessing source code repositories."
+                  },
+                  {
+                    "name": "check",
+                    "value": "manual | param: mfa-enforcement-scope"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "mfa-enforcement-scope",
+                    "values": [
+                      "organization"
+                    ],
+                    "remarks": "Scope at which MFA is enforced (organization, team, repository)."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-191_smt",
+                    "uuid": "b881129e-0395-4530-a5f8-832a91cd8239",
+                    "description": "Rule: MFA must be enforced for accessing source code repositories. | Check: manual | param: mfa-enforcement-scope"
+                  }
+                ]
+              },
+              {
+                "uuid": "838eb631-6152-4676-b30d-f10ac43f66a8",
+                "control-id": "CNSC-192",
+                "description": "SSH keys must be used to provide developer access to source code repositories.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "SSH keys must be used to provide developer access to source code repositories."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-contains | param: git-config-file; ssh-remote-pattern"
+                  }
+                ],
+                "set-parameters": [
+                  {
+                    "param-id": "git-config-file",
+                    "values": [
+                      ".git/config"
+                    ],
+                    "remarks": "Path to the git configuration file."
+                  },
+                  {
+                    "param-id": "ssh-remote-pattern",
+                    "values": [
+                      "git@github\\.com"
+                    ],
+                    "remarks": "Pattern confirming SSH remote URL in git config."
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-192_smt",
+                    "uuid": "d9b41ecf-448f-42ea-b305-04e1e6084667",
+                    "description": "Rule: SSH keys must be used to provide developer access to source code repositories. | Check: file-contains | param: git-config-file; ssh-remote-pattern"
+                  }
+                ]
+              },
+              {
+                "uuid": "7538a6b3-33bd-4d24-885f-20a4fa6b3912",
+                "control-id": "CNSC-193",
+                "description": "A key rotation policy must be documented.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "A key rotation policy must be documented."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-193_smt",
+                    "uuid": "f2e95e9a-ecce-4c7c-a209-6593dc6f915b",
+                    "description": "Rule: A key rotation policy must be documented. | Check: file-exists | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "b8c1f955-69d1-42a9-891e-4328a00dc66d",
+                "control-id": "CNSC-194",
+                "description": "Short-lived or ephemeral credentials must be used for machine and service access.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Short-lived or ephemeral credentials must be used for machine and service access."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-194_smt",
+                    "uuid": "ca99fa4b-4a7d-41bc-8f32-bf9e1476576e",
+                    "description": "Rule: Short-lived or ephemeral credentials must be used for machine and service access. | Check: file-exists | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "f713b5a1-7a39-4fe6-99cc-6fe273ff3f87",
+                "control-id": "CNSC-121",
+                "description": "A threat model for code and infrastructure must be documented.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "A threat model for code and infrastructure must be documented."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: threat-model-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-121_smt",
+                    "uuid": "6ae47c69-829c-40bb-bc83-b043360055b1",
+                    "description": "Rule: A threat model for code and infrastructure must be documented. | Check: file-exists | param: threat-model-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "2856a5c0-e0c4-4f90-a4e8-d52b534eac6e",
+                "control-id": "CNSC-196",
+                "description": "Supply chain security best practices must be adhered to (SBOM, lock file, SCA).",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Supply chain security best practices must be adhered to (SBOM, lock file, SCA)."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: lock-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-196_smt",
+                    "uuid": "a03129d9-ff0f-44b4-b7ea-77135a7de8fe",
+                    "description": "Rule: Supply chain security best practices must be adhered to (SBOM, lock file, SCA). | Check: file-exists | param: lock-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "ed94f35f-b174-40ab-9043-083f09425be4",
+                "control-id": "CNSC-197",
+                "description": "Access to repository and branches must be restricted via branch protection and CODEOWNERS.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Access to repository and branches must be restricted via branch protection and CODEOWNERS."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-197_smt",
+                    "uuid": "56ef0b05-55b9-436a-b6cf-f706b2397fee",
+                    "description": "Rule: Access to repository and branches must be restricted via branch protection and CODEOWNERS. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "b14eff00-47c2-4a8c-810f-997f1194fcfc",
+                "control-id": "CNSC-198",
+                "description": "Unencrypted credentials or secrets must never be stored in the repository.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Unencrypted credentials or secrets must never be stored in the repository."
+                  },
+                  {
+                    "name": "check",
+                    "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-198_smt",
+                    "uuid": "7faba288-7434-4bd0-99b0-1e91e2ee05aa",
+                    "description": "Rule: Unencrypted credentials or secrets must never be stored in the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                  }
+                ]
+              },
+              {
+                "uuid": "eddb6169-3baf-4b54-835f-fb1803c3e0cf",
+                "control-id": "CNSC-199",
+                "description": "Strong identity must be enforced with GPG-signed commits.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Strong identity must be enforced with GPG-signed commits."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-commits-signed | param: signed-commits-lookback"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-199_smt",
+                    "uuid": "00694e59-93eb-4001-91c1-07045040ecf3",
+                    "description": "Rule: Strong identity must be enforced with GPG-signed commits. | Check: git-commits-signed | param: signed-commits-lookback"
+                  }
+                ]
+              },
+              {
+                "uuid": "08bb578f-124a-4e52-ab00-e38e24e41b8f",
+                "control-id": "CNSC-200",
+                "description": "Linear history must be enforced; force-push must be disallowed.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Linear history must be enforced; force-push must be disallowed."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-200_smt",
+                    "uuid": "3c37ac6d-3f6a-4ba3-afeb-ac9da52bcbe2",
+                    "description": "Rule: Linear history must be enforced; force-push must be disallowed. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "ab4e8ff2-e093-4c4e-a335-9a08ed2749b7",
+                "control-id": "CNSC-201",
+                "description": "Branching policy must be enforced with main branch protection and code review.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Branching policy must be enforced with main branch protection and code review."
+                  },
+                  {
+                    "name": "check",
+                    "value": "git-branch-protected | param: default-branch"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-201_smt",
+                    "uuid": "3e9b4e52-b5f9-443d-b38c-5154c04877f5",
+                    "description": "Rule: Branching policy must be enforced with main branch protection and code review. | Check: git-branch-protected | param: default-branch"
+                  }
+                ]
+              },
+              {
+                "uuid": "d42c3988-2d33-4790-afe8-bb7499d895c3",
+                "control-id": "CNSC-202",
+                "description": "Git and GitOps tools must be monitored for vulnerabilities and kept up to date.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Git and GitOps tools must be monitored for vulnerabilities and kept up to date."
+                  },
+                  {
+                    "name": "check",
+                    "value": "manual | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-202_smt",
+                    "uuid": "f57b2310-1fff-459e-90ba-2e2b668d447a",
+                    "description": "Rule: Git and GitOps tools must be monitored for vulnerabilities and kept up to date. | Check: manual | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "2dc21de3-42c5-40d4-bcc8-4a532e16a966",
+                "control-id": "CNSC-203",
+                "description": "SSH keys and Personal Access Tokens must be rotated regularly.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "SSH keys and Personal Access Tokens must be rotated regularly."
+                  },
+                  {
+                    "name": "check",
+                    "value": "file-exists | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-203_smt",
+                    "uuid": "910e22df-6b65-405d-8a4e-9bdf491cc232",
+                    "description": "Rule: SSH keys and Personal Access Tokens must be rotated regularly. | Check: file-exists | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "ac8654eb-6741-4ad9-a978-461f75c9b66b",
+                "control-id": "CNSC-204",
+                "description": "Dedicated non-user technical accounts must be used for automated access.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Dedicated non-user technical accounts must be used for automated access."
+                  },
+                  {
+                    "name": "check",
+                    "value": "manual | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-204_smt",
+                    "uuid": "c7a394e3-4999-4a2b-ac09-68c63f583060",
+                    "description": "Rule: Dedicated non-user technical accounts must be used for automated access. | Check: manual | param: security-policy-file"
+                  }
+                ]
+              },
+              {
+                "uuid": "eede823d-4ab1-4974-9145-e6d123c2cf4b",
+                "control-id": "CNSC-205",
+                "description": "Users who can escalate permissions must be limited to a pre-approved set.",
+                "props": [
+                  {
+                    "name": "rule",
+                    "value": "Users who can escalate permissions must be limited to a pre-approved set."
+                  },
+                  {
+                    "name": "check",
+                    "value": "manual | param: security-policy-file"
+                  }
+                ],
+                "statements": [
+                  {
+                    "statement-id": "CNSC-205_smt",
+                    "uuid": "27eb5be9-8a58-43fe-966d-826e648a7233",
+                    "description": "Rule: Users who can escalate permissions must be limited to a pre-approved set. | Check: manual | param: security-policy-file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

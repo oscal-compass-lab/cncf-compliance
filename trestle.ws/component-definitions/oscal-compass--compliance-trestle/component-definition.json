@@ -1,0 +1,78 @@
+{
+  "component-definition": {
+    "uuid": "6217097d-c9b4-4682-96aa-de58eed91c55",
+    "metadata": {
+      "title": "Component Definition — oscal-compass/compliance-trestle",
+      "last-modified": "2026-10-13T13:01:20.738+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "d5de2f42-b991-475f-a4f8-47ef9eab8ecc",
+          "type": "organization",
+          "name": "oscal-compass/compliance-trestle",
+          "links": [
+            {
+              "href": "https://github.com/oscal-compass/compliance-trestle",
+              "rel": "canonical"
+            }
+          ]
+        }
+      ]
+    },
+    "import-component-definitions": [
+      {
+        "href": "trestle://component-definitions/cncf-repo/component-definition.json"
+      }
+    ],
+    "components": [
+      {
+        "uuid": "82fcb0be-936c-4063-a272-b69423371b92",
+        "type": "software",
+        "title": "oscal-compass/compliance-trestle",
+        "description": "Source code repository at https://github.com/oscal-compass/compliance-trestle.",
+        "purpose": "CNCF project source repository assessed against the cncf-repo profile.",
+        "links": [
+          {
+            "href": "https://github.com/oscal-compass/compliance-trestle",
+            "rel": "reference"
+          }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "106e0fff-8e93-45e3-bea6-6c83c94968f0",
+            "source": "trestle://profiles/cncf-repo/profile.json",
+            "description": "Parameter overrides for oscal-compass/compliance-trestle relative to the shared cncf-repo base.",
+            "set-parameters": [
+              {
+                "param-id": "codeowners-file",
+                "values": [
+                  ".github/CODEOWNERS"
+                ]
+              },
+              {
+                "param-id": "default-branch",
+                "values": [
+                  "develop"
+                ]
+              },
+              {
+                "param-id": "dependency-file",
+                "values": [
+                  "pyproject.toml"
+                ]
+              }
+            ],
+            "implemented-requirements": [
+              {
+                "uuid": "6d4e8449-ef1b-4049-8467-ff6fc7053b7d",
+                "control-id": "CNSC-71",
+                "description": "All control implementations are inherited from the shared base component definition. Only parameter overrides are declared here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
