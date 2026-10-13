@@ -180,11 +180,13 @@ REQUIREMENTS = [
     },
     {
         "control_id": "CNSC-85",
-        "rule": "Application manifests and OSCAL artifacts must be validated in the pipeline.",
-        "check": "makefile-target | param: validate-target",
+        "rule": "Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline.",
+        "check": "ci-manifest-scan | param: manifest-scan-target; manifest-scan-workflows",
         "params": [
-            {"id": "validate-target", "default": "validate-catalog",
-             "description": "Pipeline target that validates manifests/artifacts."},
+            {"id": "manifest-scan-target", "default": "act-lint",
+             "description": "Pipeline target that validates/lints manifests."},
+            {"id": "manifest-scan-workflows", "default": "actionlint,kube-linter,yamllint,checkov,trivy,lint",
+             "description": "Keywords for CI manifest scanning workflows."},
         ],
     },
     # ---- Securing Build Pipelines ------------------------------------------

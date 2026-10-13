@@ -2,9 +2,9 @@
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `ecccc7c`
-- **Assessed at:** 2026-10-13 18:27 UTC
-- **Level:** **Bronze**. 34/49 automated SHOULD controls satisfied (69%)
-- **Totals:** 39 satisfied, 15 failed, 5 not automated (of 59 controls)
+- **Assessed at:** 2026-10-13 18:34 UTC
+- **Level:** **Bronze**. 35/49 automated SHOULD controls satisfied (71%)
+- **Totals:** 40 satisfied, 14 failed, 5 not automated (of 59 controls)
 
 Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, *Gold* at 90% of automated SHOULD controls. MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.
 
@@ -26,7 +26,7 @@ Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass On
 | CNSC-259 | SHOULD | PASS | Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline. | Found CI vulnerability/security scanning workflow: .github/workflows/act-test.yml |
 | CNSC-265 | SHOULD | PASS | At least one non-author reviewer must approve before merging. | Branch 'develop' protected=True |
 | CNSC-82 | SHOULD | PASS | Static application security testing (SAST) must be performed. | Found CI SAST workflow: .github/workflows/codeql-analysis.yml |
-| CNSC-85 | SHOULD | FAIL | Application manifests and OSCAL artifacts must be validated in the pipeline. | Target 'validate-catalog' not found in Makefile |
+| CNSC-85 | SHOULD | PASS | Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline. | Target 'act-lint' found in Makefile |
 | CNSC-150 | SHOULD | PASS | Build environments and dependencies must be validated before use. | Found: pyproject.toml |
 | CNSC-152 | SHOULD | FAIL | Build artifacts must be reproducible; a dependency lock file must be present. | Missing: requirements.lock |
 | CNSC-153 | SHOULD | FAIL | External requirements must be locked and verified with hash pinning. | Pattern '--require-hashes' not found in Makefile |

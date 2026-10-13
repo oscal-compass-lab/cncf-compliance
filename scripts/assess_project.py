@@ -193,6 +193,17 @@ def check_ci_sast(target: str, workflows: str, pipeline_file: str, repo_root: Pa
     return False, f"Target '{target}' not in {pipeline_file} and no SAST workflow in .github/workflows"
 
 
+def check_ci_manifest_scan(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
+    if target:
+        ok, ev = check_make_target(target, pipeline_file, repo_root)
+        if ok:
+            return True, ev
+    matched_wf = _find_workflow_match(workflows, repo_root)
+    if matched_wf:
+        return True, f"Found CI manifest scanning workflow: .github/workflows/{matched_wf.name}"
+    return False, f"Target '{target}' not in {pipeline_file} and no manifest scanning workflow in .github/workflows"
+
+
 def run_check(control_id: str, spec: str, params: dict[str, str],
               repo_root: Path, repo_url: str) -> tuple[bool, str, str]:
     """Return (satisfied, evidence, reason) where reason is pass/fail/other."""
@@ -233,6 +244,13 @@ def run_check(control_id: str, spec: str, params: dict[str, str],
         ok, ev = check_ci_sast(
             params.get("sast-target", "sast"),
             params.get("sast-workflows", "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"),
+            params.get("pipeline-file", "Makefile"),
+            repo_root,
+        )
+    elif ctype == "ci-manifest-scan":
+        ok, ev = check_ci_manifest_scan(
+            params.get("manifest-scan-target", "act-lint"),
+            params.get("manifest-scan-workflows", "actionlint,kube-linter,yamllint,checkov,trivy,lint"),
             params.get("pipeline-file", "Makefile"),
             repo_root,
         )
