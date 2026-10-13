@@ -145,7 +145,13 @@ def render_row(project):
     if project["logo"]:
         logo_url = f"{LANDSCAPE_BASE}/{project['logo']}"
         logo = f'<img src="{logo_url}" alt="{md_cell(project["name"])} logo" width="48">'
-    repo = f"[{md_cell(project['repo_url'])}]({project['repo_url']})" if project["repo_url"] else ""
+    name = md_cell(project["name"])
+    if project.get("repo_url"):
+        repo_url = project["repo_url"]
+        project_cell = f'[{name}]({repo_url} "{repo_url}")'
+    else:
+        project_cell = name
+
     status_text = project["cncf_controls_status"]
     tooltip = STATUS_TOOLTIPS.get(status_text, "")
     if project.get("cncf_controls_report"):
@@ -159,7 +165,7 @@ def render_row(project):
         else:
             status = md_cell(status_text)
     oscal_docs = render_oscal_docs(project)
-    return f"| {logo} | {md_cell(project['name'])} | {repo} | {status} | {oscal_docs} |"
+    return f"| {logo} | {project_cell} | {status} | {oscal_docs} |"
 
 
 def render_tables(projects):
@@ -168,8 +174,8 @@ def render_tables(projects):
         section = [p for p in projects if p["maturity"] == key]
         lines.append(f"### {title} ({len(section)})")
         lines.append("")
-        lines.append("| Logo | Project | Repository | cncf-controls status | OSCAL documents |")
-        lines.append("| --- | --- | --- | --- | --- |")
+        lines.append("| Logo | Project | cncf-controls status | OSCAL documents |")
+        lines.append("| --- | --- | --- | --- |")
         lines.extend(render_row(p) for p in section)
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"

@@ -2,7 +2,7 @@
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `ecccc7c`
-- **Assessed at:** 2026-10-13 18:14 UTC
+- **Assessed at:** 2026-10-13 18:18 UTC
 - **Level:** **Baseline Pass Only**. 29/49 automated SHOULD controls satisfied (59%)
 - **Totals:** 34 satisfied, 20 failed, 5 not automated (of 59 controls)
 
