@@ -2,11 +2,11 @@
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `ecccc7c`
-- **Assessed at:** 2026-10-13 18:03 UTC
-- **Level:** **Pass**. 29/49 automated SHOULD controls satisfied (59%)
+- **Assessed at:** 2026-10-13 18:14 UTC
+- **Level:** **Baseline Pass Only**. 29/49 automated SHOULD controls satisfied (59%)
 - **Totals:** 34 satisfied, 20 failed, 5 not automated (of 59 controls)
 
-Levels: *Fail* if any MUST control is not satisfied; otherwise *Pass* at 50%, *Bronze* at 60%, *Silver* at 75%, *Gold* at 90% of automated SHOULD controls. MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.
+Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, *Gold* at 90% of automated SHOULD controls. MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.
 
 ## Results by control
 

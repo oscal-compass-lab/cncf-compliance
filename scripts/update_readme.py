@@ -20,6 +20,15 @@ LANDSCAPE_DATA_URL = f"{LANDSCAPE_BASE}/data/full.json"
 DEFAULT_STATUS = "TBD"
 TIMEOUT_SECONDS = 60
 
+STATUS_TOOLTIPS = {
+    "Gold": "Exceptional compliance: satisfied 100% of MUST controls and >= 90% of automated SHOULD controls",
+    "Silver": "Strong compliance: satisfied 100% of MUST controls and >= 75% of automated SHOULD controls",
+    "Bronze": "Good compliance: satisfied 100% of MUST controls and >= 60% of automated SHOULD controls",
+    "Baseline Pass Only": "Minimum compliance: satisfied 100% of MUST controls and >= 50% of automated SHOULD controls (below Bronze tier)",
+    "Fail": "Non-compliant: failed one or more MUST controls, or satisfied < 50% of automated SHOULD controls",
+    "TBD": "Assessment pending",
+}
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "projects.json"
 README_FILE = ROOT / "README.md"
@@ -91,16 +100,66 @@ def md_cell(text):
     return str(text).replace("|", "\\|").replace("\n", " ").strip()
 
 
+def render_oscal_docs(project):
+    repo_url = project.get("repo_url", "")
+    if not repo_url:
+        return "-"
+    m = re.search(r"github\.com[:/](.+?)(?:\.git)?$", repo_url)
+    path = m.group(1) if m else repo_url
+    slug = re.sub(r"[^a-zA-Z0-9._-]", "--", path)
+
+    catalog_rel = "trestle.ws/catalogs/cncf-controls/catalog.json"
+    profile_rel = "trestle.ws/profiles/cncf-repo/profile.json"
+    comp_def_rel = f"trestle.ws/component-definitions/{slug}/component-definition.json"
+    ssp_rel = f"trestle.ws/system-security-plans/{slug}/system-security-plan.json"
+    ap_rel = f"trestle.ws/assessment-plans/{slug}/assessment-plan.json"
+    ar_rel = f"trestle.ws/assessment-results/{slug}/assessment-results.json"
+
+    # Only show dropdown if project has generated artifacts
+    if not (ROOT / comp_def_rel).exists() and not (ROOT / ar_rel).exists():
+        return "-"
+
+    docs = []
+    if (ROOT / catalog_rel).exists():
+        docs.append(f'<a href="{catalog_rel}">Catalog</a>')
+    if (ROOT / profile_rel).exists():
+        docs.append(f'<a href="{profile_rel}">Profile</a>')
+    if (ROOT / comp_def_rel).exists():
+        docs.append(f'<a href="{comp_def_rel}">Component Definition</a>')
+    if (ROOT / ssp_rel).exists():
+        docs.append(f'<a href="{ssp_rel}">System Security Plan</a>')
+    if (ROOT / ap_rel).exists():
+        docs.append(f'<a href="{ap_rel}">Assessment Plan</a>')
+    if (ROOT / ar_rel).exists():
+        docs.append(f'<a href="{ar_rel}">Assessment Results</a>')
+
+    if not docs:
+        return "-"
+
+    items = "".join(f"<li>{d}</li>" for d in docs)
+    return f"<details><summary>OSCAL Docs</summary><ul>{items}</ul></details>"
+
+
 def render_row(project):
     logo = ""
     if project["logo"]:
         logo_url = f"{LANDSCAPE_BASE}/{project['logo']}"
         logo = f'<img src="{logo_url}" alt="{md_cell(project["name"])} logo" width="48">'
     repo = f"[{md_cell(project['repo_url'])}]({project['repo_url']})" if project["repo_url"] else ""
-    status = md_cell(project["cncf_controls_status"])
+    status_text = project["cncf_controls_status"]
+    tooltip = STATUS_TOOLTIPS.get(status_text, "")
     if project.get("cncf_controls_report"):
-        status = f"[{status}]({project['cncf_controls_report']})"
-    return f"| {logo} | {md_cell(project['name'])} | {repo} | {status} |"
+        if tooltip:
+            status = f'[{md_cell(status_text)}]({project["cncf_controls_report"]} "{tooltip}")'
+        else:
+            status = f'[{md_cell(status_text)}]({project["cncf_controls_report"]})'
+    else:
+        if tooltip:
+            status = f'<span title="{tooltip}">{md_cell(status_text)}</span>'
+        else:
+            status = md_cell(status_text)
+    oscal_docs = render_oscal_docs(project)
+    return f"| {logo} | {md_cell(project['name'])} | {repo} | {status} | {oscal_docs} |"
 
 
 def render_tables(projects):
@@ -109,8 +168,8 @@ def render_tables(projects):
         section = [p for p in projects if p["maturity"] == key]
         lines.append(f"### {title} ({len(section)})")
         lines.append("")
-        lines.append("| Logo | Project | Repository | cncf-controls status |")
-        lines.append("| --- | --- | --- | --- |")
+        lines.append("| Logo | Project | Repository | cncf-controls status | OSCAL documents |")
+        lines.append("| --- | --- | --- | --- | --- |")
         lines.extend(render_row(p) for p in section)
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"

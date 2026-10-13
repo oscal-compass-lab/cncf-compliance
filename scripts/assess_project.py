@@ -288,7 +288,7 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict], start: dateti
 MUST_CONTROLS = {"CNSC-182", "CNSC-184", "CNSC-190", "CNSC-198", "CNSC-199"}
 
 # Fraction of assessable (automated) SHOULD controls that must be satisfied.
-LEVELS = [("Gold", 0.90), ("Silver", 0.75), ("Bronze", 0.60), ("Pass", 0.50)]
+LEVELS = [("Gold", 0.90), ("Silver", 0.75), ("Bronze", 0.60), ("Baseline Pass Only", 0.50)]
 
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
 
@@ -332,7 +332,7 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str, detail
         f"- **Level:** **{level}**. {detail}",
         f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated (of {len(outcomes)} controls)",
         "",
-        "Levels: *Fail* if any MUST control is not satisfied; otherwise *Pass* at 50%, *Bronze* at 60%, "
+        "Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, "
         "*Silver* at 75%, *Gold* at 90% of automated SHOULD controls. "
         "MUST controls: " + ", ".join(sorted(MUST_CONTROLS)) + ". "
         "Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.",
