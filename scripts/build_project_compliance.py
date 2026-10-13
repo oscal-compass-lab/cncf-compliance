@@ -64,10 +64,12 @@ REQUIREMENTS = [
     {
         "control_id": "CNSC-65",
         "rule": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage.",
-        "check": "makefile-target | param: pipeline-vuln-scan-target",
+        "check": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
         "params": [
             {"id": "pipeline-vuln-scan-target", "default": "audit-deps",
              "description": "Pipeline target that runs vulnerability scanning."},
+            {"id": "vuln-scan-workflows", "default": "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint",
+             "description": "Comma-separated keywords or filenames for CI vulnerability/configuration scanning workflows."},
         ],
     },
     {
@@ -153,7 +155,7 @@ REQUIREMENTS = [
     {
         "control_id": "CNSC-259",
         "rule": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline.",
-        "check": "makefile-target | param: pipeline-vuln-scan-target",
+        "check": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
         "params": [],
     },
     {
@@ -166,10 +168,12 @@ REQUIREMENTS = [
     {
         "control_id": "CNSC-82",
         "rule": "Static application security testing (SAST) must be performed.",
-        "check": "makefile-target | param: sast-target",
+        "check": "ci-sast | param: sast-target; sast-workflows",
         "params": [
             {"id": "sast-target", "default": "sast",
              "description": "Pipeline target that runs SAST."},
+            {"id": "sast-workflows", "default": "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff",
+             "description": "Comma-separated keywords or filenames for CI SAST workflows."},
             {"id": "sast-tool", "default": "bandit",
              "description": "SAST tool (bandit, semgrep, gosec, etc.)."},
         ],
@@ -320,7 +324,7 @@ REQUIREMENTS = [
     {
         "control_id": "CNSC-179",
         "rule": "Software must be scanned for known vulnerabilities.",
-        "check": "makefile-target | param: pipeline-vuln-scan-target",
+        "check": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
         "params": [
             {"id": "vulnerability-scanner", "default": "pip-audit",
              "description": "Vulnerability scanner tool (pip-audit, trivy, grype, govulncheck, etc.)."},
@@ -384,7 +388,7 @@ REQUIREMENTS = [
     {
         "control_id": "CNSC-186",
         "rule": "Software security scanning and testing must be automated in the pipeline.",
-        "check": "makefile-target | param: sast-target",
+        "check": "ci-sast | param: sast-target; sast-workflows",
         "params": [],
     },
     {

@@ -153,6 +153,46 @@ def check_make_target(target: str, pipeline_file: str, repo_root: Path) -> tuple
     return ok is not None, f"Target '{target}' {'found' if ok else 'not found'} in {pipeline_file}"
 
 
+def _find_workflow_match(keywords: str, repo_root: Path) -> Path | None:
+    wf_dir = repo_root / ".github" / "workflows"
+    if not wf_dir.is_dir():
+        return None
+    kws = [k.strip().lower() for k in keywords.split(",") if k.strip()]
+    for wf in sorted(wf_dir.glob("*.y*ml")):
+        stem = wf.stem.lower()
+        if any(k in stem for k in kws):
+            return wf
+        try:
+            content = wf.read_text(encoding="utf-8", errors="ignore").lower()
+            if any(k in content for k in kws):
+                return wf
+        except OSError:
+            continue
+    return None
+
+
+def check_ci_vuln_scan(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
+    if target:
+        ok, ev = check_make_target(target, pipeline_file, repo_root)
+        if ok:
+            return True, ev
+    matched_wf = _find_workflow_match(workflows, repo_root)
+    if matched_wf:
+        return True, f"Found CI vulnerability/security scanning workflow: .github/workflows/{matched_wf.name}"
+    return False, f"Target '{target}' not in {pipeline_file} and no scanning workflow in .github/workflows"
+
+
+def check_ci_sast(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
+    if target:
+        ok, ev = check_make_target(target, pipeline_file, repo_root)
+        if ok:
+            return True, ev
+    matched_wf = _find_workflow_match(workflows, repo_root)
+    if matched_wf:
+        return True, f"Found CI SAST workflow: .github/workflows/{matched_wf.name}"
+    return False, f"Target '{target}' not in {pipeline_file} and no SAST workflow in .github/workflows"
+
+
 def run_check(control_id: str, spec: str, params: dict[str, str],
               repo_root: Path, repo_url: str) -> tuple[bool, str, str]:
     """Return (satisfied, evidence, reason) where reason is pass/fail/other."""
@@ -182,6 +222,20 @@ def run_check(control_id: str, spec: str, params: dict[str, str],
         ok, ev = check_branch_protected(params.get("default-branch", "main"), repo_url)
     elif ctype == "makefile-target":
         ok, ev = check_make_target(vals[0] if vals else "", params.get("pipeline-file", "Makefile"), repo_root)
+    elif ctype == "ci-vuln-scan":
+        ok, ev = check_ci_vuln_scan(
+            params.get("pipeline-vuln-scan-target", "audit-deps"),
+            params.get("vuln-scan-workflows", "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint"),
+            params.get("pipeline-file", "Makefile"),
+            repo_root,
+        )
+    elif ctype == "ci-sast":
+        ok, ev = check_ci_sast(
+            params.get("sast-target", "sast"),
+            params.get("sast-workflows", "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"),
+            params.get("pipeline-file", "Makefile"),
+            repo_root,
+        )
     else:
         return False, f"Unknown check type: {ctype}", "other"
     return ok, ev, "pass" if ok else "fail"
