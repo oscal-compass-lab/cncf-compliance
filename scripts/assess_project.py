@@ -34,249 +34,74 @@ from trestle.oscal import OSCAL_VERSION
 from trestle.oscal import assessment_results as ar_mod
 from trestle.oscal import common
 
-from build_project_compliance import REQUIREMENTS, _repo_name, _slug, clone_repo
+from build_project_compliance import REQUIREMENTS, _repo_name, _slug, clone_repo, _git
+from checks import dispatch_check
 
 # Checks that read the clone's own .git/config say nothing about how project
 # developers access the upstream repo, so they are not evaluated automatically.
 NOT_ASSESSABLE_ON_CLONE = {"CNSC-192"}
 
-_branch_cache: dict[str, tuple[bool, str]] = {}
-
-
-# ---------------------------------------------------------------------------
-# Check runners - each returns (satisfied, evidence)
-# ---------------------------------------------------------------------------
-
-def _git(args: list[str], cwd: Path) -> str:
-    r = subprocess.run(["git"] + args, capture_output=True, text=True, cwd=cwd, timeout=30)
-    return r.stdout.strip()
-
-
-def check_file_exists(paths: list[str], repo_root: Path) -> tuple[bool, str]:
-    missing = [p for p in paths if not p or not (repo_root / p).exists()]
-    if missing:
-        return False, f"Missing: {', '.join(missing) or '(no path configured)'}"
-    return True, f"Found: {', '.join(paths)}"
-
-
-def check_file_contains(path: str, pattern: str, repo_root: Path) -> tuple[bool, str]:
-    f = repo_root / path
-    if not f.is_file():
-        return False, f"File not found: {path}"
-    try:
-        ok = re.search(pattern, f.read_text(encoding="utf-8", errors="ignore")) is not None
-    except re.error as exc:
-        return False, f"Invalid pattern {pattern!r}: {exc}"
-    return ok, f"Pattern {pattern!r} {'found' if ok else 'not found'} in {path}"
-
-
-def check_no_secrets(extensions: str, exclude_paths: str, repo_root: Path) -> tuple[bool, str]:
-    secret_re = re.compile(
-        r"(?i)(password|passwd|secret|api.?key|private.?key|token)\s*=\s*['\"][^'\"]{6,}"
-    )
-    excludes = {e.strip() for e in exclude_paths.split(",") if e.strip()}
-    findings: list[str] = []
-    for ext in (e.strip() for e in extensions.split(",") if e.strip()):
-        for f in repo_root.rglob(f"*.{ext}"):
-            rel = f.relative_to(repo_root)
-            if excludes & set(rel.parts) or not f.is_file():
-                continue
-            try:
-                if secret_re.search(f.read_text(encoding="utf-8", errors="ignore")):
-                    findings.append(str(rel))
-            except OSError:
-                continue
-    if findings:
-        shown = ", ".join(findings[:5]) + (f" (+{len(findings) - 5} more)" if len(findings) > 5 else "")
-        return False, f"Potential hardcoded secrets in: {shown}"
-    return True, "No hardcoded secrets detected"
-
-
-def check_commits_signed(lookback: str, exempt_pattern: str, repo_root: Path) -> tuple[bool, str]:
-    n = int(lookback) if lookback.isdigit() else 10
-    raw = [s for s in _git(["log", f"-{n}", "--format=%G?|%an|%s"], repo_root).splitlines() if s.strip()]
-    if not raw:
-        return False, "No commits found"
-    exempt_re = re.compile(exempt_pattern) if exempt_pattern else None
-    evaluated = []
-    exempted = 0
-    for line in raw:
-        sig, _, rest = line.partition("|")
-        author, _, msg = rest.partition("|")
-        sig = sig.strip()
-        is_bot = "bot" in author.lower() or author == "semantic-release"
-        is_release_msg = bool(exempt_re and exempt_re.search(msg.strip()))
-        if sig == "N" and is_bot and is_release_msg:
-            exempted += 1
-            continue
-        evaluated.append(sig)
-
-    if not evaluated:
-        return True, f"All {exempted} recent commits were excused release bot commits"
-    unsigned = sum(1 for s in evaluated if s == "N")
-    signed = len(evaluated) - unsigned
-    details = f"{signed}/{len(evaluated)} recent commits carry a signature"
-    if exempted > 0:
-        details += f" ({exempted} release bot commits excused)"
-    return unsigned == 0, details
-
-
-def check_branch_protected(branch: str, repo_url: str) -> tuple[bool, str]:
-    m = re.search(r"github\.com[:/](.+?)(?:\.git)?$", repo_url)
-    if not m:
-        return False, f"Cannot parse GitHub URL: {repo_url}"
-    key = f"{m.group(1)}@{branch}"
-    if key in _branch_cache:
-        return _branch_cache[key]
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "cncf-compliance-assessor"}
-    token = os.environ.get("GITHUB_TOKEN")
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-    req = urllib.request.Request(
-        f"https://api.github.com/repos/{m.group(1)}/branches/{branch}", headers=headers
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:  # noqa: S310 fixed https URL
-            protected = bool(json.loads(resp.read()).get("protected", False))
-        result = (protected, f"Branch '{branch}' protected={protected}")
-    except Exception as exc:  # network/API failure is reported as evidence, not raised
-        result = (False, f"GitHub API error for branch '{branch}': {type(exc).__name__}")
-    _branch_cache[key] = result
-    return result
-
-
-def check_make_target(target: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
-    f = repo_root / pipeline_file
-    if not f.is_file():
-        return False, f"{pipeline_file} not found"
-    ok = re.search(rf"^{re.escape(target)}\s*:", f.read_text(encoding="utf-8", errors="ignore"), re.M)
-    return ok is not None, f"Target '{target}' {'found' if ok else 'not found'} in {pipeline_file}"
-
-
-def _find_workflow_match(keywords: str, repo_root: Path) -> Path | None:
-    wf_dir = repo_root / ".github" / "workflows"
-    if not wf_dir.is_dir():
-        return None
-    kws = [k.strip().lower() for k in keywords.split(",") if k.strip()]
-    for wf in sorted(wf_dir.glob("*.y*ml")):
-        stem = wf.stem.lower()
-        if any(k in stem for k in kws):
-            return wf
-        try:
-            content = wf.read_text(encoding="utf-8", errors="ignore").lower()
-            if any(k in content for k in kws):
-                return wf
-        except OSError:
-            continue
-    return None
-
-
-def check_ci_vuln_scan(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
-    if target:
-        ok, ev = check_make_target(target, pipeline_file, repo_root)
-        if ok:
-            return True, ev
-    matched_wf = _find_workflow_match(workflows, repo_root)
-    if matched_wf:
-        return True, f"Found CI vulnerability/security scanning workflow: .github/workflows/{matched_wf.name}"
-    return False, f"Target '{target}' not in {pipeline_file} and no scanning workflow in .github/workflows"
-
-
-def check_ci_sast(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
-    if target:
-        ok, ev = check_make_target(target, pipeline_file, repo_root)
-        if ok:
-            return True, ev
-    matched_wf = _find_workflow_match(workflows, repo_root)
-    if matched_wf:
-        return True, f"Found CI SAST workflow: .github/workflows/{matched_wf.name}"
-    return False, f"Target '{target}' not in {pipeline_file} and no SAST workflow in .github/workflows"
-
-
-def check_ci_manifest_scan(target: str, workflows: str, pipeline_file: str, repo_root: Path) -> tuple[bool, str]:
-    if target:
-        ok, ev = check_make_target(target, pipeline_file, repo_root)
-        if ok:
-            return True, ev
-    matched_wf = _find_workflow_match(workflows, repo_root)
-    if matched_wf:
-        return True, f"Found CI manifest scanning workflow: .github/workflows/{matched_wf.name}"
-    return False, f"Target '{target}' not in {pipeline_file} and no manifest scanning workflow in .github/workflows"
-
 
 def run_check(control_id: str, spec: str, params: dict[str, str],
               repo_root: Path, repo_url: str) -> tuple[bool, str, str]:
     """Return (satisfied, evidence, reason) where reason is pass/fail/other."""
-    ctype, _, rest = (s.strip() for s in spec.partition("|"))
-    names = [n.strip() for n in rest.replace("param:", "", 1).split(";") if n.strip()]
-    vals = [params.get(n, "") for n in names]
-
-    if ctype == "manual":
-        return False, "Manual check - requires human review; not automated.", "other"
     if control_id in NOT_ASSESSABLE_ON_CLONE:
         return False, "Not assessable against a clone of the repository.", "other"
-
-    if ctype == "file-exists":
-        ok, ev = check_file_exists(vals, repo_root)
-    elif ctype == "file-contains":
-        ok, ev = check_file_contains(vals[0], vals[1], repo_root) if len(vals) > 1 else (False, "Check misconfigured")
-    elif ctype == "no-secrets-in-files":
-        ok, ev = check_no_secrets(params.get("secrets-scan-extensions", ""),
-                                  params.get("secrets-scan-exclude-paths", ""), repo_root)
-    elif ctype == "git-commits-signed":
-        ok, ev = check_commits_signed(
-            params.get("signed-commits-lookback", "10"),
-            params.get("signed-commits-exempt-pattern", ""),
-            repo_root,
-        )
-    elif ctype == "git-branch-protected":
-        ok, ev = check_branch_protected(params.get("default-branch", "main"), repo_url)
-    elif ctype == "makefile-target":
-        ok, ev = check_make_target(vals[0] if vals else "", params.get("pipeline-file", "Makefile"), repo_root)
-    elif ctype == "ci-vuln-scan":
-        ok, ev = check_ci_vuln_scan(
-            params.get("pipeline-vuln-scan-target", "audit-deps"),
-            params.get("vuln-scan-workflows", "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint"),
-            params.get("pipeline-file", "Makefile"),
-            repo_root,
-        )
-    elif ctype == "ci-sast":
-        ok, ev = check_ci_sast(
-            params.get("sast-target", "sast"),
-            params.get("sast-workflows", "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"),
-            params.get("pipeline-file", "Makefile"),
-            repo_root,
-        )
-    elif ctype == "ci-manifest-scan":
-        ok, ev = check_ci_manifest_scan(
-            params.get("manifest-scan-target", "act-lint"),
-            params.get("manifest-scan-workflows", "actionlint,kube-linter,yamllint,checkov,trivy,lint"),
-            params.get("pipeline-file", "Makefile"),
-            repo_root,
-        )
-    else:
-        return False, f"Unknown check type: {ctype}", "other"
-    return ok, ev, "pass" if ok else "fail"
+    return dispatch_check(control_id, spec, params, repo_root, repo_url)
 
 
 # ---------------------------------------------------------------------------
 # Load check specs, defaults and project params from the workspace
 # ---------------------------------------------------------------------------
 
-def load_base(path: Path) -> tuple[dict[str, str], dict[str, str]]:
-    """Return ({control_id: check_spec}, {param_id: default}) from the base comp def."""
+def load_base(path: Path) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
+    """Return ({control_id: check_spec}, {param_id: default}, {control_id: rule}) from the base comp def."""
     data = json.loads(path.read_text(encoding="utf-8"))["component-definition"]
     specs: dict[str, str] = {}
     defaults: dict[str, str] = {}
+    rules: dict[str, str] = {}
+
+    rule_to_desc: dict[str, str] = {}
+    rule_to_check: dict[str, str] = {}
+    ctrl_to_rule: dict[str, str] = {}
+
     for c in data["components"]:
+        # Extract rule and check metadata from component-level props
+        curr_rule_id = None
+        for p in c.get("props", []):
+            name = p.get("name")
+            val = p.get("value")
+            if name == "Rule_Id":
+                curr_rule_id = val
+            elif name == "Rule_Description" and curr_rule_id:
+                rule_to_desc[curr_rule_id] = val
+            elif name == "Check_Description" and curr_rule_id:
+                rule_to_check[curr_rule_id] = val
+
         for ci in c.get("control-implementations", []):
             for sp in ci.get("set-parameters", []):
                 defaults[sp["param-id"]] = sp["values"][0]
             for ir in ci.get("implemented-requirements", []):
+                cid = ir["control-id"]
                 for p in ir.get("props", []):
-                    if p["name"] == "check":
-                        specs[ir["control-id"]] = p["value"]
-    return specs, defaults
+                    if p.get("name") == "Rule_Id":
+                        ctrl_to_rule[cid] = p["value"]
+
+    for cid, rid in ctrl_to_rule.items():
+        if rid in rule_to_check:
+            specs[cid] = rule_to_check[rid]
+        if rid in rule_to_desc:
+            rules[cid] = rule_to_desc[rid]
+
+    # Defaults from REQUIREMENTS for all parameters
+    for req in REQUIREMENTS:
+        cid = req["control_id"]
+        specs.setdefault(cid, req["check"])
+        rules.setdefault(cid, req["rule"])
+        for p in req["params"]:
+            defaults.setdefault(p["id"], p["default"])
+
+    return specs, defaults, rules
 
 
 def load_ssp_params(path: Path) -> dict[str, str]:
@@ -466,13 +291,13 @@ def main() -> int:
             print(f"Missing {p}; run build_project_compliance.py first.", file=sys.stderr)
             return 1
 
-    specs, defaults = load_base(base_path)
+    specs, defaults, comp_rules = load_base(base_path)
     params = {**defaults, **load_ssp_params(ssp_path)}
 
     start = datetime.now(tz=timezone.utc)
     repo_root = clone_repo(args.repo_url, Path(args.clone_dir))
 
-    rules = {r["control_id"]: r["rule"] for r in REQUIREMENTS}
+    rules = {**{r["control_id"]: r["rule"] for r in REQUIREMENTS}, **comp_rules}
     outcomes = []
     for cid, spec in specs.items():
         rule = rules.get(cid, cid)

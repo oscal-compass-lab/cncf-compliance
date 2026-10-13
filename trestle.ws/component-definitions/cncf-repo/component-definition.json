@@ -1,14 +1,14 @@
 {
   "component-definition": {
-    "uuid": "6910f40d-9146-4366-b7f8-c1dc270a0f80",
+    "uuid": "26370cfe-71fe-46ce-8dd2-e60489164347",
     "metadata": {
       "title": "CNCF Source Repository — Shared Base Component Definition",
-      "last-modified": "2026-10-13T18:33:55.619+00:00",
+      "last-modified": "2026-10-13T20:39:50.539+00:00",
       "version": "1.0",
       "oscal-version": "1.2.1",
       "parties": [
         {
-          "uuid": "aa947b99-51d4-4586-94b5-41efe395f3c9",
+          "uuid": "6bfed2d8-a241-440a-93f8-3b0eeefdbe49",
           "type": "organization",
           "name": "CNCF TAG Security and Compliance"
         }
@@ -16,1876 +16,2861 @@
     },
     "components": [
       {
-        "uuid": "79719c44-848c-49d8-b92c-855946bb88e9",
+        "uuid": "c98858c8-cc70-45a7-8d0f-248d719fde23",
         "type": "software",
         "title": "CNCF Source Repository",
-        "description": "Shared component representing any CNCF source repository. Defines rules, check types, and default parameter values for all controls selected by the cncf-repo profile. Per-project component definitions import this base and override only the parameters that differ from these defaults.",
-        "purpose": "Provide a reusable compliance baseline for CNCF source repositories.",
+        "description": "Shared software component representing any CNCF source repository.",
+        "purpose": "Define compliance rules for CNCF source repositories.",
+        "props": [
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-01",
+            "remarks": "rule_set_00"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Early Vulnerability Scanning: Vulnerability and configuration scanning must be integrated at the pull-request or CI stage.",
+            "remarks": "rule_set_00"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-02",
+            "remarks": "rule_set_01"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Business-Critical Code Testing: Tests must exist for business-critical code paths.",
+            "remarks": "rule_set_01"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-03",
+            "remarks": "rule_set_02"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Infrastructure Code Testing: Tests must exist for business-critical infrastructure.",
+            "remarks": "rule_set_02"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-04",
+            "remarks": "rule_set_03"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Local Test Execution: Test suites must be runnable locally without external dependencies.",
+            "remarks": "rule_set_03"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-05",
+            "remarks": "rule_set_04"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Two Non-Author Reviewers Approval: At least two non-author reviewers must approve before merging.",
+            "remarks": "rule_set_04"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-06",
+            "remarks": "rule_set_05"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Clean Pipeline-as-Code: Code must be clean and well commented.",
+            "remarks": "rule_set_05"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-07",
+            "remarks": "rule_set_06"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Full Infrastructure Tests: Full infrastructure tests must be present.",
+            "remarks": "rule_set_06"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-08",
+            "remarks": "rule_set_07"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Regression Testing: Regression tests must be present.",
+            "remarks": "rule_set_07"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-09",
+            "remarks": "rule_set_08"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Emerging Threat Test Updates: Test suites must be updated against new and emerging threats.",
+            "remarks": "rule_set_08"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-10",
+            "remarks": "rule_set_09"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Threat Model Driven Testing Priorities: Threat model results must be used to determine test development priorities.",
+            "remarks": "rule_set_09"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-11",
+            "remarks": "rule_set_10"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Secure Configuration Default State: Secure configuration must be the default state of the system.",
+            "remarks": "rule_set_10"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-12",
+            "remarks": "rule_set_11"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "IDE and CI Vulnerability Scanning: Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline.",
+            "remarks": "rule_set_11"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-13",
+            "remarks": "rule_set_12"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Single Non-Author Reviewer Approval: At least one non-author reviewer must approve before merging.",
+            "remarks": "rule_set_12"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-14",
+            "remarks": "rule_set_13"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Static Application Security Testing (SAST): Static application security testing (SAST) must be performed.",
+            "remarks": "rule_set_13"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-15",
+            "remarks": "rule_set_14"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Manifest and Workflow Scanning: Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline.",
+            "remarks": "rule_set_14"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-16",
+            "remarks": "rule_set_15"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Build Environment and Dependency Declaration: Build environments and dependencies must be validated before use.",
+            "remarks": "rule_set_15"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-17",
+            "remarks": "rule_set_16"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Reproducible Builds Dependency Lock: Build artifacts must be reproducible; a dependency lock file must be present.",
+            "remarks": "rule_set_16"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-18",
+            "remarks": "rule_set_17"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "External Requirements Hash Pinning: External requirements must be locked and verified with hash pinning.",
+            "remarks": "rule_set_17"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-19",
+            "remarks": "rule_set_18"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Non-Determinism Elimination via Lock File: Sources of non-determinism must be eliminated; a lock file must be present.",
+            "remarks": "rule_set_18"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-20",
+            "remarks": "rule_set_19"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Build Environment Recording: The build environment must be recorded.",
+            "remarks": "rule_set_19"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-21",
+            "remarks": "rule_set_20"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Automated Build Environment Creation: Creation of the build environment must be automated.",
+            "remarks": "rule_set_20"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-22",
+            "remarks": "rule_set_21"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Pipeline-as-Code Automation: Build and CI/CD steps must be automated through pipeline-as-code.",
+            "remarks": "rule_set_21"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-23",
+            "remarks": "rule_set_22"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Standardized Single Pipeline Entry Point: Pipelines must be standardized across projects using a single entry point.",
+            "remarks": "rule_set_22"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-24",
+            "remarks": "rule_set_23"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Secured Pipeline Output Storage: Pipeline output must be written to a separate secured storage location.",
+            "remarks": "rule_set_23"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-25",
+            "remarks": "rule_set_24"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Branch Protected Pipeline Modification: Pipeline modification must only be allowed through pipeline-as-code with branch protection.",
+            "remarks": "rule_set_24"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-26",
+            "remarks": "rule_set_25"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Repository User Roles Definition: User roles must be defined for the repository.",
+            "remarks": "rule_set_25"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-27",
+            "remarks": "rule_set_26"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Root-of-Trust Establishment Procedure: A root-of-trust establishment procedure must be documented.",
+            "remarks": "rule_set_26"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-28",
+            "remarks": "rule_set_27"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Third-Party Artifact Declaration & Verification: Third-party artifacts and open source libraries must be declared and verified.",
+            "remarks": "rule_set_27"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-29",
+            "remarks": "rule_set_28"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Supplier SBOM Requirement: An SBOM must be required from third-party suppliers.",
+            "remarks": "rule_set_28"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-30",
+            "remarks": "rule_set_29"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Open Source Component Dependency Tracking: Dependencies between open source components must be tracked.",
+            "remarks": "rule_set_29"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-31",
+            "remarks": "rule_set_30"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Trusted Package Managers and Repositories: Only trusted package managers and repositories must be used.",
+            "remarks": "rule_set_30"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-32",
+            "remarks": "rule_set_31"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Immutable Code SBOM Generation: An immutable SBOM of the code must be generated.",
+            "remarks": "rule_set_31"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-33",
+            "remarks": "rule_set_32"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Known Vulnerability Scanning: Software must be scanned for known vulnerabilities.",
+            "remarks": "rule_set_32"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-34",
+            "remarks": "rule_set_33"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "License Compliance Scanning: Software must be scanned for license compliance.",
+            "remarks": "rule_set_33"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-35",
+            "remarks": "rule_set_34"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Software Composition Analysis (SCA): Software composition analysis must be run on ingested software.",
+            "remarks": "rule_set_34"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-36",
+            "remarks": "rule_set_35"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Cryptographic Commit and Tag Signing: All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits.",
+            "remarks": "rule_set_35"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-37",
+            "remarks": "rule_set_36"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Default Branch Full Attestation and Verification: Full attestation and verification must be enforced for the default branch.",
+            "remarks": "rule_set_36"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-38",
+            "remarks": "rule_set_37"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "No Unencrypted Secrets in Repository: No unencrypted secrets must be committed to the repository.",
+            "remarks": "rule_set_37"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-39",
+            "remarks": "rule_set_38"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Explicit Repository Write Access Definition: Individuals or teams with write access must be explicitly defined.",
+            "remarks": "rule_set_38"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-40",
+            "remarks": "rule_set_39"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Automated Pipeline Security Scanning: Software security scanning and testing must be automated in the pipeline.",
+            "remarks": "rule_set_39"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-41",
+            "remarks": "rule_set_40"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Documented Contribution Policies: Contribution policies must be established and documented.",
+            "remarks": "rule_set_40"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-42",
+            "remarks": "rule_set_41"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Functional Role Alignment: Roles must be defined and aligned to functional responsibilities.",
+            "remarks": "rule_set_41"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-43",
+            "remarks": "rule_set_42"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Four-Eyes Principle Branch Protection: An independent four-eyes principle must be enforced via branch protection.",
+            "remarks": "rule_set_42"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-44",
+            "remarks": "rule_set_43"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Default Branch Protection Rules Enabled: Branch protection rules must be enabled on the default branch.",
+            "remarks": "rule_set_43"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-45",
+            "remarks": "rule_set_44"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "MFA Enforced for Repository Access: MFA must be enforced for accessing source code repositories.",
+            "remarks": "rule_set_44"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-46",
+            "remarks": "rule_set_45"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "SSH Key Developer Access: SSH keys must be used to provide developer access to source code repositories.",
+            "remarks": "rule_set_45"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-47",
+            "remarks": "rule_set_46"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Documented Key Rotation Policy: A key rotation policy must be documented.",
+            "remarks": "rule_set_46"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-48",
+            "remarks": "rule_set_47"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Ephemeral Credentials for Automated Access: Short-lived or ephemeral credentials must be used for machine and service access.",
+            "remarks": "rule_set_47"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-49",
+            "remarks": "rule_set_48"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Documented Code and Infrastructure Threat Model: A threat model for code and infrastructure must be documented.",
+            "remarks": "rule_set_48"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-50",
+            "remarks": "rule_set_49"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Supply Chain Security Best Practices: Supply chain security best practices must be adhered to (SBOM, lock file, SCA).",
+            "remarks": "rule_set_49"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-51",
+            "remarks": "rule_set_50"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Restricted Repository and Branch Access: Access to repository and branches must be restricted via branch protection and CODEOWNERS.",
+            "remarks": "rule_set_50"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-52",
+            "remarks": "rule_set_51"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Prohibition of Unencrypted Stored Credentials: Unencrypted credentials or secrets must never be stored in the repository.",
+            "remarks": "rule_set_51"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-53",
+            "remarks": "rule_set_52"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Strong Identity Enforcement with Signed Commits: Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits.",
+            "remarks": "rule_set_52"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-54",
+            "remarks": "rule_set_53"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Linear History and Force-Push Disallowed: Linear history must be enforced; force-push must be disallowed.",
+            "remarks": "rule_set_53"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-55",
+            "remarks": "rule_set_54"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Enforced Branching and Code Review Policy: Branching policy must be enforced with main branch protection and code review.",
+            "remarks": "rule_set_54"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-56",
+            "remarks": "rule_set_55"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Git and GitOps Tool Vulnerability Monitoring: Git and GitOps tools must be monitored for vulnerabilities and kept up to date.",
+            "remarks": "rule_set_55"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-57",
+            "remarks": "rule_set_56"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Regular SSH Key and PAT Rotation: SSH keys and Personal Access Tokens must be rotated regularly.",
+            "remarks": "rule_set_56"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-58",
+            "remarks": "rule_set_57"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Dedicated Technical Accounts for Automation: Dedicated non-user technical accounts must be used for automated access.",
+            "remarks": "rule_set_57"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-59",
+            "remarks": "rule_set_58"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "Limited Permission Escalation Authority: Users who can escalate permissions must be limited to a pre-approved set.",
+            "remarks": "rule_set_58"
+          }
+        ],
         "control-implementations": [
           {
-            "uuid": "6f87b7fa-22a8-4b51-9a33-24c6df43c27b",
+            "uuid": "1d3257df-7065-4f9e-b8d1-c8f5d0db4352",
             "source": "trestle://profiles/cncf-repo/profile.json",
-            "description": "Shared implementation of cncf-repo profile controls for all CNCF source repositories.",
-            "set-parameters": [
-              {
-                "param-id": "pipeline-vuln-scan-target",
-                "values": [
-                  "audit-deps"
-                ],
-                "remarks": "Pipeline target that runs vulnerability scanning."
-              },
-              {
-                "param-id": "vuln-scan-workflows",
-                "values": [
-                  "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint"
-                ],
-                "remarks": "Comma-separated keywords or filenames for CI vulnerability/configuration scanning workflows."
-              },
-              {
-                "param-id": "test-dir",
-                "values": [
-                  "tests"
-                ],
-                "remarks": "Directory containing test suites."
-              },
-              {
-                "param-id": "test-target",
-                "values": [
-                  "test"
-                ],
-                "remarks": "Pipeline target that runs tests locally."
-              },
-              {
-                "param-id": "default-branch",
-                "values": [
-                  "main"
-                ],
-                "remarks": "The repository default branch name."
-              },
-              {
-                "param-id": "min-reviewers",
-                "values": [
-                  "2"
-                ],
-                "remarks": "Minimum number of required non-author reviewers."
-              },
-              {
-                "param-id": "pipeline-file",
-                "values": [
-                  "Makefile"
-                ],
-                "remarks": "The pipeline-as-code file (Makefile, Taskfile.yml, etc.)."
-              },
-              {
-                "param-id": "threat-model-file",
-                "values": [
-                  "THREAT_MODEL.md"
-                ],
-                "remarks": "Path to the threat model document."
-              },
-              {
-                "param-id": "security-policy-file",
-                "values": [
-                  "SECURITY.md"
-                ],
-                "remarks": "Path to the security policy document."
-              },
-              {
-                "param-id": "sast-target",
-                "values": [
-                  "sast"
-                ],
-                "remarks": "Pipeline target that runs SAST."
-              },
-              {
-                "param-id": "sast-workflows",
-                "values": [
-                  "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"
-                ],
-                "remarks": "Comma-separated keywords or filenames for CI SAST workflows."
-              },
-              {
-                "param-id": "sast-tool",
-                "values": [
-                  "bandit"
-                ],
-                "remarks": "SAST tool (bandit, semgrep, gosec, etc.)."
-              },
-              {
-                "param-id": "manifest-scan-target",
-                "values": [
-                  "act-lint"
-                ],
-                "remarks": "Pipeline target that validates/lints manifests."
-              },
-              {
-                "param-id": "manifest-scan-workflows",
-                "values": [
-                  "actionlint,kube-linter,yamllint,checkov,trivy,lint"
-                ],
-                "remarks": "Keywords for CI manifest scanning workflows."
-              },
-              {
-                "param-id": "dependency-file",
-                "values": [
-                  "requirements.txt"
-                ],
-                "remarks": "Dependency declaration file (requirements.txt, go.mod, package.json, etc.)."
-              },
-              {
-                "param-id": "lock-file",
-                "values": [
-                  "requirements.lock"
-                ],
-                "remarks": "Dependency lock file (requirements.lock, go.sum, package-lock.json, etc.)."
-              },
-              {
-                "param-id": "hash-pin-pattern",
-                "values": [
-                  "--require-hashes"
-                ],
-                "remarks": "Pattern in the pipeline file that activates hash verification."
-              },
-              {
-                "param-id": "env-setup-target",
-                "values": [
-                  "venv"
-                ],
-                "remarks": "Pipeline target that creates the build environment."
-              },
-              {
-                "param-id": "all-target",
-                "values": [
-                  "all"
-                ],
-                "remarks": "The single top-level pipeline entry point target."
-              },
-              {
-                "param-id": "output-artifact-path",
-                "values": [
-                  "dist"
-                ],
-                "remarks": "Path to the primary secured pipeline output artifact or directory."
-              },
-              {
-                "param-id": "codeowners-file",
-                "values": [
-                  "CODEOWNERS"
-                ],
-                "remarks": "Path to the CODEOWNERS file."
-              },
-              {
-                "param-id": "sbom-output-path",
-                "values": [
-                  "sbom.json"
-                ],
-                "remarks": "Path to the generated SBOM file."
-              },
-              {
-                "param-id": "trusted-registry-pattern",
-                "values": [
-                  "pip install"
-                ],
-                "remarks": "Pattern confirming use of a trusted package manager in the pipeline file."
-              },
-              {
-                "param-id": "sbom-target",
-                "values": [
-                  "generate-sbom"
-                ],
-                "remarks": "Pipeline target that generates the SBOM."
-              },
-              {
-                "param-id": "vulnerability-scanner",
-                "values": [
-                  "pip-audit"
-                ],
-                "remarks": "Vulnerability scanner tool (pip-audit, trivy, grype, govulncheck, etc.)."
-              },
-              {
-                "param-id": "license-scan-target",
-                "values": [
-                  "license-check"
-                ],
-                "remarks": "Pipeline target that runs license compliance scanning."
-              },
-              {
-                "param-id": "license-scanner",
-                "values": [
-                  "pip-licenses"
-                ],
-                "remarks": "License scanner tool (pip-licenses, golicense, license-checker, etc.)."
-              },
-              {
-                "param-id": "sca-target",
-                "values": [
-                  "sca"
-                ],
-                "remarks": "Pipeline target that runs software composition analysis."
-              },
-              {
-                "param-id": "signed-commits-lookback",
-                "values": [
-                  "10"
-                ],
-                "remarks": "Number of recent commits to verify for signatures."
-              },
-              {
-                "param-id": "signed-commits-exempt-pattern",
-                "values": [
-                  "^chore: Merge back.*|^\\d+\\.\\d+\\.\\d+"
-                ],
-                "remarks": "Regex pattern matching allowable unsigned release automation commits."
-              },
-              {
-                "param-id": "secrets-scan-extensions",
-                "values": [
-                  "py,sh,yaml,yml,env,cfg,ini"
-                ],
-                "remarks": "Comma-separated file extensions to scan for hardcoded secrets."
-              },
-              {
-                "param-id": "secrets-scan-exclude-paths",
-                "values": [
-                  ".venv,trestle.ws,.git,dist"
-                ],
-                "remarks": "Comma-separated directory names to exclude from secrets scanning."
-              },
-              {
-                "param-id": "contributing-file",
-                "values": [
-                  "CONTRIBUTING.md"
-                ],
-                "remarks": "Path to the contribution policy document."
-              },
-              {
-                "param-id": "mfa-enforcement-scope",
-                "values": [
-                  "organization"
-                ],
-                "remarks": "Scope at which MFA is enforced (organization, team, repository)."
-              },
-              {
-                "param-id": "git-config-file",
-                "values": [
-                  ".git/config"
-                ],
-                "remarks": "Path to the git configuration file."
-              },
-              {
-                "param-id": "ssh-remote-pattern",
-                "values": [
-                  "git@github\\.com"
-                ],
-                "remarks": "Pattern confirming SSH remote URL in git config."
-              }
-            ],
+            "description": "Software compliance rules implementing cncf-repo profile controls.",
             "implemented-requirements": [
               {
-                "uuid": "9bd6e077-eeba-46f3-9444-d18cb16b510e",
+                "uuid": "70d7dc55-b900-4cc8-80ac-17098bdf52c9",
                 "control-id": "CNSC-65",
-                "description": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "pipeline-vuln-scan-target",
-                    "values": [
-                      "audit-deps"
-                    ],
-                    "remarks": "Pipeline target that runs vulnerability scanning."
-                  },
-                  {
-                    "param-id": "vuln-scan-workflows",
-                    "values": [
-                      "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint"
-                    ],
-                    "remarks": "Comma-separated keywords or filenames for CI vulnerability/configuration scanning workflows."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-65_smt",
-                    "uuid": "9fe6a222-11a1-45dc-9715-44191fd159e4",
-                    "description": "Rule: Vulnerability and configuration scanning must be integrated at the pull-request or CI stage. | Check: ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-01"
                   }
                 ]
               },
               {
-                "uuid": "c463cdf1-c32f-40ab-8184-0122753afd57",
+                "uuid": "d5896a92-ca2d-42e5-a1d3-7f76a83c8c02",
                 "control-id": "CNSC-67",
-                "description": "Tests must exist for business-critical code paths.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Tests must exist for business-critical code paths."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: test-dir"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "test-dir",
-                    "values": [
-                      "tests"
-                    ],
-                    "remarks": "Directory containing test suites."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-67_smt",
-                    "uuid": "811e0d9d-243f-4f9a-9a1a-f1a25d1c93ff",
-                    "description": "Rule: Tests must exist for business-critical code paths. | Check: file-exists | param: test-dir"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-02"
                   }
                 ]
               },
               {
-                "uuid": "0ec91776-4fa3-4d46-8503-b7b9e35bb3c6",
+                "uuid": "7146d017-5530-4adf-871b-1fb83d4aa2a3",
                 "control-id": "CNSC-68",
-                "description": "Tests must exist for business-critical infrastructure.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Tests must exist for business-critical infrastructure."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: test-dir"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-68_smt",
-                    "uuid": "61a0bfc2-526c-4ee9-8e47-d671b5851e71",
-                    "description": "Rule: Tests must exist for business-critical infrastructure. | Check: file-exists | param: test-dir"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-03"
                   }
                 ]
               },
               {
-                "uuid": "fca0ec26-5404-4a1e-9c8b-2e7ef26fc10f",
+                "uuid": "a256500e-7e27-48ba-8825-c049ae886167",
                 "control-id": "CNSC-69",
-                "description": "Test suites must be runnable locally without external dependencies.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Test suites must be runnable locally without external dependencies."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: test-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "test-target",
-                    "values": [
-                      "test"
-                    ],
-                    "remarks": "Pipeline target that runs tests locally."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-69_smt",
-                    "uuid": "2aafe4f4-d652-44ef-8591-ca4f775e48f7",
-                    "description": "Rule: Test suites must be runnable locally without external dependencies. | Check: makefile-target | param: test-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-04"
                   }
                 ]
               },
               {
-                "uuid": "61a6c9e5-ed5a-4769-a7f8-c44dd0ac84e3",
+                "uuid": "5b38598b-2c5c-4676-beb3-1c66f55ec75f",
                 "control-id": "CNSC-71",
-                "description": "At least two non-author reviewers must approve before merging.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "At least two non-author reviewers must approve before merging."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch; min-reviewers"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "default-branch",
-                    "values": [
-                      "main"
-                    ],
-                    "remarks": "The repository default branch name."
-                  },
-                  {
-                    "param-id": "min-reviewers",
-                    "values": [
-                      "2"
-                    ],
-                    "remarks": "Minimum number of required non-author reviewers."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-71_smt",
-                    "uuid": "7444be3d-26fb-4548-a14e-3aabc7a52daf",
-                    "description": "Rule: At least two non-author reviewers must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-05"
                   }
                 ]
               },
               {
-                "uuid": "b9980ba0-48ae-4d7b-82d8-93185525780e",
+                "uuid": "73fdcd0b-0ebf-4638-a01a-75ded4c8b4ae",
                 "control-id": "CNSC-72",
-                "description": "Code must be clean and well commented.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Code must be clean and well commented."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: pipeline-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "pipeline-file",
-                    "values": [
-                      "Makefile"
-                    ],
-                    "remarks": "The pipeline-as-code file (Makefile, Taskfile.yml, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-72_smt",
-                    "uuid": "6ac03012-2caa-44dd-a07e-81dd77fed71c",
-                    "description": "Rule: Code must be clean and well commented. | Check: file-exists | param: pipeline-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-06"
                   }
                 ]
               },
               {
-                "uuid": "c2119216-7d67-45b7-940b-91a78fb68ef9",
+                "uuid": "91b7f485-edea-4edb-83d6-1dd7afef4b64",
                 "control-id": "CNSC-73",
-                "description": "Full infrastructure tests must be present.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Full infrastructure tests must be present."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: test-dir"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-73_smt",
-                    "uuid": "4cc589bb-a77b-47b7-968f-0ee82e50aa8b",
-                    "description": "Rule: Full infrastructure tests must be present. | Check: file-exists | param: test-dir"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-07"
                   }
                 ]
               },
               {
-                "uuid": "ef6fc6b6-4718-4967-8c26-716834b63d4c",
+                "uuid": "f94a6bbf-8662-42b3-89ef-c4d430722299",
                 "control-id": "CNSC-74",
-                "description": "Regression tests must be present.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Regression tests must be present."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: test-dir"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-74_smt",
-                    "uuid": "b3b5e947-99d3-413d-818d-2b1f545193fb",
-                    "description": "Rule: Regression tests must be present. | Check: file-exists | param: test-dir"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-08"
                   }
                 ]
               },
               {
-                "uuid": "80bb572a-b6cf-4925-a8d0-37c9f4374abd",
+                "uuid": "c218e462-84a5-4d8d-9883-81497a25343d",
                 "control-id": "CNSC-75",
-                "description": "Test suites must be updated against new and emerging threats.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Test suites must be updated against new and emerging threats."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: test-dir"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-75_smt",
-                    "uuid": "ab8c344e-c51a-40b5-a36e-bf0bbcf7167b",
-                    "description": "Rule: Test suites must be updated against new and emerging threats. | Check: file-exists | param: test-dir"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-09"
                   }
                 ]
               },
               {
-                "uuid": "a1692740-43ae-4740-85d9-6857d5eb1cb0",
+                "uuid": "0c84761a-93b8-4343-95f8-714e18925562",
                 "control-id": "CNSC-78",
-                "description": "Threat model results must be used to determine test development priorities.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Threat model results must be used to determine test development priorities."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: threat-model-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "threat-model-file",
-                    "values": [
-                      "THREAT_MODEL.md"
-                    ],
-                    "remarks": "Path to the threat model document."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-78_smt",
-                    "uuid": "2ec41f5b-9ed1-4811-8304-2f6c6e742acd",
-                    "description": "Rule: Threat model results must be used to determine test development priorities. | Check: file-exists | param: threat-model-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-10"
                   }
                 ]
               },
               {
-                "uuid": "36c7cc7e-322a-4927-92a3-08545d2129b0",
+                "uuid": "67daa968-50ba-4a68-8c44-e35a139f9a3d",
                 "control-id": "CNSC-195",
-                "description": "Secure configuration must be the default state of the system.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Secure configuration must be the default state of the system."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: security-policy-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "security-policy-file",
-                    "values": [
-                      "SECURITY.md"
-                    ],
-                    "remarks": "Path to the security policy document."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-195_smt",
-                    "uuid": "6695941c-091f-4771-acf0-11a5df9b47de",
-                    "description": "Rule: Secure configuration must be the default state of the system. | Check: file-exists | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-11"
                   }
                 ]
               },
               {
-                "uuid": "049e1e02-7eda-4337-a24f-f6e0d7f61eff",
+                "uuid": "e159b1e5-22e4-4066-8251-4a19b9186350",
                 "control-id": "CNSC-259",
-                "description": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-259_smt",
-                    "uuid": "fdd4827f-3ec1-4bf4-948e-1920f775dde9",
-                    "description": "Rule: Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline. | Check: ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-12"
                   }
                 ]
               },
               {
-                "uuid": "353011f4-829b-421e-9444-8ee01e3bb857",
+                "uuid": "e8bb9314-3d3f-42e6-8840-625a106b9bd2",
                 "control-id": "CNSC-265",
-                "description": "At least one non-author reviewer must approve before merging.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "At least one non-author reviewer must approve before merging."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch; min-reviewers"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-265_smt",
-                    "uuid": "3e6e5425-57b8-49fd-b617-298274d6c9fb",
-                    "description": "Rule: At least one non-author reviewer must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-13"
                   }
                 ]
               },
               {
-                "uuid": "529ed7af-4767-42d3-81d8-4274c819ae8b",
+                "uuid": "5c4b30ee-e454-4770-b654-552a1210aba9",
                 "control-id": "CNSC-82",
-                "description": "Static application security testing (SAST) must be performed.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Static application security testing (SAST) must be performed."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-sast | param: sast-target; sast-workflows"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "sast-target",
-                    "values": [
-                      "sast"
-                    ],
-                    "remarks": "Pipeline target that runs SAST."
-                  },
-                  {
-                    "param-id": "sast-workflows",
-                    "values": [
-                      "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"
-                    ],
-                    "remarks": "Comma-separated keywords or filenames for CI SAST workflows."
-                  },
-                  {
-                    "param-id": "sast-tool",
-                    "values": [
-                      "bandit"
-                    ],
-                    "remarks": "SAST tool (bandit, semgrep, gosec, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-82_smt",
-                    "uuid": "da247aa9-3e43-4d2c-a38c-f8de3fb6a088",
-                    "description": "Rule: Static application security testing (SAST) must be performed. | Check: ci-sast | param: sast-target; sast-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-14"
                   }
                 ]
               },
               {
-                "uuid": "626c42ca-3077-4e36-92da-e7792ca4a5e8",
+                "uuid": "88fe2a82-3c0e-4497-ab19-4bb65241fab3",
                 "control-id": "CNSC-85",
-                "description": "Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-manifest-scan | param: manifest-scan-target; manifest-scan-workflows"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "manifest-scan-target",
-                    "values": [
-                      "act-lint"
-                    ],
-                    "remarks": "Pipeline target that validates/lints manifests."
-                  },
-                  {
-                    "param-id": "manifest-scan-workflows",
-                    "values": [
-                      "actionlint,kube-linter,yamllint,checkov,trivy,lint"
-                    ],
-                    "remarks": "Keywords for CI manifest scanning workflows."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-85_smt",
-                    "uuid": "2b7d0614-b234-4e89-975c-e38ca4727161",
-                    "description": "Rule: Application, workflow, and deployment manifests must be scanned and validated in the CI pipeline. | Check: ci-manifest-scan | param: manifest-scan-target; manifest-scan-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-15"
                   }
                 ]
               },
               {
-                "uuid": "1f92dd81-e625-4bfc-bea2-3257c76d546c",
+                "uuid": "ab8bb118-defd-4b0c-a175-bb962141ecb4",
                 "control-id": "CNSC-150",
-                "description": "Build environments and dependencies must be validated before use.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Build environments and dependencies must be validated before use."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: dependency-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "dependency-file",
-                    "values": [
-                      "requirements.txt"
-                    ],
-                    "remarks": "Dependency declaration file (requirements.txt, go.mod, package.json, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-150_smt",
-                    "uuid": "4a129f1a-d373-4c8d-9d9e-3cab09099e09",
-                    "description": "Rule: Build environments and dependencies must be validated before use. | Check: file-exists | param: dependency-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-16"
                   }
                 ]
               },
               {
-                "uuid": "ce720747-fe66-4279-9c61-db71935d5b7c",
+                "uuid": "4edf5c24-e0b9-4e72-afc0-5e5b033ff509",
                 "control-id": "CNSC-152",
-                "description": "Build artifacts must be reproducible; a dependency lock file must be present.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Build artifacts must be reproducible; a dependency lock file must be present."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: lock-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "lock-file",
-                    "values": [
-                      "requirements.lock"
-                    ],
-                    "remarks": "Dependency lock file (requirements.lock, go.sum, package-lock.json, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-152_smt",
-                    "uuid": "a1d8a49f-938e-4139-870c-6ffe6f4d5c6d",
-                    "description": "Rule: Build artifacts must be reproducible; a dependency lock file must be present. | Check: file-exists | param: lock-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-17"
                   }
                 ]
               },
               {
-                "uuid": "f42e48d7-0c81-4963-a310-b5390d6eb9f2",
+                "uuid": "c0a2c528-7800-47b7-824a-9f59bbf7cf25",
                 "control-id": "CNSC-153",
-                "description": "External requirements must be locked and verified with hash pinning.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "External requirements must be locked and verified with hash pinning."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-contains | param: pipeline-file; hash-pin-pattern"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "hash-pin-pattern",
-                    "values": [
-                      "--require-hashes"
-                    ],
-                    "remarks": "Pattern in the pipeline file that activates hash verification."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-153_smt",
-                    "uuid": "afd54f4b-bd55-4fa7-ab12-3f1d7071b0b6",
-                    "description": "Rule: External requirements must be locked and verified with hash pinning. | Check: file-contains | param: pipeline-file; hash-pin-pattern"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-18"
                   }
                 ]
               },
               {
-                "uuid": "19641cce-9584-498c-a89a-f2b783cdbe51",
+                "uuid": "377d8480-1b3a-4d0f-a3b5-2d58e0490cb4",
                 "control-id": "CNSC-154",
-                "description": "Sources of non-determinism must be eliminated; a lock file must be present.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Sources of non-determinism must be eliminated; a lock file must be present."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: lock-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-154_smt",
-                    "uuid": "f3ab02a1-fee9-4cc6-b078-6273e2aec944",
-                    "description": "Rule: Sources of non-determinism must be eliminated; a lock file must be present. | Check: file-exists | param: lock-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-19"
                   }
                 ]
               },
               {
-                "uuid": "82b8d846-f9d3-4c34-b0ea-e95537917a37",
+                "uuid": "cdff4dcd-b470-4f34-850d-9ed2f5b349bb",
                 "control-id": "CNSC-155",
-                "description": "The build environment must be recorded.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "The build environment must be recorded."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: lock-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-155_smt",
-                    "uuid": "df08093d-a6f2-4a54-9faa-d87040965488",
-                    "description": "Rule: The build environment must be recorded. | Check: file-exists | param: lock-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-20"
                   }
                 ]
               },
               {
-                "uuid": "71ad0067-7ffe-4d27-b9d4-a31dfc132977",
+                "uuid": "38436763-62f1-40ba-affc-e524e7362d32",
                 "control-id": "CNSC-156",
-                "description": "Creation of the build environment must be automated.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Creation of the build environment must be automated."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: env-setup-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "env-setup-target",
-                    "values": [
-                      "venv"
-                    ],
-                    "remarks": "Pipeline target that creates the build environment."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-156_smt",
-                    "uuid": "72016cb9-91ae-4b9a-93f1-f393a61c6411",
-                    "description": "Rule: Creation of the build environment must be automated. | Check: makefile-target | param: env-setup-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-21"
                   }
                 ]
               },
               {
-                "uuid": "11f4f3ba-a662-4b88-a8ea-58904ce83338",
+                "uuid": "daf15234-4ce1-4545-973f-e70a1ab60e53",
                 "control-id": "CNSC-158",
-                "description": "Build and CI/CD steps must be automated through pipeline-as-code.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Build and CI/CD steps must be automated through pipeline-as-code."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: pipeline-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-158_smt",
-                    "uuid": "be23f516-7ac6-410d-a12d-19fc1486183b",
-                    "description": "Rule: Build and CI/CD steps must be automated through pipeline-as-code. | Check: file-exists | param: pipeline-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-22"
                   }
                 ]
               },
               {
-                "uuid": "e9654292-0533-42e3-92ea-8d2e137f047e",
+                "uuid": "2989e32d-e155-4416-8940-9791201d1853",
                 "control-id": "CNSC-159",
-                "description": "Pipelines must be standardized across projects using a single entry point.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Pipelines must be standardized across projects using a single entry point."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: all-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "all-target",
-                    "values": [
-                      "all"
-                    ],
-                    "remarks": "The single top-level pipeline entry point target."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-159_smt",
-                    "uuid": "1e064643-00c3-4c72-b817-1cdecbc8f6e7",
-                    "description": "Rule: Pipelines must be standardized across projects using a single entry point. | Check: makefile-target | param: all-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-23"
                   }
                 ]
               },
               {
-                "uuid": "409042cf-fe49-45fd-a56c-d14d6d2b563c",
+                "uuid": "f9e3b65b-2bbe-42de-901a-d1f4fd14344a",
                 "control-id": "CNSC-165",
-                "description": "Pipeline output must be written to a separate secured storage location.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Pipeline output must be written to a separate secured storage location."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: output-artifact-path"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "output-artifact-path",
-                    "values": [
-                      "dist"
-                    ],
-                    "remarks": "Path to the primary secured pipeline output artifact or directory."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-165_smt",
-                    "uuid": "0de28876-9366-488b-ae32-67a137ef2388",
-                    "description": "Rule: Pipeline output must be written to a separate secured storage location. | Check: file-exists | param: output-artifact-path"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-24"
                   }
                 ]
               },
               {
-                "uuid": "4a501980-9cc2-4348-8b06-7135f1ff57f0",
+                "uuid": "8d033210-a283-4536-a5af-266cb7ffe683",
                 "control-id": "CNSC-166",
-                "description": "Pipeline modification must only be allowed through pipeline-as-code with branch protection.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Pipeline modification must only be allowed through pipeline-as-code with branch protection."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-166_smt",
-                    "uuid": "2ac45e7d-a933-4560-80ca-2a769fe7a21d",
-                    "description": "Rule: Pipeline modification must only be allowed through pipeline-as-code with branch protection. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-25"
                   }
                 ]
               },
               {
-                "uuid": "816aa352-7284-4b8e-bae0-4b0c0d0a3919",
+                "uuid": "ef3edb6f-f0ed-4636-af25-31d0d4213b61",
                 "control-id": "CNSC-167",
-                "description": "User roles must be defined for the repository.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "User roles must be defined for the repository."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: codeowners-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "codeowners-file",
-                    "values": [
-                      "CODEOWNERS"
-                    ],
-                    "remarks": "Path to the CODEOWNERS file."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-167_smt",
-                    "uuid": "595d1668-7909-4bdd-967d-13f9f746346f",
-                    "description": "Rule: User roles must be defined for the repository. | Check: file-exists | param: codeowners-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-26"
                   }
                 ]
               },
               {
-                "uuid": "1172aef6-e7c9-4869-8756-0db351bd1098",
+                "uuid": "c619ab99-ff2b-4a3b-a757-3a437ce0d6dd",
                 "control-id": "CNSC-168",
-                "description": "A root-of-trust establishment procedure must be documented.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "A root-of-trust establishment procedure must be documented."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-168_smt",
-                    "uuid": "3049dac7-815c-4146-aae3-f99b25a185c5",
-                    "description": "Rule: A root-of-trust establishment procedure must be documented. | Check: file-exists | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-27"
                   }
                 ]
               },
               {
-                "uuid": "c398b33a-09ae-484b-899a-951e6a17015e",
+                "uuid": "839b493e-7cc3-4b42-a269-ed952f17c7a6",
                 "control-id": "CNSC-173",
-                "description": "Third-party artifacts and open source libraries must be declared and verified.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Third-party artifacts and open source libraries must be declared and verified."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: dependency-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-173_smt",
-                    "uuid": "6d01a12a-be9d-45d2-8bd4-2670838656f3",
-                    "description": "Rule: Third-party artifacts and open source libraries must be declared and verified. | Check: file-exists | param: dependency-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-28"
                   }
                 ]
               },
               {
-                "uuid": "981450da-7c25-4bb9-9cc0-f375f8ca3ae3",
+                "uuid": "dfa8658a-abc8-433c-a3d6-5c9e2a461ac4",
                 "control-id": "CNSC-174",
-                "description": "An SBOM must be required from third-party suppliers.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "An SBOM must be required from third-party suppliers."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: sbom-output-path"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "sbom-output-path",
-                    "values": [
-                      "sbom.json"
-                    ],
-                    "remarks": "Path to the generated SBOM file."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-174_smt",
-                    "uuid": "15f227c1-9b19-49d0-ae41-2442211e31fe",
-                    "description": "Rule: An SBOM must be required from third-party suppliers. | Check: file-exists | param: sbom-output-path"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-29"
                   }
                 ]
               },
               {
-                "uuid": "ad5104de-3266-4bf7-a3bb-e657db939313",
+                "uuid": "03ebae2d-e291-4d39-85ee-0634231c7cd7",
                 "control-id": "CNSC-175",
-                "description": "Dependencies between open source components must be tracked.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Dependencies between open source components must be tracked."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: dependency-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-175_smt",
-                    "uuid": "eac0c04b-248b-49a6-9d6f-09a0bcae813b",
-                    "description": "Rule: Dependencies between open source components must be tracked. | Check: file-exists | param: dependency-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-30"
                   }
                 ]
               },
               {
-                "uuid": "30ebcc31-bc73-488c-8360-4b1d1ab72d26",
+                "uuid": "0f8f37f7-824d-4e46-a05e-95bf63b9bddc",
                 "control-id": "CNSC-177",
-                "description": "Only trusted package managers and repositories must be used.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Only trusted package managers and repositories must be used."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-contains | param: pipeline-file; trusted-registry-pattern"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "trusted-registry-pattern",
-                    "values": [
-                      "pip install"
-                    ],
-                    "remarks": "Pattern confirming use of a trusted package manager in the pipeline file."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-177_smt",
-                    "uuid": "115c587d-33d2-4625-b03d-c39e2250203d",
-                    "description": "Rule: Only trusted package managers and repositories must be used. | Check: file-contains | param: pipeline-file; trusted-registry-pattern"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-31"
                   }
                 ]
               },
               {
-                "uuid": "fbb503f3-bfe0-4b5a-831c-0432827fc9da",
+                "uuid": "28cfc0fa-7cf5-4309-8db9-901bb0ce546f",
                 "control-id": "CNSC-178",
-                "description": "An immutable SBOM of the code must be generated.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "An immutable SBOM of the code must be generated."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: sbom-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "sbom-target",
-                    "values": [
-                      "generate-sbom"
-                    ],
-                    "remarks": "Pipeline target that generates the SBOM."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-178_smt",
-                    "uuid": "983e326b-1bce-46c5-8093-55fd5f679c96",
-                    "description": "Rule: An immutable SBOM of the code must be generated. | Check: makefile-target | param: sbom-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-32"
                   }
                 ]
               },
               {
-                "uuid": "45bdd53e-488a-477e-b714-9bf666344398",
+                "uuid": "f4e5486b-02f9-418b-b51a-e0a7837f2291",
                 "control-id": "CNSC-179",
-                "description": "Software must be scanned for known vulnerabilities.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Software must be scanned for known vulnerabilities."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "vulnerability-scanner",
-                    "values": [
-                      "pip-audit"
-                    ],
-                    "remarks": "Vulnerability scanner tool (pip-audit, trivy, grype, govulncheck, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-179_smt",
-                    "uuid": "49df993b-deae-4060-90f3-a09d18673d28",
-                    "description": "Rule: Software must be scanned for known vulnerabilities. | Check: ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-33"
                   }
                 ]
               },
               {
-                "uuid": "773a45e9-cfa2-43ac-8f12-85464e5ed42b",
+                "uuid": "a05ba5a7-3932-443e-837e-e4723c4ed20d",
                 "control-id": "CNSC-180",
-                "description": "Software must be scanned for license compliance.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Software must be scanned for license compliance."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: license-scan-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "license-scan-target",
-                    "values": [
-                      "license-check"
-                    ],
-                    "remarks": "Pipeline target that runs license compliance scanning."
-                  },
-                  {
-                    "param-id": "license-scanner",
-                    "values": [
-                      "pip-licenses"
-                    ],
-                    "remarks": "License scanner tool (pip-licenses, golicense, license-checker, etc.)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-180_smt",
-                    "uuid": "ccd92db9-8524-4dc2-b030-0d32c598a587",
-                    "description": "Rule: Software must be scanned for license compliance. | Check: makefile-target | param: license-scan-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-34"
                   }
                 ]
               },
               {
-                "uuid": "6a8d9695-5950-4457-b532-ba438145432e",
+                "uuid": "8fe8065e-2ec3-4ebc-ac70-19111395fbd4",
                 "control-id": "CNSC-181",
-                "description": "Software composition analysis must be run on ingested software.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Software composition analysis must be run on ingested software."
-                  },
-                  {
-                    "name": "check",
-                    "value": "makefile-target | param: sca-target"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "sca-target",
-                    "values": [
-                      "sca"
-                    ],
-                    "remarks": "Pipeline target that runs software composition analysis."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-181_smt",
-                    "uuid": "e98f17fb-a1c4-4bd0-abdb-2ac76d813bd1",
-                    "description": "Rule: Software composition analysis must be run on ingested software. | Check: makefile-target | param: sca-target"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-35"
                   }
                 ]
               },
               {
-                "uuid": "2094f8bb-9d42-4107-896d-7d6f9f31732b",
+                "uuid": "4c4f76d5-45ec-4336-b0ef-5425582aaa5f",
                 "control-id": "CNSC-182",
-                "description": "All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "signed-commits-lookback",
-                    "values": [
-                      "10"
-                    ],
-                    "remarks": "Number of recent commits to verify for signatures."
-                  },
-                  {
-                    "param-id": "signed-commits-exempt-pattern",
-                    "values": [
-                      "^chore: Merge back.*|^\\d+\\.\\d+\\.\\d+"
-                    ],
-                    "remarks": "Regex pattern matching allowable unsigned release automation commits."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-182_smt",
-                    "uuid": "7ed5e2ec-860b-4204-b27b-45ab33fe70ca",
-                    "description": "Rule: All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits. | Check: git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-36"
                   }
                 ]
               },
               {
-                "uuid": "dd21052a-7848-4e1f-a840-b61b73c9e63b",
+                "uuid": "db51e489-7169-4b87-a91f-2336b8d5c4f3",
                 "control-id": "CNSC-183",
-                "description": "Full attestation and verification must be enforced for the default branch.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Full attestation and verification must be enforced for the default branch."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-183_smt",
-                    "uuid": "4202e764-055c-4de2-a9e5-91ebdf0ad491",
-                    "description": "Rule: Full attestation and verification must be enforced for the default branch. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-37"
                   }
                 ]
               },
               {
-                "uuid": "439d69cb-7d64-4f37-90f1-a42fec6f80d2",
+                "uuid": "7717f767-22e6-42e9-9021-ba87c8f6b453",
                 "control-id": "CNSC-184",
-                "description": "No unencrypted secrets must be committed to the repository.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "No unencrypted secrets must be committed to the repository."
-                  },
-                  {
-                    "name": "check",
-                    "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "secrets-scan-extensions",
-                    "values": [
-                      "py,sh,yaml,yml,env,cfg,ini"
-                    ],
-                    "remarks": "Comma-separated file extensions to scan for hardcoded secrets."
-                  },
-                  {
-                    "param-id": "secrets-scan-exclude-paths",
-                    "values": [
-                      ".venv,trestle.ws,.git,dist"
-                    ],
-                    "remarks": "Comma-separated directory names to exclude from secrets scanning."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-184_smt",
-                    "uuid": "eb1dc96e-068f-40e5-8020-ac4933cc2466",
-                    "description": "Rule: No unencrypted secrets must be committed to the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-38"
                   }
                 ]
               },
               {
-                "uuid": "6c401485-5e2b-4504-8744-99f735efd6f1",
+                "uuid": "1fdf0e3c-90b6-49ad-b874-d8204ac19e4f",
                 "control-id": "CNSC-185",
-                "description": "Individuals or teams with write access must be explicitly defined.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Individuals or teams with write access must be explicitly defined."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: codeowners-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-185_smt",
-                    "uuid": "7e0d7733-20a4-49a1-a7ab-f440e843d34f",
-                    "description": "Rule: Individuals or teams with write access must be explicitly defined. | Check: file-exists | param: codeowners-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-39"
                   }
                 ]
               },
               {
-                "uuid": "85b6ef11-3c0d-4c01-852c-aa131685d8b1",
+                "uuid": "ae6974c3-99e3-4fc4-a81a-dc779b141671",
                 "control-id": "CNSC-186",
-                "description": "Software security scanning and testing must be automated in the pipeline.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Software security scanning and testing must be automated in the pipeline."
-                  },
-                  {
-                    "name": "check",
-                    "value": "ci-sast | param: sast-target; sast-workflows"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-186_smt",
-                    "uuid": "84e99c88-fdbd-4240-8881-145c15af2b1b",
-                    "description": "Rule: Software security scanning and testing must be automated in the pipeline. | Check: ci-sast | param: sast-target; sast-workflows"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-40"
                   }
                 ]
               },
               {
-                "uuid": "b591f7ae-4a71-4d4b-803b-2174b984f28c",
+                "uuid": "24e79f63-45bc-46d8-a43a-e1d71efb2a5d",
                 "control-id": "CNSC-187",
-                "description": "Contribution policies must be established and documented.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Contribution policies must be established and documented."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: contributing-file"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "contributing-file",
-                    "values": [
-                      "CONTRIBUTING.md"
-                    ],
-                    "remarks": "Path to the contribution policy document."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-187_smt",
-                    "uuid": "a1b71a89-e058-47c4-a466-f2eb9b3c7311",
-                    "description": "Rule: Contribution policies must be established and documented. | Check: file-exists | param: contributing-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-41"
                   }
                 ]
               },
               {
-                "uuid": "7e471919-7932-4492-b372-44bbb86ea8e8",
+                "uuid": "e22dee65-8fdb-4c22-a194-465abf3c44fa",
                 "control-id": "CNSC-188",
-                "description": "Roles must be defined and aligned to functional responsibilities.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Roles must be defined and aligned to functional responsibilities."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: codeowners-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-188_smt",
-                    "uuid": "09db4ce7-13bb-4380-8492-052405f72bc3",
-                    "description": "Rule: Roles must be defined and aligned to functional responsibilities. | Check: file-exists | param: codeowners-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-42"
                   }
                 ]
               },
               {
-                "uuid": "517bf4a3-e8b8-47c0-8e40-2f9d626f1307",
+                "uuid": "8e844a91-db97-4507-a492-4005e29bdcf2",
                 "control-id": "CNSC-189",
-                "description": "An independent four-eyes principle must be enforced via branch protection.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "An independent four-eyes principle must be enforced via branch protection."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-189_smt",
-                    "uuid": "23dbca4d-9748-42e9-a90f-b14a1d8658cc",
-                    "description": "Rule: An independent four-eyes principle must be enforced via branch protection. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-43"
                   }
                 ]
               },
               {
-                "uuid": "1d4c4abd-b350-4c22-b40e-ea0d49ea9c32",
+                "uuid": "2cb19fea-cf5f-402f-bfd0-e65686412470",
                 "control-id": "CNSC-190",
-                "description": "Branch protection rules must be enabled on the default branch.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Branch protection rules must be enabled on the default branch."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-190_smt",
-                    "uuid": "1d6dfa96-785c-42f9-8c8b-9ee7d779e7f0",
-                    "description": "Rule: Branch protection rules must be enabled on the default branch. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-44"
                   }
                 ]
               },
               {
-                "uuid": "ee4feb30-72fd-4144-b766-5e9ee15576a6",
+                "uuid": "8d9c160d-f097-4606-b277-b275327c3860",
                 "control-id": "CNSC-191",
-                "description": "MFA must be enforced for accessing source code repositories.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "MFA must be enforced for accessing source code repositories."
-                  },
-                  {
-                    "name": "check",
-                    "value": "manual | param: mfa-enforcement-scope"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "mfa-enforcement-scope",
-                    "values": [
-                      "organization"
-                    ],
-                    "remarks": "Scope at which MFA is enforced (organization, team, repository)."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-191_smt",
-                    "uuid": "e07bc09d-b785-41c7-a62c-8d20c7a664cb",
-                    "description": "Rule: MFA must be enforced for accessing source code repositories. | Check: manual | param: mfa-enforcement-scope"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-45"
                   }
                 ]
               },
               {
-                "uuid": "0741510f-9cbd-424a-b9f5-5ed3e861b17d",
+                "uuid": "a63258ce-15db-4b85-9ec9-4d79b08a1c19",
                 "control-id": "CNSC-192",
-                "description": "SSH keys must be used to provide developer access to source code repositories.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "SSH keys must be used to provide developer access to source code repositories."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-contains | param: git-config-file; ssh-remote-pattern"
-                  }
-                ],
-                "set-parameters": [
-                  {
-                    "param-id": "git-config-file",
-                    "values": [
-                      ".git/config"
-                    ],
-                    "remarks": "Path to the git configuration file."
-                  },
-                  {
-                    "param-id": "ssh-remote-pattern",
-                    "values": [
-                      "git@github\\.com"
-                    ],
-                    "remarks": "Pattern confirming SSH remote URL in git config."
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-192_smt",
-                    "uuid": "a95ccf57-061f-40fa-b979-115d8f009ece",
-                    "description": "Rule: SSH keys must be used to provide developer access to source code repositories. | Check: file-contains | param: git-config-file; ssh-remote-pattern"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-46"
                   }
                 ]
               },
               {
-                "uuid": "f57a3c45-d377-4d71-824b-c929e76bd647",
+                "uuid": "23dfe7b0-13a1-4c31-bb23-e7079d0e3c33",
                 "control-id": "CNSC-193",
-                "description": "A key rotation policy must be documented.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "A key rotation policy must be documented."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-193_smt",
-                    "uuid": "d1d9ead9-3af9-4ec9-82f2-e5f46cc1fda8",
-                    "description": "Rule: A key rotation policy must be documented. | Check: file-exists | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-47"
                   }
                 ]
               },
               {
-                "uuid": "d77f5067-22bc-4364-9478-e1a55ca2e10f",
+                "uuid": "c0920a2a-4ab0-40c4-8f84-4c4ff7396abc",
                 "control-id": "CNSC-194",
-                "description": "Short-lived or ephemeral credentials must be used for machine and service access.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Short-lived or ephemeral credentials must be used for machine and service access."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-194_smt",
-                    "uuid": "57dcc418-8032-4683-8a71-cacb10c3e2cc",
-                    "description": "Rule: Short-lived or ephemeral credentials must be used for machine and service access. | Check: file-exists | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-48"
                   }
                 ]
               },
               {
-                "uuid": "959ae493-4f3a-4d00-a00d-10c6bc258821",
+                "uuid": "3e0d5c2e-5033-4633-8313-35fb249174f2",
                 "control-id": "CNSC-121",
-                "description": "A threat model for code and infrastructure must be documented.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "A threat model for code and infrastructure must be documented."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: threat-model-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-121_smt",
-                    "uuid": "8cb39d4f-fb93-44da-adeb-5e155927d244",
-                    "description": "Rule: A threat model for code and infrastructure must be documented. | Check: file-exists | param: threat-model-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-49"
                   }
                 ]
               },
               {
-                "uuid": "494d4d6b-ba83-4065-9617-e80e2c1b563e",
+                "uuid": "fb1a2560-fe79-4354-9fc0-8be14787206f",
                 "control-id": "CNSC-196",
-                "description": "Supply chain security best practices must be adhered to (SBOM, lock file, SCA).",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Supply chain security best practices must be adhered to (SBOM, lock file, SCA)."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: lock-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-196_smt",
-                    "uuid": "2b07962b-b742-4e45-9f4f-75be933622b8",
-                    "description": "Rule: Supply chain security best practices must be adhered to (SBOM, lock file, SCA). | Check: file-exists | param: lock-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-50"
                   }
                 ]
               },
               {
-                "uuid": "83849b06-7bb6-4f39-9138-dc3cf2795596",
+                "uuid": "efaac6c3-aaaf-4efa-9426-6555aaff42a5",
                 "control-id": "CNSC-197",
-                "description": "Access to repository and branches must be restricted via branch protection and CODEOWNERS.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Access to repository and branches must be restricted via branch protection and CODEOWNERS."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-197_smt",
-                    "uuid": "2ec15d50-1f29-4461-8c08-355b9ce1c18e",
-                    "description": "Rule: Access to repository and branches must be restricted via branch protection and CODEOWNERS. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-51"
                   }
                 ]
               },
               {
-                "uuid": "e12322e2-c93a-49e4-9585-b4930af9c769",
+                "uuid": "5b90b171-efa7-439c-9ba2-9003ed10dda5",
                 "control-id": "CNSC-198",
-                "description": "Unencrypted credentials or secrets must never be stored in the repository.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Unencrypted credentials or secrets must never be stored in the repository."
-                  },
-                  {
-                    "name": "check",
-                    "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-198_smt",
-                    "uuid": "01098423-7964-4189-8e03-311d5dd4bf12",
-                    "description": "Rule: Unencrypted credentials or secrets must never be stored in the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-52"
                   }
                 ]
               },
               {
-                "uuid": "dee1b5e1-f8b8-4549-9359-123acdb1812e",
+                "uuid": "c35b6a7e-f0eb-484d-ba92-97c7a2d8a72c",
                 "control-id": "CNSC-199",
-                "description": "Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-199_smt",
-                    "uuid": "5f1c04c7-728a-4829-97cf-6a3b4a2d5313",
-                    "description": "Rule: Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits. | Check: git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-53"
                   }
                 ]
               },
               {
-                "uuid": "a78c84fd-896b-4da1-b04d-50835c699e01",
+                "uuid": "f8ace056-d436-4bf1-9306-e3c88a8949ef",
                 "control-id": "CNSC-200",
-                "description": "Linear history must be enforced; force-push must be disallowed.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Linear history must be enforced; force-push must be disallowed."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-200_smt",
-                    "uuid": "b945d9dd-883f-473e-85e0-9f6bdee8842a",
-                    "description": "Rule: Linear history must be enforced; force-push must be disallowed. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-54"
                   }
                 ]
               },
               {
-                "uuid": "055ba055-5eba-40c9-b377-fefb6d952586",
+                "uuid": "cf87bf73-0855-4037-bf47-d70bc1f89e83",
                 "control-id": "CNSC-201",
-                "description": "Branching policy must be enforced with main branch protection and code review.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Branching policy must be enforced with main branch protection and code review."
-                  },
-                  {
-                    "name": "check",
-                    "value": "git-branch-protected | param: default-branch"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-201_smt",
-                    "uuid": "4f7726e8-21ad-4a49-a6b1-ff1cb595a720",
-                    "description": "Rule: Branching policy must be enforced with main branch protection and code review. | Check: git-branch-protected | param: default-branch"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-55"
                   }
                 ]
               },
               {
-                "uuid": "a4af707e-68f4-467b-b196-d0e2fd03c53f",
+                "uuid": "67cc855a-44fc-45e6-8e32-ed50c0b6311c",
                 "control-id": "CNSC-202",
-                "description": "Git and GitOps tools must be monitored for vulnerabilities and kept up to date.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Git and GitOps tools must be monitored for vulnerabilities and kept up to date."
-                  },
-                  {
-                    "name": "check",
-                    "value": "manual | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-202_smt",
-                    "uuid": "2fdb7d29-5706-40c7-81f6-e8898fbf99e9",
-                    "description": "Rule: Git and GitOps tools must be monitored for vulnerabilities and kept up to date. | Check: manual | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-56"
                   }
                 ]
               },
               {
-                "uuid": "b021fc6c-bd7f-4a62-89a7-4ff1c165ccb5",
+                "uuid": "dcd9e773-4e74-41ee-bbf4-f229ff829480",
                 "control-id": "CNSC-203",
-                "description": "SSH keys and Personal Access Tokens must be rotated regularly.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "SSH keys and Personal Access Tokens must be rotated regularly."
-                  },
-                  {
-                    "name": "check",
-                    "value": "file-exists | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-203_smt",
-                    "uuid": "c094f4c3-cd9e-4715-aeda-1f9fea396ceb",
-                    "description": "Rule: SSH keys and Personal Access Tokens must be rotated regularly. | Check: file-exists | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-57"
                   }
                 ]
               },
               {
-                "uuid": "5c88c0ef-1fdc-4d1b-ad0c-d483ad868adb",
+                "uuid": "6d0ce101-b874-4009-b9db-e1abb485a8bf",
                 "control-id": "CNSC-204",
-                "description": "Dedicated non-user technical accounts must be used for automated access.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Dedicated non-user technical accounts must be used for automated access."
-                  },
-                  {
-                    "name": "check",
-                    "value": "manual | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-204_smt",
-                    "uuid": "a889b49c-dfea-41b4-a226-e7d3f85a4552",
-                    "description": "Rule: Dedicated non-user technical accounts must be used for automated access. | Check: manual | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-58"
                   }
                 ]
               },
               {
-                "uuid": "988837a5-56fa-4c6e-bdfd-56c35aec3499",
+                "uuid": "14c53fd8-f2a0-4430-8d05-df8aabf3a0fa",
                 "control-id": "CNSC-205",
-                "description": "Users who can escalate permissions must be limited to a pre-approved set.",
+                "description": "",
                 "props": [
                   {
-                    "name": "rule",
-                    "value": "Users who can escalate permissions must be limited to a pre-approved set."
-                  },
-                  {
-                    "name": "check",
-                    "value": "manual | param: security-policy-file"
-                  }
-                ],
-                "statements": [
-                  {
-                    "statement-id": "CNSC-205_smt",
-                    "uuid": "16e03cea-ff05-4bae-b389-f581ad28d905",
-                    "description": "Rule: Users who can escalate permissions must be limited to a pre-approved set. | Check: manual | param: security-policy-file"
+                    "name": "Rule_Id",
+                    "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+                    "value": "RULE-59"
                   }
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "uuid": "81c42a78-caf8-4635-8f96-69fd01559466",
+        "type": "validation",
+        "title": "CNCF Compliance Validation Engine",
+        "description": "Automated check probes and validation engine evaluating repository compliance against software rules.",
+        "purpose": "Execute automated checks and parameter verification for CNCF controls.",
+        "props": [
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-01",
+            "remarks": "check_set_00"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-01",
+            "remarks": "check_set_00"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
+            "remarks": "check_set_00"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_00"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-02",
+            "remarks": "check_set_01"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-02",
+            "remarks": "check_set_01"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: test-dir",
+            "remarks": "check_set_01"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_01"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-03",
+            "remarks": "check_set_02"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-03",
+            "remarks": "check_set_02"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: test-dir",
+            "remarks": "check_set_02"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_02"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-04",
+            "remarks": "check_set_03"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-04",
+            "remarks": "check_set_03"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: test-target",
+            "remarks": "check_set_03"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_03"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-05",
+            "remarks": "check_set_04"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-05",
+            "remarks": "check_set_04"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch; min-reviewers",
+            "remarks": "check_set_04"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_04"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-06",
+            "remarks": "check_set_05"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-06",
+            "remarks": "check_set_05"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: pipeline-file",
+            "remarks": "check_set_05"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_05"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-07",
+            "remarks": "check_set_06"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-07",
+            "remarks": "check_set_06"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: test-dir",
+            "remarks": "check_set_06"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_06"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-08",
+            "remarks": "check_set_07"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-08",
+            "remarks": "check_set_07"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: test-dir",
+            "remarks": "check_set_07"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_07"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-09",
+            "remarks": "check_set_08"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-09",
+            "remarks": "check_set_08"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: test-dir",
+            "remarks": "check_set_08"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_08"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-10",
+            "remarks": "check_set_09"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-10",
+            "remarks": "check_set_09"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: threat-model-file",
+            "remarks": "check_set_09"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_09"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-11",
+            "remarks": "check_set_10"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-11",
+            "remarks": "check_set_10"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: security-policy-file",
+            "remarks": "check_set_10"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_10"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-12",
+            "remarks": "check_set_11"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-12",
+            "remarks": "check_set_11"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
+            "remarks": "check_set_11"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_11"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-13",
+            "remarks": "check_set_12"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-13",
+            "remarks": "check_set_12"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch; min-reviewers",
+            "remarks": "check_set_12"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_12"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-14",
+            "remarks": "check_set_13"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-14",
+            "remarks": "check_set_13"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-sast | param: sast-target; sast-workflows",
+            "remarks": "check_set_13"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_13"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-15",
+            "remarks": "check_set_14"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-15",
+            "remarks": "check_set_14"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-manifest-scan | param: manifest-scan-target; manifest-scan-workflows",
+            "remarks": "check_set_14"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_14"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-16",
+            "remarks": "check_set_15"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-16",
+            "remarks": "check_set_15"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: dependency-file",
+            "remarks": "check_set_15"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_15"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-17",
+            "remarks": "check_set_16"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-17",
+            "remarks": "check_set_16"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: lock-file",
+            "remarks": "check_set_16"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_16"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-18",
+            "remarks": "check_set_17"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-18",
+            "remarks": "check_set_17"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-contains | param: pipeline-file; hash-pin-pattern",
+            "remarks": "check_set_17"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_17"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-19",
+            "remarks": "check_set_18"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-19",
+            "remarks": "check_set_18"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: lock-file",
+            "remarks": "check_set_18"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_18"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-20",
+            "remarks": "check_set_19"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-20",
+            "remarks": "check_set_19"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: lock-file",
+            "remarks": "check_set_19"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_19"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-21",
+            "remarks": "check_set_20"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-21",
+            "remarks": "check_set_20"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: env-setup-target",
+            "remarks": "check_set_20"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_20"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-22",
+            "remarks": "check_set_21"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-22",
+            "remarks": "check_set_21"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: pipeline-file",
+            "remarks": "check_set_21"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_21"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-23",
+            "remarks": "check_set_22"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-23",
+            "remarks": "check_set_22"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: all-target",
+            "remarks": "check_set_22"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_22"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-24",
+            "remarks": "check_set_23"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-24",
+            "remarks": "check_set_23"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: output-artifact-path",
+            "remarks": "check_set_23"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_23"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-25",
+            "remarks": "check_set_24"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-25",
+            "remarks": "check_set_24"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_24"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_24"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-26",
+            "remarks": "check_set_25"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-26",
+            "remarks": "check_set_25"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: codeowners-file",
+            "remarks": "check_set_25"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_25"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-27",
+            "remarks": "check_set_26"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-27",
+            "remarks": "check_set_26"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: security-policy-file",
+            "remarks": "check_set_26"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_26"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-28",
+            "remarks": "check_set_27"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-28",
+            "remarks": "check_set_27"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: dependency-file",
+            "remarks": "check_set_27"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_27"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-29",
+            "remarks": "check_set_28"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-29",
+            "remarks": "check_set_28"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: sbom-output-path",
+            "remarks": "check_set_28"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_28"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-30",
+            "remarks": "check_set_29"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-30",
+            "remarks": "check_set_29"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: dependency-file",
+            "remarks": "check_set_29"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_29"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-31",
+            "remarks": "check_set_30"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-31",
+            "remarks": "check_set_30"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-contains | param: pipeline-file; trusted-registry-pattern",
+            "remarks": "check_set_30"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_30"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-32",
+            "remarks": "check_set_31"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-32",
+            "remarks": "check_set_31"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: sbom-target",
+            "remarks": "check_set_31"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_31"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-33",
+            "remarks": "check_set_32"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-33",
+            "remarks": "check_set_32"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-vuln-scan | param: pipeline-vuln-scan-target; vuln-scan-workflows",
+            "remarks": "check_set_32"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_32"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-34",
+            "remarks": "check_set_33"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-34",
+            "remarks": "check_set_33"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: license-scan-target",
+            "remarks": "check_set_33"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_33"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-35",
+            "remarks": "check_set_34"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-35",
+            "remarks": "check_set_34"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "makefile-target | param: sca-target",
+            "remarks": "check_set_34"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_34"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-36",
+            "remarks": "check_set_35"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-36",
+            "remarks": "check_set_35"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern",
+            "remarks": "check_set_35"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_35"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-37",
+            "remarks": "check_set_36"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-37",
+            "remarks": "check_set_36"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_36"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_36"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-38",
+            "remarks": "check_set_37"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-38",
+            "remarks": "check_set_37"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths",
+            "remarks": "check_set_37"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_37"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-39",
+            "remarks": "check_set_38"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-39",
+            "remarks": "check_set_38"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: codeowners-file",
+            "remarks": "check_set_38"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_38"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-40",
+            "remarks": "check_set_39"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-40",
+            "remarks": "check_set_39"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "ci-sast | param: sast-target; sast-workflows",
+            "remarks": "check_set_39"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_39"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-41",
+            "remarks": "check_set_40"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-41",
+            "remarks": "check_set_40"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: contributing-file",
+            "remarks": "check_set_40"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_40"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-42",
+            "remarks": "check_set_41"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-42",
+            "remarks": "check_set_41"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: codeowners-file",
+            "remarks": "check_set_41"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_41"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-43",
+            "remarks": "check_set_42"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-43",
+            "remarks": "check_set_42"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_42"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_42"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-44",
+            "remarks": "check_set_43"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-44",
+            "remarks": "check_set_43"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_43"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_43"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-45",
+            "remarks": "check_set_44"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-45",
+            "remarks": "check_set_44"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "manual | param: mfa-enforcement-scope",
+            "remarks": "check_set_44"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_44"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-46",
+            "remarks": "check_set_45"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-46",
+            "remarks": "check_set_45"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-contains | param: git-config-file; ssh-remote-pattern",
+            "remarks": "check_set_45"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_45"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-47",
+            "remarks": "check_set_46"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-47",
+            "remarks": "check_set_46"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: security-policy-file",
+            "remarks": "check_set_46"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_46"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-48",
+            "remarks": "check_set_47"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-48",
+            "remarks": "check_set_47"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: security-policy-file",
+            "remarks": "check_set_47"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_47"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-49",
+            "remarks": "check_set_48"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-49",
+            "remarks": "check_set_48"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: threat-model-file",
+            "remarks": "check_set_48"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_48"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-50",
+            "remarks": "check_set_49"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-50",
+            "remarks": "check_set_49"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: lock-file",
+            "remarks": "check_set_49"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_49"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-51",
+            "remarks": "check_set_50"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-51",
+            "remarks": "check_set_50"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_50"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_50"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-52",
+            "remarks": "check_set_51"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-52",
+            "remarks": "check_set_51"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths",
+            "remarks": "check_set_51"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_51"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-53",
+            "remarks": "check_set_52"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-53",
+            "remarks": "check_set_52"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern",
+            "remarks": "check_set_52"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_52"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-54",
+            "remarks": "check_set_53"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-54",
+            "remarks": "check_set_53"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_53"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_53"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-55",
+            "remarks": "check_set_54"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-55",
+            "remarks": "check_set_54"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "git-branch-protected | param: default-branch",
+            "remarks": "check_set_54"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_54"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-56",
+            "remarks": "check_set_55"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-56",
+            "remarks": "check_set_55"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "manual | param: security-policy-file",
+            "remarks": "check_set_55"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_55"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-57",
+            "remarks": "check_set_56"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-57",
+            "remarks": "check_set_56"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "file-exists | param: security-policy-file",
+            "remarks": "check_set_56"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_56"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-58",
+            "remarks": "check_set_57"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-58",
+            "remarks": "check_set_57"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "manual | param: security-policy-file",
+            "remarks": "check_set_57"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_57"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "RULE-59",
+            "remarks": "check_set_58"
+          },
+          {
+            "name": "Check_Id",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CHECK-59",
+            "remarks": "check_set_58"
+          },
+          {
+            "name": "Check_Description",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "manual | param: security-policy-file",
+            "remarks": "check_set_58"
+          },
+          {
+            "name": "Target_Component",
+            "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+            "value": "CNCF Source Repository",
+            "remarks": "check_set_58"
           }
         ]
       }
