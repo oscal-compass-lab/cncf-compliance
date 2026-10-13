@@ -1,14 +1,14 @@
 {
   "component-definition": {
-    "uuid": "e831657b-c2bf-4a97-96aa-d1fddb6c6883",
+    "uuid": "9bfade90-a3c7-4924-bbf7-036d6e9e91c2",
     "metadata": {
       "title": "CNCF Source Repository — Shared Base Component Definition",
-      "last-modified": "2026-10-13T12:59:59.178+00:00",
+      "last-modified": "2026-10-13T18:03:27.963+00:00",
       "version": "1.0",
       "oscal-version": "1.2.1",
       "parties": [
         {
-          "uuid": "722e3a5b-21ca-4ae2-8d6f-93cd67b5ad6d",
+          "uuid": "d139f2fc-085d-44d4-b924-fb281fe74d9f",
           "type": "organization",
           "name": "CNCF TAG Security and Compliance"
         }
@@ -16,14 +16,14 @@
     },
     "components": [
       {
-        "uuid": "13ca0da3-b64b-46b3-a512-bb190394caed",
+        "uuid": "69636814-7700-4c1b-80f1-92b8c62238c7",
         "type": "software",
         "title": "CNCF Source Repository",
         "description": "Shared component representing any CNCF source repository. Defines rules, check types, and default parameter values for all controls selected by the cncf-repo profile. Per-project component definitions import this base and override only the parameters that differ from these defaults.",
         "purpose": "Provide a reusable compliance baseline for CNCF source repositories.",
         "control-implementations": [
           {
-            "uuid": "e22099d2-4f68-4f12-b9f4-723894ef14ea",
+            "uuid": "5fda32f3-d1e8-4729-a5d9-9b6175223d40",
             "source": "trestle://profiles/cncf-repo/profile.json",
             "description": "Shared implementation of cncf-repo profile controls for all CNCF source repositories.",
             "set-parameters": [
@@ -210,6 +210,13 @@
                 "remarks": "Number of recent commits to verify for signatures."
               },
               {
+                "param-id": "signed-commits-exempt-pattern",
+                "values": [
+                  "^chore: Merge back.*|^\\d+\\.\\d+\\.\\d+"
+                ],
+                "remarks": "Regex pattern matching allowable unsigned release automation commits."
+              },
+              {
                 "param-id": "secrets-scan-extensions",
                 "values": [
                   "py,sh,yaml,yml,env,cfg,ini"
@@ -254,7 +261,7 @@
             ],
             "implemented-requirements": [
               {
-                "uuid": "361a8c80-132f-429b-b8c5-d66d923404af",
+                "uuid": "62e115b5-a7cc-4570-8400-3c998d70fdb7",
                 "control-id": "CNSC-65",
                 "description": "Vulnerability and configuration scanning must be integrated at the pull-request or CI stage.",
                 "props": [
@@ -279,13 +286,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-65_smt",
-                    "uuid": "32a7d821-59cc-4563-bf74-2a0c3ff17a9d",
+                    "uuid": "9b12e6e0-aa43-4cf4-a8f7-1b2b850a0315",
                     "description": "Rule: Vulnerability and configuration scanning must be integrated at the pull-request or CI stage. | Check: makefile-target | param: pipeline-vuln-scan-target"
                   }
                 ]
               },
               {
-                "uuid": "f8d2b32c-f10f-4bba-b3e8-afe6b9d10bda",
+                "uuid": "808c6413-0ef3-45c8-83cd-2d28ce7571bb",
                 "control-id": "CNSC-67",
                 "description": "Tests must exist for business-critical code paths.",
                 "props": [
@@ -310,13 +317,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-67_smt",
-                    "uuid": "888511d5-908b-4358-bfbb-c129ee17f86b",
+                    "uuid": "0d8f946c-12ee-4d26-a4f8-c2d85c0a88a9",
                     "description": "Rule: Tests must exist for business-critical code paths. | Check: file-exists | param: test-dir"
                   }
                 ]
               },
               {
-                "uuid": "4059353d-fe26-47ae-8576-28a47ff2cd4d",
+                "uuid": "c73a1719-f15b-48fa-bdfd-4a04a76b6feb",
                 "control-id": "CNSC-68",
                 "description": "Tests must exist for business-critical infrastructure.",
                 "props": [
@@ -332,13 +339,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-68_smt",
-                    "uuid": "235dfa87-9a63-4f3b-a4fc-96a1f7a67dac",
+                    "uuid": "9d9600cd-112d-4690-921b-9b6c11185c8c",
                     "description": "Rule: Tests must exist for business-critical infrastructure. | Check: file-exists | param: test-dir"
                   }
                 ]
               },
               {
-                "uuid": "31fcfe77-25e2-41f4-a035-06aa338960a8",
+                "uuid": "8f5f2563-3709-407c-8b91-a1965f9eb3f6",
                 "control-id": "CNSC-69",
                 "description": "Test suites must be runnable locally without external dependencies.",
                 "props": [
@@ -363,13 +370,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-69_smt",
-                    "uuid": "dddf8155-7531-45a4-8040-48685ca8d6bb",
+                    "uuid": "e7a9cb96-b72a-4782-80c4-6c9d8421b821",
                     "description": "Rule: Test suites must be runnable locally without external dependencies. | Check: makefile-target | param: test-target"
                   }
                 ]
               },
               {
-                "uuid": "dc41daa0-c50f-465f-9787-d882e9384e76",
+                "uuid": "52240819-f0bb-421b-b989-e19fa19410a6",
                 "control-id": "CNSC-71",
                 "description": "At least two non-author reviewers must approve before merging.",
                 "props": [
@@ -401,13 +408,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-71_smt",
-                    "uuid": "d1b0a7b2-f659-4892-b38e-5b1fc20a49d3",
+                    "uuid": "1efbfd44-3af1-4efe-a69c-59575d519da4",
                     "description": "Rule: At least two non-author reviewers must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
                   }
                 ]
               },
               {
-                "uuid": "3aa0bbc3-f65a-4f33-8198-210a2a05ee96",
+                "uuid": "4062f7be-9768-4208-8f2f-31468b48b4d9",
                 "control-id": "CNSC-72",
                 "description": "Code must be clean and well commented.",
                 "props": [
@@ -432,13 +439,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-72_smt",
-                    "uuid": "29e2efa3-84a4-495f-9c15-05b2f2ef0138",
+                    "uuid": "215e7838-ae47-424c-8a17-580a448e5782",
                     "description": "Rule: Code must be clean and well commented. | Check: file-exists | param: pipeline-file"
                   }
                 ]
               },
               {
-                "uuid": "d706d99e-17a6-4f33-90bf-6f2c6124e78c",
+                "uuid": "8242b25f-477b-4532-84cc-dc935ed34548",
                 "control-id": "CNSC-73",
                 "description": "Full infrastructure tests must be present.",
                 "props": [
@@ -454,13 +461,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-73_smt",
-                    "uuid": "31252d53-e6fc-4069-bbb9-36dfb39f9d79",
+                    "uuid": "fe04583f-d9ff-48fc-a61d-19433ff70857",
                     "description": "Rule: Full infrastructure tests must be present. | Check: file-exists | param: test-dir"
                   }
                 ]
               },
               {
-                "uuid": "7fd444e8-3da2-4d40-b6e4-e3b3550d5435",
+                "uuid": "94f73e4e-eb48-4cd3-8603-c3488487777e",
                 "control-id": "CNSC-74",
                 "description": "Regression tests must be present.",
                 "props": [
@@ -476,13 +483,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-74_smt",
-                    "uuid": "e50d2066-bf5d-44d2-a45c-08ba30da4c09",
+                    "uuid": "dc244f6d-f949-4cdb-8ff7-abf14865614c",
                     "description": "Rule: Regression tests must be present. | Check: file-exists | param: test-dir"
                   }
                 ]
               },
               {
-                "uuid": "9fb105c8-0854-4aae-93da-288843b38c18",
+                "uuid": "64cb6e3b-f6b6-47ca-98d9-472257dab687",
                 "control-id": "CNSC-75",
                 "description": "Test suites must be updated against new and emerging threats.",
                 "props": [
@@ -498,13 +505,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-75_smt",
-                    "uuid": "734a8185-8876-4f48-ac58-4080cdb5597c",
+                    "uuid": "97014de4-372e-4238-8135-8dcba161e853",
                     "description": "Rule: Test suites must be updated against new and emerging threats. | Check: file-exists | param: test-dir"
                   }
                 ]
               },
               {
-                "uuid": "a86f92c2-804a-4411-8b9b-90e2f554516b",
+                "uuid": "87d904e6-8d63-49f1-881d-8516dbb5a283",
                 "control-id": "CNSC-78",
                 "description": "Threat model results must be used to determine test development priorities.",
                 "props": [
@@ -529,13 +536,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-78_smt",
-                    "uuid": "f4ab0f7d-8f1a-4bc3-b53d-8e3c3d7230d5",
+                    "uuid": "fd15a21c-3619-43fd-91ae-993aaaddec67",
                     "description": "Rule: Threat model results must be used to determine test development priorities. | Check: file-exists | param: threat-model-file"
                   }
                 ]
               },
               {
-                "uuid": "e3ffc6bd-0386-4225-bdcf-c030020fe36c",
+                "uuid": "d3a6069f-52df-4333-90b3-c4aed1c2bbf0",
                 "control-id": "CNSC-195",
                 "description": "Secure configuration must be the default state of the system.",
                 "props": [
@@ -560,13 +567,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-195_smt",
-                    "uuid": "6cb72832-d3a6-457b-bb20-549f2a967973",
+                    "uuid": "028f5217-a64c-4734-8859-bc3d06a04bc8",
                     "description": "Rule: Secure configuration must be the default state of the system. | Check: file-exists | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "7fc16051-8da6-4200-9c53-0e0c9202a7fe",
+                "uuid": "97e60c2a-b4a2-4374-99cf-bf5d00726486",
                 "control-id": "CNSC-259",
                 "description": "Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline.",
                 "props": [
@@ -582,13 +589,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-259_smt",
-                    "uuid": "cb5b0b1f-c583-4591-bbbc-26df5387c3fb",
+                    "uuid": "504137ad-c090-4e41-a3e1-0e96f9439539",
                     "description": "Rule: Vulnerability and configuration scanning must be integrated in both IDE and CI pipeline. | Check: makefile-target | param: pipeline-vuln-scan-target"
                   }
                 ]
               },
               {
-                "uuid": "4cf96557-557b-4c48-9133-b5b3554b3326",
+                "uuid": "8b59edc9-1dac-46cc-941c-238f483abf85",
                 "control-id": "CNSC-265",
                 "description": "At least one non-author reviewer must approve before merging.",
                 "props": [
@@ -604,13 +611,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-265_smt",
-                    "uuid": "9f804fe9-bc7a-453a-8c06-3819ac338152",
+                    "uuid": "388f5fb9-bb7c-4042-b32e-d5e9b81d63c4",
                     "description": "Rule: At least one non-author reviewer must approve before merging. | Check: git-branch-protected | param: default-branch; min-reviewers"
                   }
                 ]
               },
               {
-                "uuid": "36b8da8c-1ac8-4f0f-8598-4fa58b818f60",
+                "uuid": "48d4d537-8fc9-4a88-9fc4-bd90674e5a1d",
                 "control-id": "CNSC-82",
                 "description": "Static application security testing (SAST) must be performed.",
                 "props": [
@@ -642,13 +649,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-82_smt",
-                    "uuid": "c6132cd1-620d-4268-b939-4279b1be7e81",
+                    "uuid": "2ec3d2c3-7462-4380-87fd-43a83e01a026",
                     "description": "Rule: Static application security testing (SAST) must be performed. | Check: makefile-target | param: sast-target"
                   }
                 ]
               },
               {
-                "uuid": "b4120854-f503-48ee-9511-7a124ab71230",
+                "uuid": "2515f6e2-5c74-4520-9377-0025353e57a2",
                 "control-id": "CNSC-85",
                 "description": "Application manifests and OSCAL artifacts must be validated in the pipeline.",
                 "props": [
@@ -673,13 +680,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-85_smt",
-                    "uuid": "13554d54-f148-4636-97fd-b79751801780",
+                    "uuid": "b814d1e6-2ecf-4340-afa6-0ba409b1d6da",
                     "description": "Rule: Application manifests and OSCAL artifacts must be validated in the pipeline. | Check: makefile-target | param: validate-target"
                   }
                 ]
               },
               {
-                "uuid": "7076aa03-6300-43c8-bd3d-9ce90960bae5",
+                "uuid": "3f7a574e-f5ce-477a-bfb9-015283ff0ab2",
                 "control-id": "CNSC-150",
                 "description": "Build environments and dependencies must be validated before use.",
                 "props": [
@@ -704,13 +711,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-150_smt",
-                    "uuid": "10f5b026-2822-4042-bc5a-0c8b2e4c2aef",
+                    "uuid": "6863010f-1498-42f7-97b0-a44f5e2a3a9c",
                     "description": "Rule: Build environments and dependencies must be validated before use. | Check: file-exists | param: dependency-file"
                   }
                 ]
               },
               {
-                "uuid": "aac37049-07c1-4689-83b7-2ce51ac8dddb",
+                "uuid": "75de8054-299e-4e38-8eca-4e5f8dce477f",
                 "control-id": "CNSC-152",
                 "description": "Build artifacts must be reproducible; a dependency lock file must be present.",
                 "props": [
@@ -735,13 +742,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-152_smt",
-                    "uuid": "9165061a-155e-46b9-ac38-8decfeb52b5d",
+                    "uuid": "ea2127ec-df1f-49ee-91a2-62c1a4bf2f36",
                     "description": "Rule: Build artifacts must be reproducible; a dependency lock file must be present. | Check: file-exists | param: lock-file"
                   }
                 ]
               },
               {
-                "uuid": "e1a93991-b967-44cf-b6e6-e94f9d8872de",
+                "uuid": "a853e7dd-f160-441f-932a-134e21b60a5f",
                 "control-id": "CNSC-153",
                 "description": "External requirements must be locked and verified with hash pinning.",
                 "props": [
@@ -766,13 +773,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-153_smt",
-                    "uuid": "396fc96d-d644-40e1-94ca-9ab6b61c39d5",
+                    "uuid": "f44f9df5-99cd-4552-9104-ff72e143b9bb",
                     "description": "Rule: External requirements must be locked and verified with hash pinning. | Check: file-contains | param: pipeline-file; hash-pin-pattern"
                   }
                 ]
               },
               {
-                "uuid": "e049473c-8570-417a-a164-902b6751556e",
+                "uuid": "74d0b1a8-4462-4b96-a0e1-8a927e012fe1",
                 "control-id": "CNSC-154",
                 "description": "Sources of non-determinism must be eliminated; a lock file must be present.",
                 "props": [
@@ -788,13 +795,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-154_smt",
-                    "uuid": "20b00453-1165-4f98-966c-f6125d13db92",
+                    "uuid": "0b61d513-35ef-48c5-9d6f-b2b852a1696d",
                     "description": "Rule: Sources of non-determinism must be eliminated; a lock file must be present. | Check: file-exists | param: lock-file"
                   }
                 ]
               },
               {
-                "uuid": "7970df48-25fa-4d36-a302-ce4b651e0053",
+                "uuid": "07191138-09db-46d5-8647-8fc1af423982",
                 "control-id": "CNSC-155",
                 "description": "The build environment must be recorded.",
                 "props": [
@@ -810,13 +817,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-155_smt",
-                    "uuid": "7751442d-3fd9-482b-90a9-46e881f618c0",
+                    "uuid": "95629d79-615f-47d3-9d54-c3714b42433c",
                     "description": "Rule: The build environment must be recorded. | Check: file-exists | param: lock-file"
                   }
                 ]
               },
               {
-                "uuid": "e691c1c0-db78-4d93-ac03-51f02ea7f036",
+                "uuid": "b842ff63-685d-48c4-8750-826746bb7c98",
                 "control-id": "CNSC-156",
                 "description": "Creation of the build environment must be automated.",
                 "props": [
@@ -841,13 +848,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-156_smt",
-                    "uuid": "7cafe5ea-864b-4a88-a4a6-a2847d784078",
+                    "uuid": "f7c4b5f5-b959-48cd-9e4e-c10bf7398d5f",
                     "description": "Rule: Creation of the build environment must be automated. | Check: makefile-target | param: env-setup-target"
                   }
                 ]
               },
               {
-                "uuid": "4f81d291-aa8b-4ad6-9b06-c88a2d7b6547",
+                "uuid": "e4dba83a-d3dd-4dbc-86fd-7c5775f09c03",
                 "control-id": "CNSC-158",
                 "description": "Build and CI/CD steps must be automated through pipeline-as-code.",
                 "props": [
@@ -863,13 +870,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-158_smt",
-                    "uuid": "22e98a25-0c13-4b06-85ed-d318df0e9bb6",
+                    "uuid": "28177042-8618-46c4-b0b3-0fac70c45b6d",
                     "description": "Rule: Build and CI/CD steps must be automated through pipeline-as-code. | Check: file-exists | param: pipeline-file"
                   }
                 ]
               },
               {
-                "uuid": "8f162027-72c0-4942-a2ca-08c17f6faea6",
+                "uuid": "bcfc8946-810b-4620-ac1d-449c81132fac",
                 "control-id": "CNSC-159",
                 "description": "Pipelines must be standardized across projects using a single entry point.",
                 "props": [
@@ -894,13 +901,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-159_smt",
-                    "uuid": "c79fc188-2727-4798-890e-8c73d4fa9a7f",
+                    "uuid": "a6732f63-c9d4-4f51-be0d-f109a97a77b5",
                     "description": "Rule: Pipelines must be standardized across projects using a single entry point. | Check: makefile-target | param: all-target"
                   }
                 ]
               },
               {
-                "uuid": "e493e4f6-5a89-4b77-9ffc-e78be4d62627",
+                "uuid": "60cc924d-39a9-4cf8-8a9f-7ddef8b5a028",
                 "control-id": "CNSC-165",
                 "description": "Pipeline output must be written to a separate secured storage location.",
                 "props": [
@@ -925,13 +932,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-165_smt",
-                    "uuid": "17b3fc67-585c-4593-bd39-17440d100521",
+                    "uuid": "d3fde9ba-0e76-4323-951b-776332eb1690",
                     "description": "Rule: Pipeline output must be written to a separate secured storage location. | Check: file-exists | param: output-artifact-path"
                   }
                 ]
               },
               {
-                "uuid": "bb677281-62a9-4deb-975b-4133f9df082d",
+                "uuid": "59c4470a-cf16-4ac4-b4a7-cf35003157e6",
                 "control-id": "CNSC-166",
                 "description": "Pipeline modification must only be allowed through pipeline-as-code with branch protection.",
                 "props": [
@@ -947,13 +954,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-166_smt",
-                    "uuid": "fbee182e-9333-4698-80a1-98c67bf2b1a5",
+                    "uuid": "3038ff46-97b9-442d-b020-9ce210130a4e",
                     "description": "Rule: Pipeline modification must only be allowed through pipeline-as-code with branch protection. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "0c1625ed-d9ae-407e-b598-fd04793678d2",
+                "uuid": "653432e2-8ed0-426d-9668-cb3ba2c02d7f",
                 "control-id": "CNSC-167",
                 "description": "User roles must be defined for the repository.",
                 "props": [
@@ -978,13 +985,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-167_smt",
-                    "uuid": "577950b8-a334-47b3-a398-f3e62d05121e",
+                    "uuid": "3e809e4c-e1fa-40cd-9860-7c66bfe55557",
                     "description": "Rule: User roles must be defined for the repository. | Check: file-exists | param: codeowners-file"
                   }
                 ]
               },
               {
-                "uuid": "0416fe78-ec21-4d54-aef9-ccbc657602e8",
+                "uuid": "a48be45f-d43f-41d8-a58e-3d0122234a09",
                 "control-id": "CNSC-168",
                 "description": "A root-of-trust establishment procedure must be documented.",
                 "props": [
@@ -1000,13 +1007,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-168_smt",
-                    "uuid": "06e1aef1-28c2-489d-8be8-c4bd48feae86",
+                    "uuid": "ff64fc7e-c889-4c04-baec-304f0d4cadfc",
                     "description": "Rule: A root-of-trust establishment procedure must be documented. | Check: file-exists | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "31567bc8-7da9-470e-8e84-fb73b190dc93",
+                "uuid": "0adfe989-314f-4a62-9bef-92afdf49af18",
                 "control-id": "CNSC-173",
                 "description": "Third-party artifacts and open source libraries must be declared and verified.",
                 "props": [
@@ -1022,13 +1029,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-173_smt",
-                    "uuid": "835ed744-435a-453c-86ca-4ae6f4d78b2c",
+                    "uuid": "6e7e7f5a-99d6-45fd-a23c-2eb618abe277",
                     "description": "Rule: Third-party artifacts and open source libraries must be declared and verified. | Check: file-exists | param: dependency-file"
                   }
                 ]
               },
               {
-                "uuid": "2e30fb99-ada7-457d-8d11-c101b4fc5289",
+                "uuid": "cc71f4c7-54a0-41eb-9ea5-ee964b31e6eb",
                 "control-id": "CNSC-174",
                 "description": "An SBOM must be required from third-party suppliers.",
                 "props": [
@@ -1053,13 +1060,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-174_smt",
-                    "uuid": "177623dc-8efb-47d0-846e-ae2e966519ac",
+                    "uuid": "36c338d9-f24e-46b9-8d3e-bdacea5ddfae",
                     "description": "Rule: An SBOM must be required from third-party suppliers. | Check: file-exists | param: sbom-output-path"
                   }
                 ]
               },
               {
-                "uuid": "24a601f8-3ce9-412b-9bcb-e872fb444329",
+                "uuid": "9416d9c4-2402-4b4c-afbd-856e7a206137",
                 "control-id": "CNSC-175",
                 "description": "Dependencies between open source components must be tracked.",
                 "props": [
@@ -1075,13 +1082,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-175_smt",
-                    "uuid": "17b2fdbc-1f8a-4c9d-b164-699e8dd463de",
+                    "uuid": "b7a1080b-9c52-4583-a6b2-0880a6592155",
                     "description": "Rule: Dependencies between open source components must be tracked. | Check: file-exists | param: dependency-file"
                   }
                 ]
               },
               {
-                "uuid": "52c07ab2-af84-48b4-9642-871d70bfb98a",
+                "uuid": "caf73e4d-cc73-49f7-b50c-79b973fd150d",
                 "control-id": "CNSC-177",
                 "description": "Only trusted package managers and repositories must be used.",
                 "props": [
@@ -1106,13 +1113,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-177_smt",
-                    "uuid": "acfd71c3-0939-4bba-9ac6-e52d5402f503",
+                    "uuid": "eb64dfe9-add9-43dd-a8b6-8947ad24b264",
                     "description": "Rule: Only trusted package managers and repositories must be used. | Check: file-contains | param: pipeline-file; trusted-registry-pattern"
                   }
                 ]
               },
               {
-                "uuid": "3ae4fa28-dd68-4747-be07-e8eb86579214",
+                "uuid": "42af38e3-9bf0-408c-ab75-8dddf972c72b",
                 "control-id": "CNSC-178",
                 "description": "An immutable SBOM of the code must be generated.",
                 "props": [
@@ -1137,13 +1144,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-178_smt",
-                    "uuid": "8aa5950f-4028-4a8b-ba13-f84e66991bc7",
+                    "uuid": "cea33850-4915-478f-9280-47418f7067d3",
                     "description": "Rule: An immutable SBOM of the code must be generated. | Check: makefile-target | param: sbom-target"
                   }
                 ]
               },
               {
-                "uuid": "d4d9a0be-6f25-4f21-baf7-eade4c6fa472",
+                "uuid": "361225f4-8d3f-4b0f-8297-a29a5d36acee",
                 "control-id": "CNSC-179",
                 "description": "Software must be scanned for known vulnerabilities.",
                 "props": [
@@ -1168,13 +1175,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-179_smt",
-                    "uuid": "6cd65c26-b3d0-4507-bebc-69d43f098758",
+                    "uuid": "bbf52366-4972-4936-a440-e2e2b139509d",
                     "description": "Rule: Software must be scanned for known vulnerabilities. | Check: makefile-target | param: pipeline-vuln-scan-target"
                   }
                 ]
               },
               {
-                "uuid": "c996d672-822d-4296-bb0b-0a654f7acb71",
+                "uuid": "4256f358-6183-47da-8481-047b9e5dab05",
                 "control-id": "CNSC-180",
                 "description": "Software must be scanned for license compliance.",
                 "props": [
@@ -1206,13 +1213,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-180_smt",
-                    "uuid": "4087d86f-75b4-45a3-a80d-fa30fe7a87f6",
+                    "uuid": "abb3be40-2fe0-419f-827f-f90d73f0de51",
                     "description": "Rule: Software must be scanned for license compliance. | Check: makefile-target | param: license-scan-target"
                   }
                 ]
               },
               {
-                "uuid": "a4b1fc80-2fd4-4200-9ade-cdd7bebe4195",
+                "uuid": "4ebabdab-6944-423b-9b2c-cb160ead4b5e",
                 "control-id": "CNSC-181",
                 "description": "Software composition analysis must be run on ingested software.",
                 "props": [
@@ -1237,23 +1244,23 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-181_smt",
-                    "uuid": "3f2394af-f154-45be-aaa5-e24f7899b91e",
+                    "uuid": "5ed2976b-d378-4ac6-9461-8781bff61fb1",
                     "description": "Rule: Software composition analysis must be run on ingested software. | Check: makefile-target | param: sca-target"
                   }
                 ]
               },
               {
-                "uuid": "0c64467d-bc87-4a3e-8870-c947549c2d5c",
+                "uuid": "f78e66eb-718c-4e10-b6a5-28a072c9abd5",
                 "control-id": "CNSC-182",
-                "description": "All commits and tags must carry a valid GPG or SSH cryptographic signature.",
+                "description": "All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits.",
                 "props": [
                   {
                     "name": "rule",
-                    "value": "All commits and tags must carry a valid GPG or SSH cryptographic signature."
+                    "value": "All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits."
                   },
                   {
                     "name": "check",
-                    "value": "git-commits-signed | param: signed-commits-lookback"
+                    "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
                   }
                 ],
                 "set-parameters": [
@@ -1263,18 +1270,25 @@
                       "10"
                     ],
                     "remarks": "Number of recent commits to verify for signatures."
+                  },
+                  {
+                    "param-id": "signed-commits-exempt-pattern",
+                    "values": [
+                      "^chore: Merge back.*|^\\d+\\.\\d+\\.\\d+"
+                    ],
+                    "remarks": "Regex pattern matching allowable unsigned release automation commits."
                   }
                 ],
                 "statements": [
                   {
                     "statement-id": "CNSC-182_smt",
-                    "uuid": "d0fdf3b6-dd59-4ec0-bd71-886f5190b3f7",
-                    "description": "Rule: All commits and tags must carry a valid GPG or SSH cryptographic signature. | Check: git-commits-signed | param: signed-commits-lookback"
+                    "uuid": "fb9e05c0-8384-489b-9eb1-9f2d7df3877c",
+                    "description": "Rule: All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits. | Check: git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
                   }
                 ]
               },
               {
-                "uuid": "e0ea9d1d-4091-4107-8e91-66d54d3dd174",
+                "uuid": "899a2c0c-1180-4130-bc30-c97a210dea55",
                 "control-id": "CNSC-183",
                 "description": "Full attestation and verification must be enforced for the default branch.",
                 "props": [
@@ -1290,13 +1304,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-183_smt",
-                    "uuid": "eaea8862-5f1a-410a-99c7-b7627cd81507",
+                    "uuid": "8254e44b-8c3e-48db-a36c-67f111a51f1e",
                     "description": "Rule: Full attestation and verification must be enforced for the default branch. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "436f9c25-6657-49d1-bbba-2446fce2346c",
+                "uuid": "39185bcf-7196-4ea9-b7ad-2bdb74a5d089",
                 "control-id": "CNSC-184",
                 "description": "No unencrypted secrets must be committed to the repository.",
                 "props": [
@@ -1328,13 +1342,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-184_smt",
-                    "uuid": "ba5eeff3-85bb-4a98-9d3d-645143d4cc2e",
+                    "uuid": "409acc2e-e0f1-4141-a4c4-80fa8a291941",
                     "description": "Rule: No unencrypted secrets must be committed to the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
                   }
                 ]
               },
               {
-                "uuid": "1943e7cb-c6c6-4534-a276-2bd0ce2c9627",
+                "uuid": "97316f91-6258-4759-9268-d01e9ea3b815",
                 "control-id": "CNSC-185",
                 "description": "Individuals or teams with write access must be explicitly defined.",
                 "props": [
@@ -1350,13 +1364,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-185_smt",
-                    "uuid": "4abcbf72-b2b1-4b77-a2b1-dff02fcc003c",
+                    "uuid": "df9ede1a-aad1-4517-8dfe-f6dfc975511e",
                     "description": "Rule: Individuals or teams with write access must be explicitly defined. | Check: file-exists | param: codeowners-file"
                   }
                 ]
               },
               {
-                "uuid": "bb55e90f-ea57-4da0-8499-6d839b72ab5e",
+                "uuid": "90597012-d1fb-458c-bbdb-ff901d4487be",
                 "control-id": "CNSC-186",
                 "description": "Software security scanning and testing must be automated in the pipeline.",
                 "props": [
@@ -1372,13 +1386,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-186_smt",
-                    "uuid": "16d90c5d-3e34-45b8-8305-861be7f8001b",
+                    "uuid": "7624121c-b42c-4890-8985-ec2206780749",
                     "description": "Rule: Software security scanning and testing must be automated in the pipeline. | Check: makefile-target | param: sast-target"
                   }
                 ]
               },
               {
-                "uuid": "0c9a44cf-99bf-47a2-94fc-dae04492ef06",
+                "uuid": "ceb5d0fb-5be8-4cc4-bf76-bc1d62e62780",
                 "control-id": "CNSC-187",
                 "description": "Contribution policies must be established and documented.",
                 "props": [
@@ -1403,13 +1417,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-187_smt",
-                    "uuid": "8d50af28-c4c5-4c62-8b38-8c7932671fe2",
+                    "uuid": "71bee3e0-d154-412b-9fbc-30c180d7267c",
                     "description": "Rule: Contribution policies must be established and documented. | Check: file-exists | param: contributing-file"
                   }
                 ]
               },
               {
-                "uuid": "64f9d571-5e1c-438e-a2cb-7c3fdd1e828c",
+                "uuid": "7c90afb2-06bf-4c9c-bf4d-d5e47f54fd0a",
                 "control-id": "CNSC-188",
                 "description": "Roles must be defined and aligned to functional responsibilities.",
                 "props": [
@@ -1425,13 +1439,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-188_smt",
-                    "uuid": "34b20c4a-7902-4e06-b7cf-ea5439b9234d",
+                    "uuid": "25b04c95-6b97-4f04-9da2-4c260b760845",
                     "description": "Rule: Roles must be defined and aligned to functional responsibilities. | Check: file-exists | param: codeowners-file"
                   }
                 ]
               },
               {
-                "uuid": "a2e734ba-10b5-4734-a646-51d6f7aeeed1",
+                "uuid": "36c02caa-d187-4ba5-ae03-67a91b8a27d5",
                 "control-id": "CNSC-189",
                 "description": "An independent four-eyes principle must be enforced via branch protection.",
                 "props": [
@@ -1447,13 +1461,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-189_smt",
-                    "uuid": "4b9104a1-b19a-42e8-a2ae-80038a5145d3",
+                    "uuid": "ab9d8b64-8d91-488f-9e5e-d0acb1f813c3",
                     "description": "Rule: An independent four-eyes principle must be enforced via branch protection. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "49d62304-9cb8-4397-92b3-d8d60c433fe7",
+                "uuid": "2296d9af-1285-4a9d-abcd-518bb425faf5",
                 "control-id": "CNSC-190",
                 "description": "Branch protection rules must be enabled on the default branch.",
                 "props": [
@@ -1469,13 +1483,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-190_smt",
-                    "uuid": "c204364a-55ab-420f-bf46-751f149f4b8b",
+                    "uuid": "2380cef0-5467-4251-8fce-43f36e9d85a2",
                     "description": "Rule: Branch protection rules must be enabled on the default branch. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "54b91156-d645-46cb-9c4c-44f4a5d754b9",
+                "uuid": "eaa1d105-abac-426b-b95d-63e43adb48e9",
                 "control-id": "CNSC-191",
                 "description": "MFA must be enforced for accessing source code repositories.",
                 "props": [
@@ -1500,13 +1514,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-191_smt",
-                    "uuid": "b881129e-0395-4530-a5f8-832a91cd8239",
+                    "uuid": "db5925bb-e4c9-43f1-a9eb-a82a550a879e",
                     "description": "Rule: MFA must be enforced for accessing source code repositories. | Check: manual | param: mfa-enforcement-scope"
                   }
                 ]
               },
               {
-                "uuid": "838eb631-6152-4676-b30d-f10ac43f66a8",
+                "uuid": "0a0d14a5-892a-4a62-83a3-7b70b1a4fe31",
                 "control-id": "CNSC-192",
                 "description": "SSH keys must be used to provide developer access to source code repositories.",
                 "props": [
@@ -1538,13 +1552,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-192_smt",
-                    "uuid": "d9b41ecf-448f-42ea-b305-04e1e6084667",
+                    "uuid": "453acbc1-2fed-4f8f-bb69-be6d46aa945f",
                     "description": "Rule: SSH keys must be used to provide developer access to source code repositories. | Check: file-contains | param: git-config-file; ssh-remote-pattern"
                   }
                 ]
               },
               {
-                "uuid": "7538a6b3-33bd-4d24-885f-20a4fa6b3912",
+                "uuid": "684cb65f-06a6-412b-9fe3-6b967285d954",
                 "control-id": "CNSC-193",
                 "description": "A key rotation policy must be documented.",
                 "props": [
@@ -1560,13 +1574,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-193_smt",
-                    "uuid": "f2e95e9a-ecce-4c7c-a209-6593dc6f915b",
+                    "uuid": "ecaadeed-64cd-41c7-b7a3-c446ee7faa3d",
                     "description": "Rule: A key rotation policy must be documented. | Check: file-exists | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "b8c1f955-69d1-42a9-891e-4328a00dc66d",
+                "uuid": "b7323c5c-9e2c-4471-9379-b39cce323fd7",
                 "control-id": "CNSC-194",
                 "description": "Short-lived or ephemeral credentials must be used for machine and service access.",
                 "props": [
@@ -1582,13 +1596,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-194_smt",
-                    "uuid": "ca99fa4b-4a7d-41bc-8f32-bf9e1476576e",
+                    "uuid": "29ef3ede-f081-4bc9-93bc-23586813c655",
                     "description": "Rule: Short-lived or ephemeral credentials must be used for machine and service access. | Check: file-exists | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "f713b5a1-7a39-4fe6-99cc-6fe273ff3f87",
+                "uuid": "32290efb-dd0b-4df2-8d03-ff246e047287",
                 "control-id": "CNSC-121",
                 "description": "A threat model for code and infrastructure must be documented.",
                 "props": [
@@ -1604,13 +1618,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-121_smt",
-                    "uuid": "6ae47c69-829c-40bb-bc83-b043360055b1",
+                    "uuid": "cef2f052-e9b8-4aa2-adff-95fbc8d839a5",
                     "description": "Rule: A threat model for code and infrastructure must be documented. | Check: file-exists | param: threat-model-file"
                   }
                 ]
               },
               {
-                "uuid": "2856a5c0-e0c4-4f90-a4e8-d52b534eac6e",
+                "uuid": "960287ff-8da0-4613-8c9a-1c9914c3fde0",
                 "control-id": "CNSC-196",
                 "description": "Supply chain security best practices must be adhered to (SBOM, lock file, SCA).",
                 "props": [
@@ -1626,13 +1640,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-196_smt",
-                    "uuid": "a03129d9-ff0f-44b4-b7ea-77135a7de8fe",
+                    "uuid": "e5cf54fb-7016-4070-9a3b-3efbf0cca450",
                     "description": "Rule: Supply chain security best practices must be adhered to (SBOM, lock file, SCA). | Check: file-exists | param: lock-file"
                   }
                 ]
               },
               {
-                "uuid": "ed94f35f-b174-40ab-9043-083f09425be4",
+                "uuid": "8d46e6e7-925d-40e0-885d-39500245bdcb",
                 "control-id": "CNSC-197",
                 "description": "Access to repository and branches must be restricted via branch protection and CODEOWNERS.",
                 "props": [
@@ -1648,13 +1662,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-197_smt",
-                    "uuid": "56ef0b05-55b9-436a-b6cf-f706b2397fee",
+                    "uuid": "e6a9771f-533d-4079-904d-d2f893c60303",
                     "description": "Rule: Access to repository and branches must be restricted via branch protection and CODEOWNERS. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "b14eff00-47c2-4a8c-810f-997f1194fcfc",
+                "uuid": "12558ab7-6c0a-4d5e-923f-a17bca026499",
                 "control-id": "CNSC-198",
                 "description": "Unencrypted credentials or secrets must never be stored in the repository.",
                 "props": [
@@ -1670,35 +1684,35 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-198_smt",
-                    "uuid": "7faba288-7434-4bd0-99b0-1e91e2ee05aa",
+                    "uuid": "c084e515-c3e6-410a-8f37-622616b8d3cb",
                     "description": "Rule: Unencrypted credentials or secrets must never be stored in the repository. | Check: no-secrets-in-files | param: secrets-scan-extensions; secrets-scan-exclude-paths"
                   }
                 ]
               },
               {
-                "uuid": "eddb6169-3baf-4b54-835f-fb1803c3e0cf",
+                "uuid": "6251b6f2-9603-4dd1-a593-198b260dd3b4",
                 "control-id": "CNSC-199",
-                "description": "Strong identity must be enforced with GPG-signed commits.",
+                "description": "Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits.",
                 "props": [
                   {
                     "name": "rule",
-                    "value": "Strong identity must be enforced with GPG-signed commits."
+                    "value": "Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits."
                   },
                   {
                     "name": "check",
-                    "value": "git-commits-signed | param: signed-commits-lookback"
+                    "value": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
                   }
                 ],
                 "statements": [
                   {
                     "statement-id": "CNSC-199_smt",
-                    "uuid": "00694e59-93eb-4001-91c1-07045040ecf3",
-                    "description": "Rule: Strong identity must be enforced with GPG-signed commits. | Check: git-commits-signed | param: signed-commits-lookback"
+                    "uuid": "843541bb-7933-4c40-ba6d-d0bdc21fa1bc",
+                    "description": "Rule: Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits. | Check: git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern"
                   }
                 ]
               },
               {
-                "uuid": "08bb578f-124a-4e52-ab00-e38e24e41b8f",
+                "uuid": "f73b0d9f-3a2a-4d8c-aa5c-ae2e223f508c",
                 "control-id": "CNSC-200",
                 "description": "Linear history must be enforced; force-push must be disallowed.",
                 "props": [
@@ -1714,13 +1728,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-200_smt",
-                    "uuid": "3c37ac6d-3f6a-4ba3-afeb-ac9da52bcbe2",
+                    "uuid": "06967c21-f600-4bc3-93d9-9fbda682a5b6",
                     "description": "Rule: Linear history must be enforced; force-push must be disallowed. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "ab4e8ff2-e093-4c4e-a335-9a08ed2749b7",
+                "uuid": "1949dd51-7562-4219-9a24-e1dd33a3a204",
                 "control-id": "CNSC-201",
                 "description": "Branching policy must be enforced with main branch protection and code review.",
                 "props": [
@@ -1736,13 +1750,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-201_smt",
-                    "uuid": "3e9b4e52-b5f9-443d-b38c-5154c04877f5",
+                    "uuid": "ea0897a2-981a-4d35-853b-c8f893022747",
                     "description": "Rule: Branching policy must be enforced with main branch protection and code review. | Check: git-branch-protected | param: default-branch"
                   }
                 ]
               },
               {
-                "uuid": "d42c3988-2d33-4790-afe8-bb7499d895c3",
+                "uuid": "e588370a-61a6-41bc-b8fe-3f2cc338f269",
                 "control-id": "CNSC-202",
                 "description": "Git and GitOps tools must be monitored for vulnerabilities and kept up to date.",
                 "props": [
@@ -1758,13 +1772,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-202_smt",
-                    "uuid": "f57b2310-1fff-459e-90ba-2e2b668d447a",
+                    "uuid": "c3bc99c7-1a92-4195-a816-0450841282da",
                     "description": "Rule: Git and GitOps tools must be monitored for vulnerabilities and kept up to date. | Check: manual | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "2dc21de3-42c5-40d4-bcc8-4a532e16a966",
+                "uuid": "7504bbfe-67c0-4691-ae94-86309ba0122e",
                 "control-id": "CNSC-203",
                 "description": "SSH keys and Personal Access Tokens must be rotated regularly.",
                 "props": [
@@ -1780,13 +1794,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-203_smt",
-                    "uuid": "910e22df-6b65-405d-8a4e-9bdf491cc232",
+                    "uuid": "e8e74a96-5a33-4b8b-afc2-cfdb170e3de4",
                     "description": "Rule: SSH keys and Personal Access Tokens must be rotated regularly. | Check: file-exists | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "ac8654eb-6741-4ad9-a978-461f75c9b66b",
+                "uuid": "c1800d9a-b63d-4482-9690-3941e3862e28",
                 "control-id": "CNSC-204",
                 "description": "Dedicated non-user technical accounts must be used for automated access.",
                 "props": [
@@ -1802,13 +1816,13 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-204_smt",
-                    "uuid": "c7a394e3-4999-4a2b-ac09-68c63f583060",
+                    "uuid": "9af333d6-dd45-4727-acf9-be2846c61702",
                     "description": "Rule: Dedicated non-user technical accounts must be used for automated access. | Check: manual | param: security-policy-file"
                   }
                 ]
               },
               {
-                "uuid": "eede823d-4ab1-4974-9145-e6d123c2cf4b",
+                "uuid": "f6676b32-dee5-4799-8be8-99f7ac6d8a38",
                 "control-id": "CNSC-205",
                 "description": "Users who can escalate permissions must be limited to a pre-approved set.",
                 "props": [
@@ -1824,7 +1838,7 @@
                 "statements": [
                   {
                     "statement-id": "CNSC-205_smt",
-                    "uuid": "27eb5be9-8a58-43fe-966d-826e648a7233",
+                    "uuid": "5f54f848-5f2e-4595-b376-4a5a01abe230",
                     "description": "Rule: Users who can escalate permissions must be limited to a pre-approved set. | Check: manual | param: security-policy-file"
                   }
                 ]

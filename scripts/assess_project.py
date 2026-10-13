@@ -92,15 +92,33 @@ def check_no_secrets(extensions: str, exclude_paths: str, repo_root: Path) -> tu
     return True, "No hardcoded secrets detected"
 
 
-def check_commits_signed(lookback: str, repo_root: Path) -> tuple[bool, str]:
+def check_commits_signed(lookback: str, exempt_pattern: str, repo_root: Path) -> tuple[bool, str]:
     n = int(lookback) if lookback.isdigit() else 10
-    sigs = [s for s in _git(["log", f"-{n}", "--format=%G?"], repo_root).splitlines() if s.strip()]
-    if not sigs:
+    raw = [s for s in _git(["log", f"-{n}", "--format=%G?|%an|%s"], repo_root).splitlines() if s.strip()]
+    if not raw:
         return False, "No commits found"
-    unsigned = sum(1 for s in sigs if s.strip() == "N")
-    # Any status other than "N" means a signature is present; "G" additionally means
-    # it verified locally. Keys are not imported here, so most will be "E".
-    return unsigned == 0, f"{len(sigs) - unsigned}/{len(sigs)} recent commits carry a signature"
+    exempt_re = re.compile(exempt_pattern) if exempt_pattern else None
+    evaluated = []
+    exempted = 0
+    for line in raw:
+        sig, _, rest = line.partition("|")
+        author, _, msg = rest.partition("|")
+        sig = sig.strip()
+        is_bot = "bot" in author.lower() or author == "semantic-release"
+        is_release_msg = bool(exempt_re and exempt_re.search(msg.strip()))
+        if sig == "N" and is_bot and is_release_msg:
+            exempted += 1
+            continue
+        evaluated.append(sig)
+
+    if not evaluated:
+        return True, f"All {exempted} recent commits were excused release bot commits"
+    unsigned = sum(1 for s in evaluated if s == "N")
+    signed = len(evaluated) - unsigned
+    details = f"{signed}/{len(evaluated)} recent commits carry a signature"
+    if exempted > 0:
+        details += f" ({exempted} release bot commits excused)"
+    return unsigned == 0, details
 
 
 def check_branch_protected(branch: str, repo_url: str) -> tuple[bool, str]:
@@ -155,7 +173,11 @@ def run_check(control_id: str, spec: str, params: dict[str, str],
         ok, ev = check_no_secrets(params.get("secrets-scan-extensions", ""),
                                   params.get("secrets-scan-exclude-paths", ""), repo_root)
     elif ctype == "git-commits-signed":
-        ok, ev = check_commits_signed(params.get("signed-commits-lookback", "10"), repo_root)
+        ok, ev = check_commits_signed(
+            params.get("signed-commits-lookback", "10"),
+            params.get("signed-commits-exempt-pattern", ""),
+            repo_root,
+        )
     elif ctype == "git-branch-protected":
         ok, ev = check_branch_protected(params.get("default-branch", "main"), repo_url)
     elif ctype == "makefile-target":

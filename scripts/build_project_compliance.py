@@ -349,11 +349,13 @@ REQUIREMENTS = [
     # ---- Securing the Source Code ------------------------------------------
     {
         "control_id": "CNSC-182",
-        "rule": "All commits and tags must carry a valid GPG or SSH cryptographic signature.",
-        "check": "git-commits-signed | param: signed-commits-lookback",
+        "rule": "All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits.",
+        "check": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern",
         "params": [
             {"id": "signed-commits-lookback", "default": "10",
              "description": "Number of recent commits to verify for signatures."},
+            {"id": "signed-commits-exempt-pattern", "default": r"^chore: Merge back.*|^\d+\.\d+\.\d+",
+             "description": "Regex pattern matching allowable unsigned release automation commits."},
         ],
     },
     {
@@ -471,8 +473,8 @@ REQUIREMENTS = [
     },
     {
         "control_id": "CNSC-199",
-        "rule": "Strong identity must be enforced with GPG-signed commits.",
-        "check": "git-commits-signed | param: signed-commits-lookback",
+        "rule": "Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits.",
+        "check": "git-commits-signed | param: signed-commits-lookback; signed-commits-exempt-pattern",
         "params": [],
     },
     {
