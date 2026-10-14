@@ -169,7 +169,8 @@ def render_row(project):
     if tooltip:
         badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}" title="{tooltip}">'
     if project.get("cncf_controls_report"):
-        status = f'[{badge_img}]({project["cncf_controls_report"]})'
+        report_url = project["cncf_controls_report"]
+        status = f'[{badge_img}]({report_url})<br>[report]({report_url})'
     else:
         status = badge_img
     oscal_docs = render_oscal_docs(project)
