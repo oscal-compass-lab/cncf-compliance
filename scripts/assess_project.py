@@ -269,8 +269,8 @@ def _norm_url(url: str) -> str:
     return re.sub(r"(\.git)?/*$", "", url.strip().lower())
 
 
-def update_project_record(repo_url: str, level: str, report_rel: str) -> bool:
-    """Write level + report link into data/projects.json and refresh the README tables."""
+def update_project_record(repo_url: str, level: str, report_rel: str, assessed_at: datetime) -> bool:
+    """Write level + report link + assessed_at into data/projects.json and refresh the README tables."""
     import update_readme as ur
 
     projects = ur.load_projects()
@@ -279,6 +279,7 @@ def update_project_record(repo_url: str, level: str, report_rel: str) -> bool:
         if _norm_url(p.get("repo_url", "")) == _norm_url(repo_url):
             p["cncf_controls_status"] = level
             p["cncf_controls_report"] = report_rel
+            p["cncf_controls_assessed_at"] = assessed_at.strftime("%Y-%m-%d %H:%M UTC")
             matched = True
     if not matched:
         return False
@@ -332,17 +333,18 @@ def main() -> int:
     print(f"Satisfied {passed}/{len(outcomes)}  (failed {len(outcomes) - passed - manual}, not automated {manual})")
 
     level, detail = compute_level(outcomes)
+    assessed_at = datetime.now(tz=timezone.utc)
     report_rel = f"reports/{slug}.md"
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     (REPORTS_DIR / f"{slug}.md").write_text(
         render_report(repo_name, args.repo_url, _git(["rev-parse", "--short", "HEAD"], repo_root),
-                      level, detail, outcomes, datetime.now(tz=timezone.utc)),
+                      level, detail, outcomes, assessed_at),
         encoding="utf-8",
     )
     print(f"Written: {report_rel}")
     print(f"Level: {level} ({detail})")
 
-    if update_project_record(args.repo_url, level, report_rel):
+    if update_project_record(args.repo_url, level, report_rel, assessed_at):
         print("Updated data/projects.json and README.md")
     else:
         print(f"No entry in data/projects.json with repo_url {args.repo_url}; README not updated.",

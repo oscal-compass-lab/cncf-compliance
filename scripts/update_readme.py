@@ -103,6 +103,8 @@ def build_projects(items, existing):
         }
         if previous.get("cncf_controls_report"):
             project["cncf_controls_report"] = previous["cncf_controls_report"]
+        if previous.get("cncf_controls_assessed_at"):
+            project["cncf_controls_assessed_at"] = previous["cncf_controls_assessed_at"]
         projects.append(project)
     projects.sort(key=lambda p: (p["maturity"], p["name"].casefold(), p["id"]))
     return projects
@@ -175,7 +177,9 @@ def render_row(project):
         badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}" title="{tooltip}">'
     if project.get("cncf_controls_report"):
         report_url = project["cncf_controls_report"]
-        status = f'[{badge_img}]({report_url})<br>[report]({report_url})'
+        assessed_at = project.get("cncf_controls_assessed_at", "")
+        link_text = f"report {assessed_at}" if assessed_at else "report"
+        status = f'[{badge_img}]({report_url})<br>[{link_text}]({report_url})'
     else:
         status = badge_img
     oscal_docs = render_oscal_docs(project)
