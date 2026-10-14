@@ -42,18 +42,15 @@ import json
 import re
 import subprocess
 import sys
-import tempfile
-import uuid
-from datetime import datetime, timezone
 from pathlib import Path
 
-from trestle.oscal import OSCAL_VERSION
+import oscal_factory as factory
 from trestle.oscal import component as comp
 from trestle.oscal import ssp as ssp_mod
-from trestle.oscal import assessment_plan as ap_mod
 from trestle.oscal import common
 
-CNCF_OSCAL_NS = "https://oscal-compass/compliance-trestle/schemas/oscal/cd"
+# Re-export so callers that import CNCF_OSCAL_NS from here still work.
+CNCF_OSCAL_NS = factory.CNCF_OSCAL_NS
 
 
 # ---------------------------------------------------------------------------
@@ -772,11 +769,7 @@ for _req in REQUIREMENTS:
 # ---------------------------------------------------------------------------
 
 def _sp(param_id: str, value: str, remarks: str | None = None) -> common.SetParameter:
-    return common.SetParameter(
-        **{"param-id": param_id},
-        values=[value],
-        remarks=remarks,
-    )
+    return factory.set_parameter(param_id, value, remarks)
 
 
 def _slug(repo_url: str) -> str:
@@ -913,101 +906,88 @@ def diff_params(probed: dict[str, str]) -> dict[str, str]:
 # ---------------------------------------------------------------------------
 
 def build_base_comp_def() -> comp.Model:
-    now = datetime.now(tz=timezone.utc)
     profile_href = "trestle://profiles/cncf-repo/profile.json"
 
-    # 1. Software Component (Rules defined at component level props)
+    # 1. Software Component — Rule_Id + Rule_Description props, one
+    #    implemented-requirement per control carrying Rule_Id.
     sw_props = []
     sw_implemented = []
     for i, req in enumerate(REQUIREMENTS):
-        cid = req["control_id"]
         remarks = f"rule_set_{i:02d}"
         sw_props.extend([
-            common.Property(name="Rule_Id", value=req["rule_id"], ns=CNCF_OSCAL_NS, remarks=remarks),
-            common.Property(name="Rule_Description", value=f"{req['rule_title']}: {req['rule']}", ns=CNCF_OSCAL_NS, remarks=remarks),
+            factory.cncf_prop("Rule_Id", req["rule_id"], remarks),
+            factory.cncf_prop("Rule_Description",
+                              f"{req['rule_title']}: {req['rule']}", remarks),
         ])
         sw_implemented.append(comp.ImplementedRequirement(
-            uuid=str(uuid.uuid4()),
-            **{"control-id": cid},
+            uuid=factory.new_uuid(),
+            **{"control-id": req["control_id"]},
             description="",
-            props=[common.Property(name="Rule_Id", value=req["rule_id"], ns=CNCF_OSCAL_NS)],
+            props=[factory.cncf_prop("Rule_Id", req["rule_id"])],
         ))
 
     sw_control_impl = comp.ControlImplementation(
-        uuid=str(uuid.uuid4()),
+        uuid=factory.new_uuid(),
         source=profile_href,
         description="Software compliance rules implementing cncf-repo profile controls.",
         **{"implemented-requirements": sw_implemented},
     )
 
-    software_component = comp.DefinedComponent(
-        uuid=str(uuid.uuid4()),
-        type="software",
+    sw_component = factory.software_component(
         title="CNCF Source Repository",
         description="Shared software component representing any CNCF source repository.",
         purpose="Define compliance rules for CNCF source repositories.",
-        props=sw_props,
-        **{"control-implementations": [sw_control_impl]},
+        sw_props=sw_props,
+        control_implementations=[sw_control_impl],
     )
 
-    # 2. Validation Component (Checks & Target mapping at component level props)
+    # 2. Validation Component — Rule_Id / Check_Id / Check_Description /
+    #    Target_Component props, one group per requirement.
     val_props = []
     for i, req in enumerate(REQUIREMENTS):
         remarks = f"check_set_{i:02d}"
         val_props.extend([
-            common.Property(name="Rule_Id", value=req["rule_id"], ns=CNCF_OSCAL_NS, remarks=remarks),
-            common.Property(name="Check_Id", value=req["check_id"], ns=CNCF_OSCAL_NS, remarks=remarks),
-            common.Property(name="Check_Description", value=req["check"], ns=CNCF_OSCAL_NS, remarks=remarks),
-            common.Property(name="Target_Component", value="CNCF Source Repository", ns=CNCF_OSCAL_NS, remarks=remarks),
+            factory.cncf_prop("Rule_Id", req["rule_id"], remarks),
+            factory.cncf_prop("Check_Id", req["check_id"], remarks),
+            factory.cncf_prop("Check_Description", req["check"], remarks),
+            factory.cncf_prop("Target_Component", "CNCF Source Repository", remarks),
         ])
 
-    validation_component = comp.DefinedComponent(
-        uuid=str(uuid.uuid4()),
-        type="validation",
+    val_component = factory.validation_component(
         title="CNCF Compliance Validation Engine",
-        description="Automated check probes and validation engine evaluating repository compliance against software rules.",
+        description=(
+            "Automated check probes and validation engine evaluating repository "
+            "compliance against software rules."
+        ),
         purpose="Execute automated checks and parameter verification for CNCF controls.",
-        props=val_props,
+        val_props=val_props,
     )
 
-    metadata = common.Metadata(
-        title="CNCF Source Repository — Shared Base Component Definition",
-        **{"last-modified": now},
-        version="1.0",
-        **{"oscal-version": OSCAL_VERSION},
-        parties=[
-            common.Parties(
-                uuid=str(uuid.uuid4()),
-                type="organization",
-                name="CNCF TAG Security and Compliance",
-            )
-        ],
+    md = factory.org_metadata(
+        "CNCF Source Repository — Shared Base Component Definition",
+        org_name="CNCF TAG Security and Compliance",
     )
 
-    return comp.Model(**{
-        "component-definition": comp.ComponentDefinition(
-            uuid=str(uuid.uuid4()),
-            metadata=metadata,
-            components=[software_component, validation_component],
-        )
-    })
+    return factory.component_definition(md=md, components=[sw_component, val_component])
 
 
 # ---------------------------------------------------------------------------
 # Per-project component definition builder
 # ---------------------------------------------------------------------------
 
-def build_project_comp_def(repo_url: str, repo_name: str, overrides: dict[str, str]) -> comp.Model:
-    now = datetime.now(tz=timezone.utc)
+def build_project_comp_def(repo_url: str, repo_name: str,
+                            overrides: dict[str, str]) -> comp.Model:
     profile_href = "trestle://profiles/cncf-repo/profile.json"
     base_href = "trestle://component-definitions/cncf-repo/component-definition.json"
 
     set_params = [_sp(k, v) for k, v in sorted(overrides.items())] or None
 
     ci_kwargs: dict = {
-        "uuid": str(uuid.uuid4()),
+        "uuid": factory.new_uuid(),
         "source": profile_href,
-        "description": f"Parameter overrides for {repo_name} relative to the shared cncf-repo base.",
+        "description": (
+            f"Parameter overrides for {repo_name} relative to the shared cncf-repo base."
+        ),
     }
     if set_params:
         ci_kwargs["set-parameters"] = set_params
@@ -1015,7 +995,7 @@ def build_project_comp_def(repo_url: str, repo_name: str, overrides: dict[str, s
     # we declare a single placeholder that defers all rules to the base.
     ci_kwargs["implemented-requirements"] = [
         comp.ImplementedRequirement(
-            uuid=str(uuid.uuid4()),
+            uuid=factory.new_uuid(),
             **{"control-id": "CNSC-71"},
             description=(
                 "All control implementations are inherited from the shared base "
@@ -1024,41 +1004,23 @@ def build_project_comp_def(repo_url: str, repo_name: str, overrides: dict[str, s
         )
     ]
 
-    component = comp.DefinedComponent(
-        uuid=str(uuid.uuid4()),
-        type="software",
-        title=repo_name,
-        description=f"Source code repository at {repo_url}.",
-        purpose="CNCF project source repository assessed against the cncf-repo profile.",
-        links=[common.Link(href=repo_url, rel="reference")],
-        **{"control-implementations": [comp.ControlImplementation(**ci_kwargs)]},
+    component = factory.project_software_component(
+        repo_name=repo_name,
+        repo_url=repo_url,
+        control_implementations=[comp.ControlImplementation(**ci_kwargs)],
     )
 
-    metadata = common.Metadata(
-        title=f"Component Definition — {repo_name}",
-        **{"last-modified": now},
-        version="1.0",
-        **{"oscal-version": OSCAL_VERSION},
-        parties=[
-            common.Parties(
-                uuid=str(uuid.uuid4()),
-                type="organization",
-                name=repo_name,
-                links=[common.Link(href=repo_url, rel="canonical")],
-            )
-        ],
+    md = factory.org_metadata(
+        f"Component Definition — {repo_name}",
+        org_name=repo_name,
+        org_href=repo_url,
     )
 
-    return comp.Model(**{
-        "component-definition": comp.ComponentDefinition(
-            uuid=str(uuid.uuid4()),
-            metadata=metadata,
-            **{"import-component-definitions": [
-                comp.ImportComponentDefinition(href=base_href)
-            ]},
-            components=[component],
-        )
-    })
+    return factory.component_definition(
+        md=md,
+        components=[component],
+        imports=[comp.ImportComponentDefinition(href=base_href)],
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -1071,18 +1033,18 @@ def build_ssp(
     slug: str,
     probed: dict[str, str],
 ) -> ssp_mod.Model:
-    now = datetime.now(tz=timezone.utc)
     profile_href = "trestle://profiles/cncf-repo/profile.json"
     comp_def_href = f"trestle://component-definitions/{slug}/component-definition.json"
-    comp_uuid = str(uuid.uuid4())
 
-    # One implemented-requirement per control, with all probed param values
+    # One implemented-requirement per control, with all probed param values.
     ctrl_param_map: dict[str, list[str]] = {}
     for req in REQUIREMENTS:
         pids = [p["id"] for p in req["params"]]
         ctrl_param_map.setdefault(req["control_id"], [])
         ctrl_param_map[req["control_id"]].extend(pids)
 
+    # by-components needs a stable component UUID shared across all requirements.
+    comp_uuid = factory.new_uuid()
     implemented = []
     seen_controls: set[str] = set()
     for req in REQUIREMENTS:
@@ -1093,18 +1055,18 @@ def build_ssp(
 
         all_pids = list(dict.fromkeys(ctrl_param_map.get(cid, [])))
         set_params = [
-            common.SetParameter(**{"param-id": pid}, values=[probed[pid]])
+            factory.set_parameter(pid, probed[pid])
             for pid in all_pids
             if pid in probed
         ] or None
 
         ir_kwargs: dict = {
-            "uuid": str(uuid.uuid4()),
+            "uuid": factory.new_uuid(),
             "control-id": cid,
             "by-components": [
                 ssp_mod.ByComponent(
                     **{"component-uuid": comp_uuid},
-                    uuid=str(uuid.uuid4()),
+                    uuid=factory.new_uuid(),
                     description=f"Repository component implements {cid}.",
                 )
             ],
@@ -1114,136 +1076,27 @@ def build_ssp(
 
         implemented.append(ssp_mod.ImplementedRequirement(**ir_kwargs))
 
-    ssp = ssp_mod.SystemSecurityPlan(
-        uuid=str(uuid.uuid4()),
-        metadata=common.Metadata(
-            title=f"System Security Plan — {repo_name}",
-            **{"last-modified": now},
-            version="1.0",
-            **{"oscal-version": OSCAL_VERSION},
-            parties=[
-                common.Parties(
-                    uuid=str(uuid.uuid4()),
-                    type="organization",
-                    name=repo_name,
-                    links=[common.Link(href=repo_url, rel="canonical")],
-                )
-            ],
-        ),
-        **{"import-profile": ssp_mod.ImportProfile(href=profile_href)},
-        **{"system-characteristics": ssp_mod.SystemCharacteristics(
-            **{
-                "system-ids": [common.SystemId(
-                    **{"identifier-type": "https://github.com"}, id=repo_url
-                )],
-                "system-name": repo_name,
-                "description": (
-                    f"Source code repository at {repo_url}, "
-                    "assessed against the CNCF cncf-repo profile."
-                ),
-                "status": ssp_mod.Status1(
-                    state=ssp_mod.OperationalStateValidValues.operational
-                ),
-                "authorization-boundary": ssp_mod.AuthorizationBoundary(
-                    description=(
-                        "The source code repository, its build pipeline, "
-                        "dependency declarations, branch protection settings, "
-                        "and committed artifacts."
-                    )
-                ),
-                "system-information": ssp_mod.SystemInformation(
-                    **{"information-types": [
-                        ssp_mod.InformationType(
-                            uuid=str(uuid.uuid4()),
-                            title="Source Code and Build Artifacts",
-                            description=(
-                                "Source code, scripts, configuration files, "
-                                "dependency declarations, and generated OSCAL artifacts."
-                            ),
-                        )
-                    ]}
-                ),
-            }
-        )},
-        **{"system-implementation": ssp_mod.SystemImplementation(
-            components=[
-                common.SystemComponent(
-                    uuid=comp_uuid,
-                    type="software",
-                    title=repo_name,
-                    description=f"Source repository: {repo_url}",
-                    status=common.Status(
-                        state=common.SystemComponentOperationalStateValidValues.operational
-                    ),
-                    links=[common.Link(href=repo_url, rel="reference")],
-                    props=[common.Property(
-                        name="component-definition-href",
-                        value=comp_def_href,
-                        ns=CNCF_OSCAL_NS,
-                    )],
-                )
-            ],
-            users=[
-                common.SystemUser(
-                    uuid=str(uuid.uuid4()),
-                    title="Repository Contributor",
-                    **{"short-name": "contributor"},
-                    description="Developer with commit access to the repository.",
-                    **{"role-ids": ["developer"]},
-                )
-            ],
-        )},
-        **{"control-implementation": ssp_mod.ControlImplementation(
-            description=(
-                "Implementation of cncf-repo profile controls. "
-                "Parameter values are specific to this repository."
-            ),
-            **{"implemented-requirements": implemented},
-        )},
+    return factory.system_security_plan(
+        repo_name=repo_name,
+        repo_url=repo_url,
+        slug=slug,
+        comp_def_href=comp_def_href,
+        profile_href=profile_href,
+        implemented=implemented,
     )
-
-    return ssp_mod.Model(**{"system-security-plan": ssp})
 
 
 # ---------------------------------------------------------------------------
 # Assessment plan builder
 # ---------------------------------------------------------------------------
 
-def build_ap(repo_name: str, slug: str) -> ap_mod.Model:
-    now = datetime.now(tz=timezone.utc)
-    ssp_href = f"trestle://system-security-plans/{slug}/system-security-plan.json"
+def build_ap(repo_name: str, slug: str) -> factory.ap_mod.Model:
     control_ids = list(dict.fromkeys(r["control_id"] for r in REQUIREMENTS))
-
-    ap = ap_mod.AssessmentPlan(
-        uuid=str(uuid.uuid4()),
-        metadata=common.Metadata(
-            title=f"Assessment Plan — {repo_name}",
-            **{"last-modified": now},
-            version="1.0",
-            **{"oscal-version": OSCAL_VERSION},
-        ),
-        **{"import-ssp": common.ImportSsp(href=ssp_href)},
-        **{"reviewed-controls": common.ReviewedControls(
-            description="All controls selected by the cncf-repo profile.",
-            **{"control-selections": [
-                common.ControlSelections(
-                    **{"include-controls": [
-                        common.SelectControlById(**{"control-id": cid})
-                        for cid in control_ids
-                    ]}
-                )
-            ]},
-        )},
-        **{"assessment-subjects": [
-            common.AssessmentSubjectAll(
-                type="component",
-                description="The source code repository component.",
-                **{"include-all": common.IncludeAll()},
-            )
-        ]},
+    return factory.assessment_plan(
+        repo_name=repo_name,
+        slug=slug,
+        control_ids=control_ids,
     )
-
-    return ap_mod.Model(**{"assessment-plan": ap})
 
 
 # ---------------------------------------------------------------------------

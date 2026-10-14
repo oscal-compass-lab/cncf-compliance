@@ -13,6 +13,14 @@ Each control yields one observation (the evidence) and one finding
 cannot be meaningfully checked against a clone - are reported as not-satisfied
 with reason "other" so they are never counted as passes.
 
+Observations carry three idref props that link them back to the component
+definition, following the oscal-compass e2e-demo-compliance-posture pattern
+(present on every observation in that reference implementation):
+  * ``assessment-rule-id`` (no ns, OSCAL reserved name) — Rule_Id from the
+    validation component
+  * ``idref``  (CNCF ns) — Check_Id from the validation component
+  * ``result`` (CNCF ns) — pass / fail / other
+
 Usage:
     python scripts/assess_project.py <repo-url> [--trestle-ws PATH] [--clone-dir PATH]
 
@@ -21,19 +29,12 @@ Set GITHUB_TOKEN to authenticate GitHub API calls (higher rate limit).
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
-import urllib.request
-import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
-from trestle.oscal import OSCAL_VERSION
-from trestle.oscal import assessment_results as ar_mod
-from trestle.oscal import common
-
+import oscal_factory as factory
 from build_project_compliance import REQUIREMENTS, _repo_name, _slug, clone_repo, _git
 from checks import dispatch_check
 
@@ -54,20 +55,33 @@ def run_check(control_id: str, spec: str, params: dict[str, str],
 # Load check specs, defaults and project params from the workspace
 # ---------------------------------------------------------------------------
 
-def load_base(path: Path) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
-    """Return ({control_id: check_spec}, {param_id: default}, {control_id: rule}) from the base comp def."""
+def load_base(
+    path: Path,
+) -> tuple[
+    dict[str, str],   # specs     control_id -> check_description
+    dict[str, str],   # defaults  param_id   -> default_value
+    dict[str, str],   # rules     control_id -> rule_description
+    dict[str, str],   # rule_ids  control_id -> Rule_Id  (e.g. "RULE-01")
+    dict[str, str],   # check_ids control_id -> Check_Id (e.g. "CHECK-01")
+]:
+    """Return (specs, defaults, rules, rule_ids, check_ids) from the base comp def."""
     data = json.loads(path.read_text(encoding="utf-8"))["component-definition"]
     specs: dict[str, str] = {}
     defaults: dict[str, str] = {}
     rules: dict[str, str] = {}
+    rule_ids: dict[str, str] = {}
+    check_ids: dict[str, str] = {}
 
     rule_to_desc: dict[str, str] = {}
     rule_to_check: dict[str, str] = {}
+    rule_to_check_id: dict[str, str] = {}
     ctrl_to_rule: dict[str, str] = {}
 
     for c in data["components"]:
-        # Extract rule and check metadata from component-level props
-        curr_rule_id = None
+        # Scan component-level props for Rule_Id / Rule_Description /
+        # Check_Id / Check_Description (present on both the software and
+        # validation components in the base comp def).
+        curr_rule_id: str | None = None
         for p in c.get("props", []):
             name = p.get("name")
             val = p.get("value")
@@ -75,6 +89,8 @@ def load_base(path: Path) -> tuple[dict[str, str], dict[str, str], dict[str, str
                 curr_rule_id = val
             elif name == "Rule_Description" and curr_rule_id:
                 rule_to_desc[curr_rule_id] = val
+            elif name == "Check_Id" and curr_rule_id:
+                rule_to_check_id[curr_rule_id] = val
             elif name == "Check_Description" and curr_rule_id:
                 rule_to_check[curr_rule_id] = val
 
@@ -92,16 +108,21 @@ def load_base(path: Path) -> tuple[dict[str, str], dict[str, str], dict[str, str
             specs[cid] = rule_to_check[rid]
         if rid in rule_to_desc:
             rules[cid] = rule_to_desc[rid]
+        rule_ids[cid] = rid
+        if rid in rule_to_check_id:
+            check_ids[cid] = rule_to_check_id[rid]
 
-    # Defaults from REQUIREMENTS for all parameters
+    # Fill any gaps from the in-process REQUIREMENTS table.
     for req in REQUIREMENTS:
         cid = req["control_id"]
         specs.setdefault(cid, req["check"])
         rules.setdefault(cid, req["rule"])
+        rule_ids.setdefault(cid, req["rule_id"])
+        check_ids.setdefault(cid, req["check_id"])
         for p in req["params"]:
             defaults.setdefault(p["id"], p["default"])
 
-    return specs, defaults, rules
+    return specs, defaults, rules, rule_ids, check_ids
 
 
 def load_ssp_params(path: Path) -> dict[str, str]:
@@ -119,62 +140,49 @@ def load_ssp_params(path: Path) -> dict[str, str]:
 # Assessment results builder
 # ---------------------------------------------------------------------------
 
-def build_results(repo_name: str, slug: str, outcomes: list[dict], start: datetime) -> ar_mod.Model:
-    now = datetime.now(tz=timezone.utc)
-    reason_map = {"pass": common.Reason.pass_, "fail": common.Reason.fail, "other": common.Reason.other}
-    observations, findings = [], []
+def build_results(repo_name: str, slug: str, outcomes: list[dict],
+                  start: datetime) -> object:
+    """Build the complete OSCAL AssessmentResults model via the factory."""
+    now = factory.now_utc()
+    observations = []
+    findings = []
+
     for o in outcomes:
-        obs_uuid = str(uuid.uuid4())
-        observations.append(common.Observation(
-            uuid=obs_uuid,
+        result_str = (
+            "pass" if o["ok"]
+            else ("other" if o["reason"] == "other" else "fail")
+        )
+        method = "TEST" if o["spec"] != "manual" else "INTERVIEW"
+        state = "satisfied" if o["ok"] else "not-satisfied"
+
+        obs_uuid, obs = factory.observation(
             title=f"{o['control_id']} evidence",
             description=o["evidence"],
-            methods=[common.Methods.TEST if o["spec"] != "manual" else common.Methods.INTERVIEW],
+            rule_id=o["rule_id"],
+            check_id=o["check_id"],
+            result=result_str,
+            method=method,
             collected=now,
-        ))
-        findings.append(common.Finding(
-            uuid=str(uuid.uuid4()),
+        )
+        observations.append(obs)
+        findings.append(factory.finding(
             title=f"{o['control_id']} {o['spec'].split('|')[0].strip()}",
             description=o["rule"],
-            target=common.FindingTarget(
-                type=common.FindingTargetTypeValidValues.objective_id,
-                **{"target-id": o["control_id"]},
-                status=common.ObjectiveStatus(
-                    state=(common.ObjectiveStatusStateValidValues.satisfied if o["ok"]
-                           else common.ObjectiveStatusStateValidValues.not_satisfied),
-                    reason=reason_map[o["reason"]],
-                ),
-            ),
-            **{"related-observations": [common.RelatedObservation(**{"observation-uuid": obs_uuid})]},
+            control_id=o["control_id"],
+            state=state,
+            reason=o["reason"],
+            obs_uuid=obs_uuid,
         ))
 
-    result = ar_mod.Result(
-        uuid=str(uuid.uuid4()),
-        title=f"Automated assessment - {repo_name}",
-        description="Automated evidence checks defined by the cncf-repo component definition.",
-        start=start,
-        end=now,
-        **{"reviewed-controls": common.ReviewedControls(
-            **{"control-selections": [common.ControlSelections(
-                **{"include-controls": [common.SelectControlById(**{"control-id": o["control_id"]})
-                                        for o in outcomes]}
-            )]}
-        )},
+    return factory.assessment_results(
+        repo_name=repo_name,
+        slug=slug,
         observations=observations,
         findings=findings,
+        outcomes=outcomes,
+        start=start,
+        end=now,
     )
-    return ar_mod.Model(**{"assessment-results": ar_mod.AssessmentResults(
-        uuid=str(uuid.uuid4()),
-        metadata=common.Metadata(
-            title=f"Assessment Results - {repo_name}",
-            **{"last-modified": now},
-            version="1.0",
-            **{"oscal-version": OSCAL_VERSION},
-        ),
-        **{"import-ap": ar_mod.ImportAp(
-            href=f"trestle://assessment-plans/{slug}/assessment-plan.json")},
-        results=[result],
-    )})
 
 
 # ---------------------------------------------------------------------------
@@ -204,16 +212,18 @@ REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
 
 
 def compute_level(outcomes: list[dict]) -> tuple[str, str]:
-    """Return (level, explanation). Manual / not-assessable controls are excluded from the ratio."""
+    """Return (level, explanation). Manual / not-assessable controls are excluded."""
     failed_must = sorted(o["control_id"] for o in outcomes
                          if o["control_id"] in MUST_CONTROLS and not o["ok"])
     if failed_must:
         return "Fail", f"MUST controls not satisfied: {', '.join(failed_must)}"
-    should = [o for o in outcomes if o["control_id"] not in MUST_CONTROLS and o["reason"] != "other"]
+    should = [o for o in outcomes
+              if o["control_id"] not in MUST_CONTROLS and o["reason"] != "other"]
     if not should:
         return "Not Assessed", "No automated SHOULD controls were evaluated"
     ratio = sum(o["ok"] for o in should) / len(should)
-    detail = f"{sum(o['ok'] for o in should)}/{len(should)} automated SHOULD controls satisfied ({ratio:.0%})"
+    detail = (f"{sum(o['ok'] for o in should)}/{len(should)} automated SHOULD "
+              f"controls satisfied ({ratio:.0%})")
     for name, threshold in LEVELS:
         if ratio >= threshold:
             return name, detail
@@ -228,8 +238,9 @@ def _result_label(o: dict) -> str:
     return "PASS" if o["ok"] else "FAIL" if o["reason"] == "fail" else "N/A"
 
 
-def render_report(repo_name: str, repo_url: str, commit: str, level: str, detail: str,
-                  outcomes: list[dict], assessed_at: datetime) -> str:
+def render_report(repo_name: str, repo_url: str, commit: str, level: str,
+                  detail: str, outcomes: list[dict],
+                  assessed_at: datetime) -> str:
     passed = sum(o["ok"] for o in outcomes)
     na = sum(o["reason"] == "other" for o in outcomes)
     failed = len(outcomes) - passed - na
@@ -243,12 +254,15 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str, detail
         f"- **Commit assessed:** `{commit or 'unknown'}`",
         f"- **Assessed at:** {assessed_at:%Y-%m-%d %H:%M} UTC",
         f"- **Level:** **{level}**. {detail}",
-        f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated (of {len(outcomes)} controls)",
+        f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated "
+        f"(of {len(outcomes)} controls)",
         "",
-        "Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, "
-        "*Silver* at 75%, *Gold* at 90% of automated SHOULD controls. "
+        "Levels: *Fail* if any MUST control is not satisfied; otherwise "
+        "*Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, "
+        "*Gold* at 90% of automated SHOULD controls. "
         "MUST controls: " + ", ".join(sorted(MUST_CONTROLS)) + ". "
-        "Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.",
+        "Manual and non-assessable controls (N/A) are excluded from the "
+        "percentage and never count as passes.",
         "",
         "## Results by control",
         "",
@@ -257,11 +271,16 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str, detail
     ]
     for o in outcomes:
         kind = "MUST" if o["control_id"] in MUST_CONTROLS else "SHOULD"
-        lines.append(f"| {o['control_id']} | {kind} | {_result_label(o)} | "
-                     f"{_cell(o['rule'])} | {_cell(o['evidence'])} |")
+        lines.append(
+            f"| {o['control_id']} | {kind} | {_result_label(o)} | "
+            f"{_cell(o['rule'])} | {_cell(o['evidence'])} |"
+        )
     lines.append("")
-    lines.append("Generated by `scripts/assess_project.py`. "
-                 "Machine-readable results are in the OSCAL assessment-results file for this project.")
+    lines.append(
+        "Generated by `scripts/assess_project.py`. "
+        "Machine-readable results are in the OSCAL assessment-results file "
+        "for this project."
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -269,8 +288,9 @@ def _norm_url(url: str) -> str:
     return re.sub(r"(\.git)?/*$", "", url.strip().lower())
 
 
-def update_project_record(repo_url: str, level: str, report_rel: str, assessed_at: datetime) -> bool:
-    """Write level + report link + assessed_at into data/projects.json and refresh the README tables."""
+def update_project_record(repo_url: str, level: str, report_rel: str,
+                          assessed_at: datetime) -> bool:
+    """Write level + report link + assessed_at into data/projects.json."""
     import update_readme as ur
 
     projects = ur.load_projects()
@@ -283,7 +303,10 @@ def update_project_record(repo_url: str, level: str, report_rel: str, assessed_a
             matched = True
     if not matched:
         return False
-    ur.DATA_FILE.write_text(json.dumps(projects, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    ur.DATA_FILE.write_text(
+        json.dumps(projects, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
     ur.update_readme(ur.render_tables(projects))
     return True
 
@@ -293,52 +316,81 @@ def update_project_record(repo_url: str, level: str, report_rel: str, assessed_a
 # ---------------------------------------------------------------------------
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     ap.add_argument("repo_url")
     ap.add_argument("--trestle-ws", default="trestle.ws")
     ap.add_argument("--clone-dir", default="/tmp/cncf-compliance-clones")
     args = ap.parse_args()
 
     ws = Path(args.trestle_ws)
-    slug, repo_name = _slug(args.repo_url), _repo_name(args.repo_url)
+    slug = _slug(args.repo_url)
+    repo_name = _repo_name(args.repo_url)
     base_path = ws / "component-definitions" / "cncf-repo" / "component-definition.json"
     ssp_path = ws / "system-security-plans" / slug / "system-security-plan.json"
     for p in (base_path, ssp_path):
         if not p.exists():
-            print(f"Missing {p}; run build_project_compliance.py first.", file=sys.stderr)
+            print(f"Missing {p}; run build_project_compliance.py first.",
+                  file=sys.stderr)
             return 1
 
-    specs, defaults, comp_rules = load_base(base_path)
+    specs, defaults, comp_rules, comp_rule_ids, comp_check_ids = load_base(base_path)
     params = {**defaults, **load_ssp_params(ssp_path)}
 
-    start = datetime.now(tz=timezone.utc)
+    start = factory.now_utc()
     repo_root = clone_repo(args.repo_url, Path(args.clone_dir))
 
+    # Build lookup dicts, letting the comp-def values override REQUIREMENTS fallbacks.
     rules = {**{r["control_id"]: r["rule"] for r in REQUIREMENTS}, **comp_rules}
+    rule_ids = {
+        **{r["control_id"]: r["rule_id"] for r in REQUIREMENTS},
+        **comp_rule_ids,
+    }
+    check_ids = {
+        **{r["control_id"]: r["check_id"] for r in REQUIREMENTS},
+        **comp_check_ids,
+    }
+
     outcomes = []
     for cid, spec in specs.items():
-        rule = rules.get(cid, cid)
         ok, evidence, reason = run_check(cid, spec, params, repo_root, args.repo_url)
-        outcomes.append({"control_id": cid, "spec": spec, "rule": rule,
-                         "ok": ok, "evidence": evidence, "reason": reason})
+        outcomes.append({
+            "control_id": cid,
+            "spec": spec,
+            "rule": rules.get(cid, cid),
+            "rule_id": rule_ids.get(cid, ""),
+            "check_id": check_ids.get(cid, ""),
+            "ok": ok,
+            "evidence": evidence,
+            "reason": reason,
+        })
 
     model = build_results(repo_name, slug, outcomes, start)
     out = ws / "assessment-results" / slug / "assessment-results.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(model.model_dump_json(indent=2, exclude_none=True, by_alias=True), encoding="utf-8")
+    out.write_text(
+        model.model_dump_json(indent=2, exclude_none=True, by_alias=True),
+        encoding="utf-8",
+    )
 
     passed = sum(o["ok"] for o in outcomes)
     manual = sum(o["reason"] == "other" for o in outcomes)
     print(f"Written: {out}")
-    print(f"Satisfied {passed}/{len(outcomes)}  (failed {len(outcomes) - passed - manual}, not automated {manual})")
+    print(f"Satisfied {passed}/{len(outcomes)}  "
+          f"(failed {len(outcomes) - passed - manual}, not automated {manual})")
 
     level, detail = compute_level(outcomes)
-    assessed_at = datetime.now(tz=timezone.utc)
+    assessed_at = factory.now_utc()
     report_rel = f"reports/{slug}.md"
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     (REPORTS_DIR / f"{slug}.md").write_text(
-        render_report(repo_name, args.repo_url, _git(["rev-parse", "--short", "HEAD"], repo_root),
-                      level, detail, outcomes, assessed_at),
+        render_report(
+            repo_name, args.repo_url,
+            _git(["rev-parse", "--short", "HEAD"], repo_root),
+            level, detail, outcomes, assessed_at,
+        ),
         encoding="utf-8",
     )
     print(f"Written: {report_rel}")
@@ -347,8 +399,11 @@ def main() -> int:
     if update_project_record(args.repo_url, level, report_rel, assessed_at):
         print("Updated data/projects.json and README.md")
     else:
-        print(f"No entry in data/projects.json with repo_url {args.repo_url}; README not updated.",
-              file=sys.stderr)
+        print(
+            f"No entry in data/projects.json with repo_url {args.repo_url}; "
+            "README not updated.",
+            file=sys.stderr,
+        )
     return 0
 
 
