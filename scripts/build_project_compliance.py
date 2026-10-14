@@ -1032,19 +1032,51 @@ def build_ssp(
     repo_name: str,
     slug: str,
     probed: dict[str, str],
+    trestle_ws: Path,
 ) -> ssp_mod.Model:
     profile_href = "trestle://profiles/cncf-repo/profile.json"
-    comp_def_href = f"trestle://component-definitions/{slug}/component-definition.json"
+    base_href    = "trestle://component-definitions/cncf-repo/component-definition.json"
+    proj_href    = f"trestle://component-definitions/{slug}/component-definition.json"
 
-    # One implemented-requirement per control, with all probed param values.
+    # ------------------------------------------------------------------ #
+    # Build system-implementation/components by converting every          #
+    # DefinedComponent from both comp-defs into a SystemComponent.        #
+    # Original UUIDs are preserved so by-components references resolve.   #
+    # ------------------------------------------------------------------ #
+    base_cd = json.loads(
+        (trestle_ws / "component-definitions" / "cncf-repo" / "component-definition.json")
+        .read_text(encoding="utf-8")
+    )["component-definition"]
+    proj_cd = json.loads(
+        (trestle_ws / "component-definitions" / slug / "component-definition.json")
+        .read_text(encoding="utf-8")
+    )["component-definition"]
+
+    # Load each DefinedComponent via trestle's pydantic model so the factory
+    # receives a typed object.
+    from trestle.oscal.component import DefinedComponent as DefComp
+
+    system_components = []
+    for raw in base_cd["components"]:
+        dc = DefComp(**raw)
+        system_components.append(factory.system_component_from_defined(dc, base_href))
+    for raw in proj_cd["components"]:
+        dc = DefComp(**raw)
+        system_components.append(factory.system_component_from_defined(dc, proj_href))
+
+    # The per-project software component UUID drives by-components references.
+    # It is the first (and only) software component in the per-project comp-def.
+    proj_sw_uuid = proj_cd["components"][0]["uuid"]
+
+    # ------------------------------------------------------------------ #
+    # One implemented-requirement per control, with all probed params.    #
+    # ------------------------------------------------------------------ #
     ctrl_param_map: dict[str, list[str]] = {}
     for req in REQUIREMENTS:
         pids = [p["id"] for p in req["params"]]
         ctrl_param_map.setdefault(req["control_id"], [])
         ctrl_param_map[req["control_id"]].extend(pids)
 
-    # by-components needs a stable component UUID shared across all requirements.
-    comp_uuid = factory.new_uuid()
     implemented = []
     seen_controls: set[str] = set()
     for req in REQUIREMENTS:
@@ -1065,7 +1097,7 @@ def build_ssp(
             "control-id": cid,
             "by-components": [
                 ssp_mod.ByComponent(
-                    **{"component-uuid": comp_uuid},
+                    **{"component-uuid": proj_sw_uuid},
                     uuid=factory.new_uuid(),
                     description=f"Repository component implements {cid}.",
                 )
@@ -1079,9 +1111,8 @@ def build_ssp(
     return factory.system_security_plan(
         repo_name=repo_name,
         repo_url=repo_url,
-        slug=slug,
-        comp_def_href=comp_def_href,
         profile_href=profile_href,
+        system_components=system_components,
         implemented=implemented,
     )
 
@@ -1158,7 +1189,7 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     print(f"  Written: {cd_path}")
 
     # 4. SSP
-    ssp_model = build_ssp(repo_url, repo_name, slug, probed)
+    ssp_model = build_ssp(repo_url, repo_name, slug, probed, trestle_ws)
     ssp_dir = trestle_ws / "system-security-plans" / slug
     ssp_dir.mkdir(parents=True, exist_ok=True)
     ssp_path = ssp_dir / "system-security-plan.json"

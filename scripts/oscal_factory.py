@@ -274,6 +274,40 @@ def component_definition(
 
 
 # ---------------------------------------------------------------------------
+# SSP helpers
+# ---------------------------------------------------------------------------
+
+def system_component_from_defined(
+    defined: comp_mod.DefinedComponent,
+    comp_def_href: str,
+) -> common.SystemComponent:
+    """Convert a ``DefinedComponent`` into a ``SystemComponent`` for use in the SSP.
+
+    Preserves the original UUID so that ``by-components[].component-uuid``
+    references in ``implemented-requirements`` resolve correctly.  Adds an
+    ``imported-from`` link back to the source component definition, following
+    the OSCAL convention used by ``trestle author ssp``.
+
+    The ``control-implementations`` field is dropped — it belongs in the
+    comp-def, not the SSP system-implementation.
+    """
+    existing_links = list(defined.links or [])
+    imported_link = common.Link(href=comp_def_href, rel="imported-from")
+    return common.SystemComponent(
+        uuid=defined.uuid,
+        type=str(defined.type),
+        title=defined.title,
+        description=defined.description,
+        purpose=defined.purpose,
+        props=defined.props or None,
+        links=existing_links + [imported_link],
+        status=common.Status(
+            state=common.SystemComponentOperationalStateValidValues.operational
+        ),
+    )
+
+
+# ---------------------------------------------------------------------------
 # SSP builder
 # ---------------------------------------------------------------------------
 
@@ -281,13 +315,17 @@ def system_security_plan(
     *,
     repo_name: str,
     repo_url: str,
-    slug: str,
-    comp_def_href: str,
     profile_href: str,
+    system_components: list[common.SystemComponent],
     implemented: list[ssp_mod.ImplementedRequirement],
 ) -> ssp_mod.Model:
-    """Assemble a complete ``SystemSecurityPlan`` OSCAL model."""
-    comp_uuid = new_uuid()
+    """Assemble a complete ``SystemSecurityPlan`` OSCAL model.
+
+    ``system_components`` should be built from every ``DefinedComponent`` in
+    all referenced component definitions via ``system_component_from_defined()``.
+    Their UUIDs are preserved so that ``by-components[].component-uuid`` entries
+    in ``implemented-requirements`` form a closed reference loop.
+    """
     ssp = ssp_mod.SystemSecurityPlan(
         uuid=new_uuid(),
         metadata=org_metadata(
@@ -331,19 +369,7 @@ def system_security_plan(
             }
         )},
         **{"system-implementation": ssp_mod.SystemImplementation(
-            components=[
-                common.SystemComponent(
-                    uuid=comp_uuid,
-                    type="software",
-                    title=repo_name,
-                    description=f"Source repository: {repo_url}",
-                    status=common.Status(
-                        state=common.SystemComponentOperationalStateValidValues.operational
-                    ),
-                    links=[common.Link(href=repo_url, rel="reference")],
-                    props=[cncf_prop("component-definition-href", comp_def_href)],
-                )
-            ],
+            components=system_components,
             users=[
                 common.SystemUser(
                     uuid=new_uuid(),
