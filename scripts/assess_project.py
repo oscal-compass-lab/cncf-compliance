@@ -373,6 +373,12 @@ def main() -> int:
             "reason": reason,
         })
 
+    # Sort outcomes naturally by control_id so all downstream reports and files are in order
+    def _nat_key(o):
+        m = re.search(r"\d+", o["control_id"])
+        return int(m.group()) if m else o["control_id"]
+    outcomes.sort(key=_nat_key)
+
     model = build_results(repo_name, slug, outcomes, start)
     out = ws / "assessment-results" / slug / "assessment-results.json"
     out.parent.mkdir(parents=True, exist_ok=True)
