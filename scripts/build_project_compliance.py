@@ -976,11 +976,18 @@ def build_base_comp_def() -> comp.Model:
 # ---------------------------------------------------------------------------
 
 def build_project_comp_def(repo_url: str, repo_name: str,
-                            overrides: dict[str, str]) -> comp.Model:
+                            overrides: dict[str, str],
+                            param_origins: dict[str, str] | None = None) -> comp.Model:
     profile_href = "trestle://profiles/cncf-repo/profile.json"
     base_href = "trestle://component-definitions/cncf-repo/component-definition.json"
 
-    set_params = [_sp(k, v) for k, v in sorted(overrides.items())] or None
+    if param_origins is None:
+        param_origins = {}
+
+    set_params = [
+        _sp(k, v, remarks=param_origins.get(k))
+        for k, v in sorted(overrides.items())
+    ] or None
 
     ci_kwargs: dict = {
         "uuid": factory.new_uuid(),
@@ -1033,6 +1040,7 @@ def build_ssp(
     slug: str,
     probed: dict[str, str],
     trestle_ws: Path,
+    param_origins: dict[str, str] | None = None,
 ) -> ssp_mod.Model:
     profile_href = "trestle://profiles/cncf-repo/profile.json"
     base_href    = "trestle://component-definitions/cncf-repo/component-definition.json"
@@ -1085,9 +1093,12 @@ def build_ssp(
             continue
         seen_controls.add(cid)
 
+        if param_origins is None:
+            param_origins = {}
+
         all_pids = list(dict.fromkeys(ctrl_param_map.get(cid, [])))
         set_params = [
-            factory.set_parameter(pid, probed[pid])
+            factory.set_parameter(pid, probed[pid], remarks=param_origins.get(pid))
             for pid in all_pids
             if pid in probed
         ] or None
@@ -1164,6 +1175,7 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     # 3. Apply any hand-managed param overrides (never overwritten by this script).
     # Lives in data/param-overrides/<slug>/overrides.json — outside the trestle workspace so
     # that trestle validate --all is not affected by a missing SSP.
+    manual = {}
     overrides_path = Path(__file__).resolve().parent.parent / "data" / "param-overrides" / slug / "overrides.json"
     if overrides_path.exists():
         manual = json.loads(overrides_path.read_text(encoding="utf-8"))
@@ -1177,8 +1189,18 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     for k, v in sorted(overrides.items()):
         print(f"    {k}: {DEFAULT_PARAMS.get(k)!r} → {v!r}")
 
+    # Build complete parameter origins mapping
+    all_param_origins = {}
+    for k in probed:
+        if k in manual:
+            all_param_origins[k] = "manual-override"
+        elif k in overrides:
+            all_param_origins[k] = "auto-probed"
+        else:
+            all_param_origins[k] = "default"
+
     # 3. Per-project comp def
-    cd_model = build_project_comp_def(repo_url, repo_name, overrides)
+    cd_model = build_project_comp_def(repo_url, repo_name, overrides, all_param_origins)
     cd_dir = trestle_ws / "component-definitions" / slug
     cd_dir.mkdir(parents=True, exist_ok=True)
     cd_path = cd_dir / "component-definition.json"
@@ -1189,7 +1211,7 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     print(f"  Written: {cd_path}")
 
     # 4. SSP
-    ssp_model = build_ssp(repo_url, repo_name, slug, probed, trestle_ws)
+    ssp_model = build_ssp(repo_url, repo_name, slug, probed, trestle_ws, all_param_origins)
     ssp_dir = trestle_ws / "system-security-plans" / slug
     ssp_dir.mkdir(parents=True, exist_ok=True)
     ssp_path = ssp_dir / "system-security-plan.json"
