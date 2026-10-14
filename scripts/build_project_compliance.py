@@ -1276,6 +1276,16 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     # 2. Probe
     print("  Probing repository...")
     probed = probe_params(repo_root)
+
+    # 3. Apply any hand-managed param overrides (never overwritten by this script)
+    overrides_path = trestle_ws / "system-security-plans" / slug / "param-overrides.json"
+    if overrides_path.exists():
+        manual = json.loads(overrides_path.read_text(encoding="utf-8"))
+        print(f"  Applying {len(manual)} manual param override(s) from {overrides_path.name}:")
+        for k, v in manual.items():
+            print(f"    {k}: {probed.get(k)!r} → {v!r}")
+        probed.update(manual)
+
     overrides = diff_params(probed)
     print(f"  Probed {len(probed)} params; {len(overrides)} differ from base defaults:")
     for k, v in sorted(overrides.items()):
