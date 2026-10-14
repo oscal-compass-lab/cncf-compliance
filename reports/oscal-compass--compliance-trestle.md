@@ -1,6 +1,6 @@
 # CNCF controls report: oscal-compass/compliance-trestle
 
-![cncf-controls: Bronze](badges/bronze.svg)
+![cncf-controls: Bronze](../badges/bronze.svg)
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `ecccc7c`
