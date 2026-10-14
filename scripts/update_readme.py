@@ -43,8 +43,6 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "projects.json"
 README_FILE = ROOT / "README.md"
 
-BEGIN_SHARED = "<!-- BEGIN SHARED OSCAL -->"
-END_SHARED = "<!-- END SHARED OSCAL -->"
 BEGIN_MARKER = "<!-- BEGIN PROJECT TABLES -->"
 END_MARKER = "<!-- END PROJECT TABLES -->"
 
@@ -186,25 +184,6 @@ def render_row(project):
     return f"| {logo} | {project_cell} | {status} | {oscal_docs} |"
 
 
-def render_shared_oscal():
-    """Return a Markdown snippet linking the shared OSCAL artifacts (catalog, profile, base comp def)."""
-    catalog_rel  = "trestle.ws/catalogs/cncf-controls/catalog.json"
-    profile_rel  = "trestle.ws/profiles/cncf-repo/profile.json"
-    base_cd_rel  = "trestle.ws/component-definitions/cncf-repo/component-definition.json"
-
-    links = []
-    if (ROOT / catalog_rel).exists():
-        links.append(f"[Catalog]({catalog_rel})")
-    if (ROOT / profile_rel).exists():
-        links.append(f"[Profile]({profile_rel})")
-    if (ROOT / base_cd_rel).exists():
-        links.append(f"[Base Component Definition]({base_cd_rel})")
-
-    if not links:
-        return ""
-    return "**Shared OSCAL artifacts:** " + " · ".join(links) + "\n"
-
-
 def render_tables(projects):
     lines = []
     for key, title in SECTIONS:
@@ -231,9 +210,6 @@ def _replace_block(text, begin, end, content):
 
 def update_readme(tables):
     text = README_FILE.read_text(encoding="utf-8")
-    shared = render_shared_oscal()
-    if shared:
-        text = _replace_block(text, BEGIN_SHARED, END_SHARED, shared)
     text = _replace_block(text, BEGIN_MARKER, END_MARKER, tables)
     README_FILE.write_text(text, encoding="utf-8")
 

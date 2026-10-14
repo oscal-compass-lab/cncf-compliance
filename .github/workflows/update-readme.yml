@@ -10,25 +10,300 @@ concurrency:
   group: update-readme
   cancel-in-progress: false
 
+# Projects skipped during automated assessment.
+# Remove an entry to opt it in; add an entry to opt it out.
+env:
+  ASSESSMENT_EXEMPT: |
+    https://github.com/argoproj/argo-cd
+    https://github.com/buildpacks/pack
+    https://github.com/cert-manager/cert-manager
+    https://github.com/cilium/cilium
+    https://github.com/cloudevents/spec
+    https://github.com/containerd/containerd
+    https://github.com/coredns/coredns
+    https://github.com/cri-o/cri-o
+    https://github.com/crossplane/crossplane
+    https://github.com/cubeFS/cubefs
+    https://github.com/dapr/dapr
+    https://github.com/dragonflyoss/dragonfly
+    https://github.com/envoyproxy/envoy
+    https://github.com/etcd-io/etcd
+    https://github.com/falcosecurity/falco
+    https://github.com/fluent/fluentd
+    https://github.com/fluxcd/flux2
+    https://github.com/goharbor/harbor
+    https://github.com/helm/helm
+    https://github.com/in-toto/in-toto
+    https://github.com/istio/istio
+    https://github.com/jaegertracing/jaeger
+    https://github.com/karmada-io/karmada
+    https://github.com/kedacore/keda
+    https://github.com/knative/serving
+    https://github.com/kubeedge/kubeedge
+    https://github.com/kubeflow/kubeflow
+    https://github.com/kubernetes/kubernetes
+    https://github.com/kyverno/kyverno
+    https://github.com/linkerd/linkerd2
+    https://github.com/open-policy-agent/opa
+    https://github.com/open-telemetry/community
+    https://github.com/prometheus/prometheus
+    https://github.com/rook/rook
+    https://github.com/spiffe/spiffe
+    https://github.com/spiffe/spire
+    https://github.com/theupdateframework/python-tuf
+    https://github.com/tikv/tikv
+    https://github.com/vitessio/vitess
+    https://github.com/artifacthub/hub
+    https://github.com/backstage/backstage
+    https://github.com/chaos-mesh/chaos-mesh
+    https://github.com/cloud-custodian/cloud-custodian
+    https://github.com/confidential-containers/confidential-containers
+    https://github.com/containernetworking/cni
+    https://github.com/projectcontour/contour
+    https://github.com/cortexproject/cortex
+    https://github.com/emissary-ingress/emissary
+    https://github.com/flatcar/Flatcar
+    https://github.com/fluid-cloudnative/fluid
+    https://github.com/grpc/grpc
+    https://github.com/Project-HAMi/HAMi
+    https://github.com/k8gb-io/k8gb
+    https://github.com/keycloak/keycloak
+    https://github.com/kserve/kserve
+    https://github.com/kubescape/kubescape
+    https://github.com/kubevela/kubevela
+    https://github.com/kubevirt/kubevirt
+    https://github.com/lima-vm/lima
+    https://github.com/litmuschaos/litmus
+    https://github.com/longhorn/longhorn
+    https://github.com/meshery/meshery
+    https://github.com/metal3-io/baremetal-operator
+    https://github.com/microcks/microcks
+    https://github.com/nats-io/nats-server
+    https://github.com/notaryproject/notation
+    https://github.com/opencost/opencost
+    https://github.com/open-feature/spec
+    https://github.com/openfga/openfga
+    https://github.com/openkruise/kruise
+    https://github.com/openyurtio/openyurt
+    https://github.com/operator-framework/operator-sdk
+    https://github.com/strimzi/strimzi-kafka-operator
+    https://github.com/tektoncd/pipeline
+    https://github.com/thanos-io/thanos
+    https://github.com/volcano-sh/volcano
+    https://github.com/wasmCloud/wasmCloud
+    https://github.com/aeraki-mesh/aeraki
+    https://github.com/agent-substrate/substrate
+    https://github.com/agones-dev/agones
+    https://github.com/project-akri/akri
+    https://github.com/antrea-io/antrea
+    https://github.com/Apicurio/apicurio-registry
+    https://github.com/armadaproject/armada
+    https://github.com/AthenZ/athenz
+    https://github.com/runatlantis/atlantis
+    https://github.com/bank-vaults/bank-vaults
+    https://github.com/bfenetworks/bfe
+    https://github.com/bootc-dev/bootc
+    https://github.com/bpfman/bpfman
+    https://github.com/cadence-workflow/cadence
+    https://github.com/projectcapsule/capsule
+    https://github.com/carina-io/carina
+    https://github.com/cartography-cncf/cartography
+    https://github.com/carvel-dev/ytt
+    https://github.com/cdk8s-team/cdk8s
+    https://github.com/cedar-policy/cedar
+    https://github.com/chaosblade-io/chaosblade
+    https://github.com/cloudnative-pg/cloudnative-pg
+    https://github.com/clusternet/clusternet
+    https://github.com/clusterpedia-io/clusterpedia
+    https://github.com/CoHDI
+    https://github.com/containers/composefs
+    https://github.com/connectrpc/connect-go
+    https://github.com/container2wasm/container2wasm
+    https://github.com/containerssh/containerssh
+    https://github.com/project-copacetic/copacetic
+    https://github.com/cozystack/cozystack
+    https://github.com/CurvineIO/curvine
+    https://github.com/project-dalec/dalec
+    https://github.com/devfile/api
+    https://github.com/devspace-sh/devspace
+    https://github.com/dexidp/dex
+    https://github.com/distribution/distribution
+    https://github.com/drasi-project/drasi-platform
+    https://github.com/easegress-io/easegress
+    https://github.com/eraser-dev/eraser
+    https://github.com/external-secrets/external-secrets
+    https://github.com/kubernetes-sigs/headlamp
+    https://github.com/higress-group/higress
+    https://github.com/hivecommons/hive
+    https://github.com/HolmesGPT/holmesgpt
+    https://github.com/hwameistor/hwameistor
+    https://github.com/hyperlight-dev/hyperlight
+    https://github.com/inclavare-containers/inclavare-containers
+    https://github.com/inspektor-gadget/inspektor-gadget
+    https://github.com/interlink-hq/interLink
+    https://github.com/k0sproject/k0s
+    https://github.com/k3s-io/k3s
+    https://github.com/k8sgpt-ai/k8sgpt
+    https://github.com/k8up-io/k8up
+    https://github.com/kagent-dev/kagent
+    https://github.com/kai-scheduler/KAI-Scheduler
+    https://github.com/kairos-io/kairos
+    https://github.com/kaito-project/kaito
+    https://github.com/kanisterio/kanister
+    https://github.com/kbind-dev/kbind
+    https://github.com/kcl-lang/kcl
+    https://github.com/kcp-dev/kcp
+    https://github.com/sustainable-computing-io/kepler
+    https://github.com/keylime/keylime
+    https://github.com/kgateway-dev/kgateway
+    https://github.com/kitops-ml/kitops
+    https://github.com/kmesh-net/kmesh
+    https://github.com/ko-build/ko
+    https://github.com/konveyor/operator
+    https://github.com/koordinator-sh/koordinator
+    https://github.com/kptdev/kpt
+    https://github.com/krkn-chaos/krkn
+    https://github.com/kuadrant/kuadrant-operator
+    https://github.com/kuasar-io/kuasar
+    https://github.com/kube-burner/kube-burner
+    https://github.com/kubeovn/kube-ovn
+    https://github.com/kube-rs/kube
+    https://github.com/kube-vip/kube-vip
+    https://github.com/kubean-io/kubean
+    https://github.com/kubearmor/kubearmor
+    https://github.com/kubeclipper/kubeclipper
+    https://github.com/KubeElasti/KubeElasti
+    https://github.com/kubefleet-dev/kubefleet
+    https://github.com/kuberhealthy/kuberhealthy
+    https://github.com/kubeslice/kubeslice
+    https://github.com/kubestellar/kubestellar
+    https://github.com/kubewarden/kubewarden-controller
+    https://github.com/kudobuilder/kudo
+    https://github.com/kumahq/kuma
+    https://github.com/kubereboot/kured
+    https://github.com/KusionStack/kusion
+    https://github.com/llm-d/llm-d
+    https://github.com/kube-logging/logging-operator
+    https://github.com/loxilb-io/loxilb
+    https://github.com/metallb/metallb
+    https://github.com/modelpack/model-spec
+    https://github.com/networkservicemesh/api
+    https://github.com/nmstate/nmstate
+    https://github.com/oauth2-proxy/oauth2-proxy
+    https://github.com/open-cluster-management-io/ocm
+    https://github.com/opcr-io/policy
+    https://github.com/open-workflow-specification/specification
+    https://github.com/openchoreo/openchoreo
+    https://github.com/openebs/openebs
+    https://github.com/openeverest/openeverest
+    https://github.com/OpenFunction/OpenFunction
+    https://github.com/openGemini/openGemini
+    https://github.com/open-gitops/project
+    https://github.com/NVIDIA/OpenShell
+    https://github.com/opentofu/opentofu
+    https://github.com/oras-project/oras
+    https://github.com/ovn-kubernetes/ovn-kubernetes
+    https://github.com/oxia-db/oxia
+    https://github.com/paralus/paralus
+    https://github.com/parallaxsecond/parsec
+    https://github.com/perses/perses
+    https://github.com/pipe-cd/pipecd
+    https://github.com/piraeusdatastore/piraeus-operator
+    https://github.com/pixie-io/pixie
+    https://github.com/podman-container-tools/podman
+    https://github.com/podman-desktop/podman-desktop
+    https://github.com/getporter/porter
+    https://github.com/radius-project/radius
+    https://github.com/ratify-project/ratify
+    https://github.com/runmedev/runme
+    https://github.com/schemahero/schemahero
+    https://github.com/score-spec/spec
+    https://github.com/sermant-io/Sermant
+    https://github.com/serverless-devs/serverless-devs
+    https://github.com/shipwright-io/build
+    https://github.com/SlimPlanet/SlimFaas
+    https://github.com/slimtoolkit/slim
+    https://github.com/getsops/sops
+    https://github.com/spidernet-io/spiderpool
+    https://github.com/spinframework/spin
+    https://github.com/spinframework/spin-operator
+    https://github.com/project-stacker/stacker
+    https://github.com/submariner-io/submariner
+    https://github.com/telepresenceio/telepresence
+    https://github.com/tinkerbell/tinkerbell
+    https://github.com/tokenetes/tokenetes
+    https://github.com/tremor-rs/tremor-runtime
+    https://github.com/trickstercache/trickster
+    https://github.com/urunc-dev/urunc
+    https://github.com/velero-io/velero
+    https://github.com/virtual-kubelet/virtual-kubelet
+    https://github.com/vscode-kubernetes-tools/vscode-kubernetes-tools
+    https://github.com/WasmEdge/WasmEdge
+    https://github.com/werf/werf
+    https://github.com/xregistry/server
+    https://github.com/youki-dev/youki
+    https://github.com/project-zot/zot
+
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 270
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Download landscape metadata and regenerate README
         run: python3 scripts/update_readme.py
 
+      - name: Build base OSCAL artifacts
+        run: python3 scripts/build_project_compliance.py base
+
+      - name: Assess projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          exempt=$(echo "$ASSESSMENT_EXEMPT" | tr '\n' ' ')
+          python3 - <<'EOF'
+          import json, os, subprocess, sys
+          exempt = set(u.strip().rstrip('/') for u in os.environ['ASSESSMENT_EXEMPT'].splitlines() if u.strip())
+          projects = json.loads(open('data/projects.json').read())
+          to_assess = [p['repo_url'] for p in projects if p.get('repo_url', '').rstrip('/') not in exempt]
+          print(f"Assessing {len(to_assess)} project(s), skipping {len(projects) - len(to_assess)}.")
+          failed = []
+          for url in to_assess:
+              print(f"\n=== {url} ===", flush=True)
+              r = subprocess.run(
+                  [sys.executable, 'scripts/build_project_compliance.py', 'project', url],
+                  check=False,
+              )
+              if r.returncode != 0:
+                  print(f"WARNING: build_project_compliance.py failed for {url}", flush=True)
+                  failed.append(url)
+                  continue
+              r = subprocess.run(
+                  [sys.executable, 'scripts/assess_project.py', url],
+                  check=False,
+              )
+              if r.returncode != 0:
+                  print(f"WARNING: assess_project.py failed for {url}", flush=True)
+                  failed.append(url)
+          if failed:
+              print(f"\nFailed assessments ({len(failed)}):")
+              for u in failed:
+                  print(f"  {u}")
+          EOF
+
       - name: Commit and push changes
         run: |
-          git add README.md data/projects.json
+          git add README.md data/projects.json reports/ trestle.ws/assessment-results/
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update CNCF project metadata and README tables"
+          git commit -m "Update CNCF project assessments and README tables"
           git push
