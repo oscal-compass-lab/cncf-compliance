@@ -3,8 +3,8 @@
 ![cncf-controls: Bronze](../badges/bronze.svg)
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
-- **Commit assessed:** `ecccc7c`
-- **Assessed at:** 2026-10-13 20:39 UTC
+- **Commit assessed:** `a4cd3d0`
+- **Assessed at:** 2026-10-14 13:06 UTC
 - **Level:** **Bronze**. 35/49 automated SHOULD controls satisfied (71%)
 - **Totals:** 40 satisfied, 14 failed, 5 not automated (of 59 controls)
 
