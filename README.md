@@ -2,6 +2,10 @@
 
 ## CNCF Projects
 
+<!-- BEGIN SHARED OSCAL -->
+**Shared OSCAL artifacts:** [Catalog](trestle.ws/catalogs/cncf-controls/catalog.json) · [Profile](trestle.ws/profiles/cncf-repo/profile.json) · [Base Component Definition](trestle.ws/component-definitions/cncf-repo/component-definition.json)
+<!-- END SHARED OSCAL -->
+
 <!-- BEGIN PROJECT TABLES -->
 ### Graduated (39)
 
