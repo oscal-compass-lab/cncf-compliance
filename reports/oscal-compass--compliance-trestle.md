@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `5d3787c`
-- **Assessed at:** 2026-10-14 17:11 UTC
+- **Assessed at:** 2026-10-14 17:55 UTC
 - **Level:** **Bronze**. 35/49 automated SHOULD controls satisfied (71%)
 - **Totals:** 40 satisfied, 14 failed, 5 not automated (of 59 controls)
 
