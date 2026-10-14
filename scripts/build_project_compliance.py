@@ -1277,8 +1277,10 @@ def cmd_project(repo_url: str, trestle_ws: Path, clone_base: Path) -> int:
     print("  Probing repository...")
     probed = probe_params(repo_root)
 
-    # 3. Apply any hand-managed param overrides (never overwritten by this script)
-    overrides_path = trestle_ws / "system-security-plans" / slug / "param-overrides.json"
+    # 3. Apply any hand-managed param overrides (never overwritten by this script).
+    # Lives in data/param-overrides/<slug>.json — outside the trestle workspace so
+    # that trestle validate --all is not affected by a missing SSP.
+    overrides_path = Path(__file__).resolve().parent.parent / "data" / "param-overrides" / f"{slug}.json"
     if overrides_path.exists():
         manual = json.loads(overrides_path.read_text(encoding="utf-8"))
         print(f"  Applying {len(manual)} manual param override(s) from {overrides_path.name}:")
