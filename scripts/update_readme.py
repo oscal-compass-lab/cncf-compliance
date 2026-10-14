@@ -120,12 +120,13 @@ def render_oscal_docs(project):
     path = m.group(1) if m else repo_url
     slug = re.sub(r"[^a-zA-Z0-9._-]", "--", path)
 
-    catalog_rel = "trestle.ws/catalogs/cncf-controls/catalog.json"
-    profile_rel = "trestle.ws/profiles/cncf-repo/profile.json"
-    comp_def_rel = f"trestle.ws/component-definitions/{slug}/component-definition.json"
-    ssp_rel = f"trestle.ws/system-security-plans/{slug}/system-security-plan.json"
-    ap_rel = f"trestle.ws/assessment-plans/{slug}/assessment-plan.json"
-    ar_rel = f"trestle.ws/assessment-results/{slug}/assessment-results.json"
+    catalog_rel   = "trestle.ws/catalogs/cncf-controls/catalog.json"
+    profile_rel   = "trestle.ws/profiles/cncf-repo/profile.json"
+    base_cd_rel   = "trestle.ws/component-definitions/cncf-repo/component-definition.json"
+    comp_def_rel  = f"trestle.ws/component-definitions/{slug}/component-definition.json"
+    ssp_rel       = f"trestle.ws/system-security-plans/{slug}/system-security-plan.json"
+    ap_rel        = f"trestle.ws/assessment-plans/{slug}/assessment-plan.json"
+    ar_rel        = f"trestle.ws/assessment-results/{slug}/assessment-results.json"
 
     # Only show dropdown if project has generated artifacts
     if not (ROOT / comp_def_rel).exists() and not (ROOT / ar_rel).exists():
@@ -136,6 +137,8 @@ def render_oscal_docs(project):
         docs.append(f'<a href="{catalog_rel}">Catalog</a>')
     if (ROOT / profile_rel).exists():
         docs.append(f'<a href="{profile_rel}">Profile</a>')
+    if (ROOT / base_cd_rel).exists():
+        docs.append(f'<a href="{base_cd_rel}">Base Component Definition</a>')
     if (ROOT / comp_def_rel).exists():
         docs.append(f'<a href="{comp_def_rel}">Component Definition</a>')
     if (ROOT / ssp_rel).exists():
