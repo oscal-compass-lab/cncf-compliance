@@ -187,6 +187,17 @@ MUST_CONTROLS = {"CNSC-182", "CNSC-184", "CNSC-190", "CNSC-198", "CNSC-199"}
 # Fraction of assessable (automated) SHOULD controls that must be satisfied.
 LEVELS = [("Gold", 0.90), ("Silver", 0.75), ("Bronze", 0.60), ("Baseline Pass Only", 0.50)]
 
+# Badge SVG paths (relative to repo root) for each pipeline level.
+LEVEL_BADGES = {
+    "Gold":               "badges/gold.svg",
+    "Silver":             "badges/silver.svg",
+    "Bronze":             "badges/bronze.svg",
+    "Baseline Pass Only": "badges/baseline-pass-only.svg",
+    "Fail":               "badges/fail.svg",
+    "TBD":                "badges/tbd.svg",
+    "Not Assessed":       "badges/tbd.svg",
+}
+
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
 
 
@@ -220,8 +231,11 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str, detail
     passed = sum(o["ok"] for o in outcomes)
     na = sum(o["reason"] == "other" for o in outcomes)
     failed = len(outcomes) - passed - na
+    badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["TBD"])
     lines = [
         f"# CNCF controls report: {repo_name}",
+        "",
+        f"![cncf-controls: {level}]({badge_path})",
         "",
         f"- **Repository:** [{repo_url}]({repo_url})",
         f"- **Commit assessed:** `{commit or 'unknown'}`",

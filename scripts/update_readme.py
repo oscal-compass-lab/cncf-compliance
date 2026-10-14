@@ -29,6 +29,16 @@ STATUS_TOOLTIPS = {
     "TBD": "Assessment pending",
 }
 
+# Map each pipeline level to its badge SVG (relative to repo root).
+STATUS_BADGES = {
+    "Gold":               "badges/gold.svg",
+    "Silver":             "badges/silver.svg",
+    "Bronze":             "badges/bronze.svg",
+    "Baseline Pass Only": "badges/baseline-pass-only.svg",
+    "Fail":               "badges/fail.svg",
+    "TBD":                "badges/tbd.svg",
+}
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "projects.json"
 README_FILE = ROOT / "README.md"
@@ -154,16 +164,14 @@ def render_row(project):
 
     status_text = project["cncf_controls_status"]
     tooltip = STATUS_TOOLTIPS.get(status_text, "")
+    badge_path = STATUS_BADGES.get(status_text, STATUS_BADGES["TBD"])
+    badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}">'
+    if tooltip:
+        badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}" title="{tooltip}">'
     if project.get("cncf_controls_report"):
-        if tooltip:
-            status = f'[{md_cell(status_text)}]({project["cncf_controls_report"]} "{tooltip}")'
-        else:
-            status = f'[{md_cell(status_text)}]({project["cncf_controls_report"]})'
+        status = f'[{badge_img}]({project["cncf_controls_report"]})'
     else:
-        if tooltip:
-            status = f'<span title="{tooltip}">{md_cell(status_text)}</span>'
-        else:
-            status = md_cell(status_text)
+        status = badge_img
     oscal_docs = render_oscal_docs(project)
     return f"| {logo} | {project_cell} | {status} | {oscal_docs} |"
 
