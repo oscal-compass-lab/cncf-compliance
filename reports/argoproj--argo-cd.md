@@ -1,12 +1,12 @@
 # CNCF controls report: argoproj/argo-cd
 
-![cncf-controls: Fail](../badges/fail.svg)
+![cncf-controls: Silver](../badges/silver.svg)
 
 - **Repository:** [https://github.com/argoproj/argo-cd](https://github.com/argoproj/argo-cd)
 - **Commit assessed:** `0c62671`
-- **Assessed at:** 2026-10-14 13:13 UTC
-- **Level:** **Fail**. MUST controls not satisfied: CNSC-184, CNSC-198
-- **Totals:** 42 satisfied, 12 failed, 5 not automated (of 59 controls)
+- **Assessed at:** 2026-10-14 13:20 UTC
+- **Level:** **Silver**. 39/49 automated SHOULD controls satisfied (80%)
+- **Totals:** 44 satisfied, 10 failed, 5 not automated (of 59 controls)
 
 Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, *Gold* at 90% of automated SHOULD controls. MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. Manual and non-assessable controls (N/A) are excluded from the percentage and never count as passes.
 
@@ -51,7 +51,7 @@ Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass On
 | CNSC-181 | SHOULD | FAIL | Software Composition Analysis (SCA): Software composition analysis must be run on ingested software. | Target 'sca' not found in Makefile |
 | CNSC-182 | MUST | PASS | Cryptographic Commit and Tag Signing: All commits and tags must carry a valid GPG or SSH cryptographic signature, with exemption for automated release bot commits. | 10/10 recent commits carry a signature |
 | CNSC-183 | SHOULD | PASS | Default Branch Full Attestation and Verification: Full attestation and verification must be enforced for the default branch. | Branch 'master' protected=True |
-| CNSC-184 | MUST | FAIL | No Unencrypted Secrets in Repository: No unencrypted secrets must be committed to the repository. | Potential hardcoded secrets in: hack/start-redis-with-password.sh, resource_customizations/operator.victoriametrics.com/_/health_test.yaml, resource_customizations/operator.victoriametrics.com/_/testdata/degraded.yaml |
+| CNSC-184 | MUST | PASS | No Unencrypted Secrets in Repository: No unencrypted secrets must be committed to the repository. | No hardcoded secrets detected |
 | CNSC-185 | SHOULD | PASS | Explicit Repository Write Access Definition: Individuals or teams with write access must be explicitly defined. | Found: CODEOWNERS |
 | CNSC-186 | SHOULD | PASS | Automated Pipeline Security Scanning: Software security scanning and testing must be automated in the pipeline. | Found CI SAST workflow: .github/workflows/ci-build.yaml |
 | CNSC-187 | SHOULD | PASS | Documented Contribution Policies: Contribution policies must be established and documented. | Found: CONTRIBUTING.md |
@@ -65,7 +65,7 @@ Levels: *Fail* if any MUST control is not satisfied; otherwise *Baseline Pass On
 | CNSC-121 | SHOULD | FAIL | Documented Code and Infrastructure Threat Model: A threat model for code and infrastructure must be documented. | Missing: THREAT_MODEL.md |
 | CNSC-196 | SHOULD | PASS | Supply Chain Security Best Practices: Supply chain security best practices must be adhered to (SBOM, lock file, SCA). | Found: go.sum |
 | CNSC-197 | SHOULD | PASS | Restricted Repository and Branch Access: Access to repository and branches must be restricted via branch protection and CODEOWNERS. | Branch 'master' protected=True |
-| CNSC-198 | MUST | FAIL | Prohibition of Unencrypted Stored Credentials: Unencrypted credentials or secrets must never be stored in the repository. | Potential hardcoded secrets in: hack/start-redis-with-password.sh, resource_customizations/operator.victoriametrics.com/_/health_test.yaml, resource_customizations/operator.victoriametrics.com/_/testdata/degraded.yaml |
+| CNSC-198 | MUST | PASS | Prohibition of Unencrypted Stored Credentials: Unencrypted credentials or secrets must never be stored in the repository. | No hardcoded secrets detected |
 | CNSC-199 | MUST | PASS | Strong Identity Enforcement with Signed Commits: Strong identity must be enforced with GPG-signed commits, with exemption for automated release bot commits. | 10/10 recent commits carry a signature |
 | CNSC-200 | SHOULD | PASS | Linear History and Force-Push Disallowed: Linear history must be enforced; force-push must be disallowed. | Branch 'master' protected=True |
 | CNSC-201 | SHOULD | PASS | Enforced Branching and Code Review Policy: Branching policy must be enforced with main branch protection and code review. | Branch 'master' protected=True |
