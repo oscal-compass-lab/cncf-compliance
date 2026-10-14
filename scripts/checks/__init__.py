@@ -23,6 +23,9 @@ def dispatch_check(control_id: str, spec: str, params: dict[str, str],
     ctype, _, rest = (s.strip() for s in spec.partition("|"))
     param_names = [n.strip() for n in rest.replace("param:", "", 1).split(";") if n.strip()]
 
+    if ctype == "skip":
+        return True, "Skipped: This control is out-of-scope for static source repository assessments (Profile 2).", "skip"
+
     if ctype == "manual":
         return False, "Manual check - requires human review; not automated.", "other"
 

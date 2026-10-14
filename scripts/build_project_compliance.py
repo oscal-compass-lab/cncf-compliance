@@ -756,6 +756,30 @@ REQUIREMENTS = [
     },
 ]
 
+# Load skipped controls from Profile 2 and dynamically append to REQUIREMENTS
+skip_prof_path = Path(__file__).resolve().parent.parent / "trestle.ws" / "profiles" / "cncf-repo-skip" / "profile.json"
+if skip_prof_path.exists():
+    try:
+        skip_prof = json.loads(skip_prof_path.read_text(encoding="utf-8"))
+        skip_ctrl_ids = []
+        for imp in skip_prof["profile"].get("imports", []):
+            for inc in imp.get("include-controls", []):
+                skip_ctrl_ids.extend(inc.get("with-ids", []))
+        for cid in sorted(skip_ctrl_ids):
+            REQUIREMENTS.append({
+                "control_id": cid,
+                "rule_id": f"RULE-{cid}-SKIP",
+                "rule_title": f"Skipped Control {cid}",
+                "check_id": f"CHECK-{cid}-SKIP",
+                "check_title": f"Skipped Control Check {cid}",
+                "rule": f"Control {cid} is out-of-scope for static source repository assessments (Profile 2).",
+                "check": "skip",
+                "params": [],
+            })
+    except Exception as e:
+        import sys
+        print(f"Warning: Failed to load Profile 2 skipped controls: {e}", file=sys.stderr)
+
 # Flat map of all default param values, derived from REQUIREMENTS.
 # First declaration of each param-id wins (matches comp-def behaviour).
 DEFAULT_PARAMS: dict[str, str] = {}

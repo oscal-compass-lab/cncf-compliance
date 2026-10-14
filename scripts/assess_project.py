@@ -148,12 +148,17 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
     findings = []
 
     for o in outcomes:
-        result_str = (
-            "pass" if o["ok"]
-            else ("other" if o["reason"] == "other" else "fail")
-        )
-        method = "TEST" if o["spec"] != "manual" else "INTERVIEW"
-        state = "satisfied" if o["ok"] else "not-satisfied"
+        if o["reason"] == "skip":
+            result_str = "skip"
+            method = "EXAMINE"
+            state = "not-satisfied"
+        else:
+            result_str = (
+                "pass" if o["ok"]
+                else ("other" if o["reason"] == "other" else "fail")
+            )
+            method = "TEST" if o["spec"] != "manual" else "INTERVIEW"
+            state = "satisfied" if o["ok"] else "not-satisfied"
 
         obs_uuid, obs = factory.observation(
             title=f"{o['control_id']} evidence",
@@ -218,7 +223,7 @@ def compute_level(outcomes: list[dict]) -> tuple[str, str]:
     if failed_must:
         return "Fail", f"MUST controls not satisfied: {', '.join(failed_must)}"
     should = [o for o in outcomes
-              if o["control_id"] not in MUST_CONTROLS and o["reason"] != "other"]
+              if o["control_id"] not in MUST_CONTROLS and o["reason"] != "other" and o["reason"] != "skip"]
     if not should:
         return "Not Assessed", "No automated SHOULD controls were evaluated"
     ratio = sum(o["ok"] for o in should) / len(should)
@@ -235,15 +240,16 @@ def _cell(text: str) -> str:
 
 
 def _result_label(o: dict) -> str:
-    return "PASS" if o["ok"] else "FAIL" if o["reason"] == "fail" else "N/A"
+    return "SKIP" if o["reason"] == "skip" else ("PASS" if o["ok"] else "FAIL" if o["reason"] == "fail" else "N/A")
 
 
 def render_report(repo_name: str, repo_url: str, commit: str, level: str,
                   detail: str, outcomes: list[dict],
                   assessed_at: datetime) -> str:
-    passed = sum(o["ok"] for o in outcomes)
+    passed = sum(o["ok"] for o in outcomes if o["reason"] != "skip")
     na = sum(o["reason"] == "other" for o in outcomes)
-    failed = len(outcomes) - passed - na
+    skipped = sum(o["reason"] == "skip" for o in outcomes)
+    failed = len(outcomes) - passed - na - skipped
     badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["TBD"])
     lines = [
         f"# CNCF controls report: {repo_name}",
@@ -254,14 +260,14 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         f"- **Commit assessed:** `{commit or 'unknown'}`",
         f"- **Assessed at:** {assessed_at:%Y-%m-%d %H:%M} UTC",
         f"- **Level:** **{level}**. {detail}",
-        f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated "
+        f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated, {skipped} skipped "
         f"(of {len(outcomes)} controls)",
         "",
         "Levels: *Fail* if any MUST control is not satisfied; otherwise "
         "*Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, "
         "*Gold* at 90% of automated SHOULD controls. "
         "MUST controls: " + ", ".join(sorted(MUST_CONTROLS)) + ". "
-        "Manual and non-assessable controls (N/A) are excluded from the "
+        "Manual, non-assessable, and skipped controls are excluded from the "
         "percentage and never count as passes.",
         "",
         "## Results by control",

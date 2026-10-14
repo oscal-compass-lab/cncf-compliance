@@ -145,6 +145,7 @@ def finding(
         "pass": common.Reason.pass_,
         "fail": common.Reason.fail,
         "other": common.Reason.other,
+        "skip": common.Reason.other,
     }
     return common.Finding(
         uuid=new_uuid(),
