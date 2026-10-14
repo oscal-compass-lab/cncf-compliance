@@ -772,7 +772,7 @@ if skip_prof_path.exists():
                 "rule_title": f"Skipped Control {cid}",
                 "check_id": f"CHECK-{cid}-SKIP",
                 "check_title": f"Skipped Control Check {cid}",
-                "rule": f"Control {cid} is out-of-scope for static source repository assessments (Profile 2).",
+                "rule": f"Control {cid} is out-of-scope for static source repository assessments.",
                 "check": "skip",
                 "params": [],
             })
