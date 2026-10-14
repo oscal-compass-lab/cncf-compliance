@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/argoproj/argo-cd](https://github.com/argoproj/argo-cd)
 - **Commit assessed:** `0c62671`
-- **Assessed at:** 2026-10-14 13:20 UTC
+- **Assessed at:** 2026-10-14 13:29 UTC
 - **Level:** **Silver**. 39/49 automated SHOULD controls satisfied (80%)
 - **Totals:** 44 satisfied, 10 failed, 5 not automated (of 59 controls)
 

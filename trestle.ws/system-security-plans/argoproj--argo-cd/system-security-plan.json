@@ -1,0 +1,1013 @@
+{
+  "system-security-plan": {
+    "uuid": "31e2a5f5-aaed-4d88-b86f-b89af5755f35",
+    "metadata": {
+      "title": "System Security Plan — argoproj/argo-cd",
+      "last-modified": "2026-10-14T13:29:24.603+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "472caf73-18d1-4212-8730-9e94c509b7e5",
+          "type": "organization",
+          "name": "argoproj/argo-cd",
+          "links": [
+            {
+              "href": "https://github.com/argoproj/argo-cd",
+              "rel": "canonical"
+            }
+          ]
+        }
+      ]
+    },
+    "import-profile": {
+      "href": "trestle://profiles/cncf-repo/profile.json"
+    },
+    "system-characteristics": {
+      "system-ids": [
+        {
+          "identifier-type": "https://github.com/",
+          "id": "https://github.com/argoproj/argo-cd"
+        }
+      ],
+      "system-name": "argoproj/argo-cd",
+      "description": "Source code repository at https://github.com/argoproj/argo-cd, assessed against the CNCF cncf-repo profile.",
+      "system-information": {
+        "information-types": [
+          {
+            "uuid": "66f88bf0-828e-4476-a312-449f45632c70",
+            "title": "Source Code and Build Artifacts",
+            "description": "Source code, scripts, configuration files, dependency declarations, and generated OSCAL artifacts."
+          }
+        ]
+      },
+      "status": {
+        "state": "operational"
+      },
+      "authorization-boundary": {
+        "description": "The source code repository, its build pipeline, dependency declarations, branch protection settings, and committed artifacts."
+      }
+    },
+    "system-implementation": {
+      "users": [
+        {
+          "uuid": "796a8b0e-e01f-4c42-b9e7-dfb762646359",
+          "title": "Repository Contributor",
+          "short-name": "contributor",
+          "description": "Developer with commit access to the repository.",
+          "role-ids": [
+            "developer"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+          "type": "software",
+          "title": "argoproj/argo-cd",
+          "description": "Source repository: https://github.com/argoproj/argo-cd",
+          "props": [
+            {
+              "name": "component-definition-href",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "trestle://component-definitions/argoproj--argo-cd/component-definition.json"
+            }
+          ],
+          "links": [
+            {
+              "href": "https://github.com/argoproj/argo-cd",
+              "rel": "reference"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        }
+      ]
+    },
+    "control-implementation": {
+      "description": "Implementation of cncf-repo profile controls. Parameter values are specific to this repository.",
+      "implemented-requirements": [
+        {
+          "uuid": "f738490b-8efc-48a7-8716-7a50a004f6b9",
+          "control-id": "CNSC-65",
+          "set-parameters": [
+            {
+              "param-id": "pipeline-vuln-scan-target",
+              "values": [
+                "audit-deps"
+              ]
+            },
+            {
+              "param-id": "vuln-scan-workflows",
+              "values": [
+                "codeql,scorecard,trivy,snyk,sonar,vuln,audit,security,actionlint"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "03ce26d0-1d75-4039-9757-ce564323c812",
+              "description": "Repository component implements CNSC-65."
+            }
+          ]
+        },
+        {
+          "uuid": "f6354280-8116-4791-8b08-4f54869a590f",
+          "control-id": "CNSC-67",
+          "set-parameters": [
+            {
+              "param-id": "test-dir",
+              "values": [
+                "test"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "6ce056d5-f030-42f6-b753-dc5c1cf0171f",
+              "description": "Repository component implements CNSC-67."
+            }
+          ]
+        },
+        {
+          "uuid": "92478e1d-06bc-453f-ab7c-3107eb7542c2",
+          "control-id": "CNSC-68",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "2022381b-892a-406a-9ecd-b467f9a3f240",
+              "description": "Repository component implements CNSC-68."
+            }
+          ]
+        },
+        {
+          "uuid": "c30e5e33-3713-4d49-8e6c-e867110af8c3",
+          "control-id": "CNSC-69",
+          "set-parameters": [
+            {
+              "param-id": "test-target",
+              "values": [
+                "test"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "7a774d04-504a-49b0-a1ba-21493c9868b7",
+              "description": "Repository component implements CNSC-69."
+            }
+          ]
+        },
+        {
+          "uuid": "f7ede39b-48ed-47dc-8b35-6d1f56df537b",
+          "control-id": "CNSC-71",
+          "set-parameters": [
+            {
+              "param-id": "default-branch",
+              "values": [
+                "master"
+              ]
+            },
+            {
+              "param-id": "min-reviewers",
+              "values": [
+                "2"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "d997711c-c995-4009-b660-f999b7763c6f",
+              "description": "Repository component implements CNSC-71."
+            }
+          ]
+        },
+        {
+          "uuid": "dcdcad3d-299b-406f-8a40-c605b81925f1",
+          "control-id": "CNSC-72",
+          "set-parameters": [
+            {
+              "param-id": "pipeline-file",
+              "values": [
+                "Makefile"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "fe8f0689-4795-4c49-b4eb-ec4478a449f0",
+              "description": "Repository component implements CNSC-72."
+            }
+          ]
+        },
+        {
+          "uuid": "e8ca8320-1874-48da-ba36-bbb9308ae978",
+          "control-id": "CNSC-73",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "f6be22f0-87f8-49dc-a290-d9ac18cbcf57",
+              "description": "Repository component implements CNSC-73."
+            }
+          ]
+        },
+        {
+          "uuid": "fc5f56bd-2f99-443e-bee2-8e32d9c5ee36",
+          "control-id": "CNSC-74",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "965022a6-c916-429b-975d-a89f94a38b61",
+              "description": "Repository component implements CNSC-74."
+            }
+          ]
+        },
+        {
+          "uuid": "62d065ea-2d5b-49a7-9bd5-95c0b4a68070",
+          "control-id": "CNSC-75",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "8c9999af-e2b4-49fd-afab-b8c2eeafa5db",
+              "description": "Repository component implements CNSC-75."
+            }
+          ]
+        },
+        {
+          "uuid": "7689f38b-5a49-44ec-b5f4-ae25bbd634c0",
+          "control-id": "CNSC-78",
+          "set-parameters": [
+            {
+              "param-id": "threat-model-file",
+              "values": [
+                "THREAT_MODEL.md"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "9f61ea11-1968-4e5d-850f-ae5bc0f3b075",
+              "description": "Repository component implements CNSC-78."
+            }
+          ]
+        },
+        {
+          "uuid": "b13c89a5-724e-4296-bbae-b36dde87f38e",
+          "control-id": "CNSC-195",
+          "set-parameters": [
+            {
+              "param-id": "security-policy-file",
+              "values": [
+                "SECURITY.md"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "eb5c792a-4f91-4e7e-9dd4-c98d75bdcdd0",
+              "description": "Repository component implements CNSC-195."
+            }
+          ]
+        },
+        {
+          "uuid": "e4c1d982-2bdc-4014-b096-1eaf05872512",
+          "control-id": "CNSC-259",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "417762cd-ab9f-4bb1-87a0-9ebcf546e698",
+              "description": "Repository component implements CNSC-259."
+            }
+          ]
+        },
+        {
+          "uuid": "2be40bda-9f84-4928-ae7e-202aa1904e61",
+          "control-id": "CNSC-265",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "a73903af-2146-405a-ae90-cdcbf09534bf",
+              "description": "Repository component implements CNSC-265."
+            }
+          ]
+        },
+        {
+          "uuid": "fceebff5-05a3-4bca-9853-e1ad6e32e618",
+          "control-id": "CNSC-82",
+          "set-parameters": [
+            {
+              "param-id": "sast-target",
+              "values": [
+                "sast"
+              ]
+            },
+            {
+              "param-id": "sast-workflows",
+              "values": [
+                "codeql,scorecard,sonar,sast,gosec,bandit,semgrep,ruff"
+              ]
+            },
+            {
+              "param-id": "sast-tool",
+              "values": [
+                "gosec"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "faafef5e-63f5-483d-b16a-3d878c46c93f",
+              "description": "Repository component implements CNSC-82."
+            }
+          ]
+        },
+        {
+          "uuid": "02e818e0-2a3d-4c0d-a39c-e2489cffa345",
+          "control-id": "CNSC-85",
+          "set-parameters": [
+            {
+              "param-id": "manifest-scan-target",
+              "values": [
+                "act-lint"
+              ]
+            },
+            {
+              "param-id": "manifest-scan-workflows",
+              "values": [
+                "actionlint,kube-linter,yamllint,checkov,trivy,lint"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "0834517e-c91c-42a8-a1b7-859566332038",
+              "description": "Repository component implements CNSC-85."
+            }
+          ]
+        },
+        {
+          "uuid": "f2e180b9-5ea8-4499-bb5e-f0ea9f41a9ba",
+          "control-id": "CNSC-150",
+          "set-parameters": [
+            {
+              "param-id": "dependency-file",
+              "values": [
+                "go.mod"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "4375e233-c0bb-4c24-8186-2eeb21ed7a28",
+              "description": "Repository component implements CNSC-150."
+            }
+          ]
+        },
+        {
+          "uuid": "b554c94b-5245-4b6e-bf48-1bb49043f61b",
+          "control-id": "CNSC-152",
+          "set-parameters": [
+            {
+              "param-id": "lock-file",
+              "values": [
+                "go.sum"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c9212be0-dc68-4809-8820-21d599e99799",
+              "description": "Repository component implements CNSC-152."
+            }
+          ]
+        },
+        {
+          "uuid": "c45b416f-00d7-444b-b0a5-4824e58906ee",
+          "control-id": "CNSC-153",
+          "set-parameters": [
+            {
+              "param-id": "hash-pin-pattern",
+              "values": [
+                "--require-hashes"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "676fb4c3-b121-45e7-bef5-20c932826d9e",
+              "description": "Repository component implements CNSC-153."
+            }
+          ]
+        },
+        {
+          "uuid": "15ae16a4-9576-491b-b433-0d44d532fc16",
+          "control-id": "CNSC-154",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "acce0c84-720f-408d-ae99-051561140890",
+              "description": "Repository component implements CNSC-154."
+            }
+          ]
+        },
+        {
+          "uuid": "355f9a7e-e093-4eb4-935f-ba751693393b",
+          "control-id": "CNSC-155",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "95edff0b-fff1-441b-bd10-84fdbd296341",
+              "description": "Repository component implements CNSC-155."
+            }
+          ]
+        },
+        {
+          "uuid": "e0de904f-ab52-440c-9048-8ef303e1015f",
+          "control-id": "CNSC-156",
+          "set-parameters": [
+            {
+              "param-id": "env-setup-target",
+              "values": [
+                "venv"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "0efbb596-64b2-4661-b1a2-1b3cebad1512",
+              "description": "Repository component implements CNSC-156."
+            }
+          ]
+        },
+        {
+          "uuid": "76f83380-94f0-470a-bf9e-e19d056c1f2b",
+          "control-id": "CNSC-158",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "129098e7-dbc5-42c0-8055-c006d97d181a",
+              "description": "Repository component implements CNSC-158."
+            }
+          ]
+        },
+        {
+          "uuid": "8f76fb5a-b53e-42c9-8ab5-ec23419ff291",
+          "control-id": "CNSC-159",
+          "set-parameters": [
+            {
+              "param-id": "all-target",
+              "values": [
+                "all"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "160c2f0e-9319-42c9-9b47-46897fe384f7",
+              "description": "Repository component implements CNSC-159."
+            }
+          ]
+        },
+        {
+          "uuid": "9f6a8561-aff1-4847-b669-6c2560ac3e7e",
+          "control-id": "CNSC-165",
+          "set-parameters": [
+            {
+              "param-id": "output-artifact-path",
+              "values": [
+                "dist"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "455f3d05-8b01-4a86-9ee6-8ef6e3371587",
+              "description": "Repository component implements CNSC-165."
+            }
+          ]
+        },
+        {
+          "uuid": "4b431df7-e71a-4e54-8e5e-f3d684cb29d5",
+          "control-id": "CNSC-166",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "6e2242b7-6873-4200-acb8-63ea5fc19440",
+              "description": "Repository component implements CNSC-166."
+            }
+          ]
+        },
+        {
+          "uuid": "2ecfca6b-f447-4cc0-a100-5f9a1e9d8a08",
+          "control-id": "CNSC-167",
+          "set-parameters": [
+            {
+              "param-id": "codeowners-file",
+              "values": [
+                "CODEOWNERS"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "ce0ae4b8-1047-4b21-84c0-7ad50cbedde2",
+              "description": "Repository component implements CNSC-167."
+            }
+          ]
+        },
+        {
+          "uuid": "7e59321a-0ffa-42d0-a3f1-92a754475a2c",
+          "control-id": "CNSC-168",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "ccedfeee-cffa-4f12-8d66-569f752445d7",
+              "description": "Repository component implements CNSC-168."
+            }
+          ]
+        },
+        {
+          "uuid": "153b59af-e673-4530-8c61-e3224aad00e0",
+          "control-id": "CNSC-173",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "6f0a78ec-ac62-4025-96e3-65c24a236a09",
+              "description": "Repository component implements CNSC-173."
+            }
+          ]
+        },
+        {
+          "uuid": "e39ce852-713f-4305-ab9b-b7b3fb923f06",
+          "control-id": "CNSC-174",
+          "set-parameters": [
+            {
+              "param-id": "sbom-output-path",
+              "values": [
+                "sbom.json"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "7b139717-d567-46ea-8546-03728245da2e",
+              "description": "Repository component implements CNSC-174."
+            }
+          ]
+        },
+        {
+          "uuid": "db4bce13-6113-4b7c-b22a-8cde7865f56e",
+          "control-id": "CNSC-175",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "4a7ca1b8-d10a-4eb5-b257-c25ea8182d2a",
+              "description": "Repository component implements CNSC-175."
+            }
+          ]
+        },
+        {
+          "uuid": "22818f2c-c5ad-4524-9299-e735bf7e2143",
+          "control-id": "CNSC-177",
+          "set-parameters": [
+            {
+              "param-id": "trusted-registry-pattern",
+              "values": [
+                "go get"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "e12d9705-eacc-4560-a34d-70f974af691b",
+              "description": "Repository component implements CNSC-177."
+            }
+          ]
+        },
+        {
+          "uuid": "51c861a5-89ff-4939-a2de-614d31a1f3cd",
+          "control-id": "CNSC-178",
+          "set-parameters": [
+            {
+              "param-id": "sbom-target",
+              "values": [
+                "generate-sbom"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "4bc12361-6194-4fa0-a24a-3bb1248245a6",
+              "description": "Repository component implements CNSC-178."
+            }
+          ]
+        },
+        {
+          "uuid": "ddbd35a3-4e1b-418e-8726-218a387c2f2a",
+          "control-id": "CNSC-179",
+          "set-parameters": [
+            {
+              "param-id": "vulnerability-scanner",
+              "values": [
+                "govulncheck"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "56371175-7209-42f2-a806-b2d700de6e26",
+              "description": "Repository component implements CNSC-179."
+            }
+          ]
+        },
+        {
+          "uuid": "d6fcc307-29ea-423b-9df1-3054eb5739e0",
+          "control-id": "CNSC-180",
+          "set-parameters": [
+            {
+              "param-id": "license-scan-target",
+              "values": [
+                "license-check"
+              ]
+            },
+            {
+              "param-id": "license-scanner",
+              "values": [
+                "golicense"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "770aa0dd-108f-4028-ba09-8b3a4eda9025",
+              "description": "Repository component implements CNSC-180."
+            }
+          ]
+        },
+        {
+          "uuid": "67c0a8e9-d720-4bd9-ac7a-ea7c10b98296",
+          "control-id": "CNSC-181",
+          "set-parameters": [
+            {
+              "param-id": "sca-target",
+              "values": [
+                "sca"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "a372238c-d57a-4c54-bc02-1819d5db61b0",
+              "description": "Repository component implements CNSC-181."
+            }
+          ]
+        },
+        {
+          "uuid": "607a94b9-b849-4e70-815c-933573366e8a",
+          "control-id": "CNSC-182",
+          "set-parameters": [
+            {
+              "param-id": "signed-commits-lookback",
+              "values": [
+                "10"
+              ]
+            },
+            {
+              "param-id": "signed-commits-exempt-pattern",
+              "values": [
+                "^chore: Merge back.*|^\\d+\\.\\d+\\.\\d+"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c1da0fb4-3379-4bbb-bddc-82300a8e8218",
+              "description": "Repository component implements CNSC-182."
+            }
+          ]
+        },
+        {
+          "uuid": "3978a804-217d-45d5-b5d2-27433d4290f0",
+          "control-id": "CNSC-183",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "0248c80c-1ee4-4c8e-96f1-cad73eebe9a5",
+              "description": "Repository component implements CNSC-183."
+            }
+          ]
+        },
+        {
+          "uuid": "f22df1f6-03da-4475-98b6-e0b45878f495",
+          "control-id": "CNSC-184",
+          "set-parameters": [
+            {
+              "param-id": "secrets-scan-extensions",
+              "values": [
+                "py,sh,yaml,yml,env,cfg,ini"
+              ]
+            },
+            {
+              "param-id": "secrets-scan-exclude-paths",
+              "values": [
+                ".venv,trestle.ws,.git,dist,hack,resource_customizations"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "b086b146-167f-4aaf-b547-4d164076b156",
+              "description": "Repository component implements CNSC-184."
+            }
+          ]
+        },
+        {
+          "uuid": "682393ad-104e-4cb0-a140-4fdae8b42ab1",
+          "control-id": "CNSC-185",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "98730d4c-432a-4583-be10-d619d481fd67",
+              "description": "Repository component implements CNSC-185."
+            }
+          ]
+        },
+        {
+          "uuid": "a82226a8-aa71-4908-a3e5-44ae70b1e678",
+          "control-id": "CNSC-186",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "8eabe3ea-cd3c-4519-8b60-d6eda1219094",
+              "description": "Repository component implements CNSC-186."
+            }
+          ]
+        },
+        {
+          "uuid": "cf33eb7c-12d5-4dcb-9d6f-b91325e23a15",
+          "control-id": "CNSC-187",
+          "set-parameters": [
+            {
+              "param-id": "contributing-file",
+              "values": [
+                "CONTRIBUTING.md"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "9c59c94a-4d81-48c8-ba7f-5e1cd3a57eec",
+              "description": "Repository component implements CNSC-187."
+            }
+          ]
+        },
+        {
+          "uuid": "09a3ec0d-66db-4c91-b41e-bc1d24394a98",
+          "control-id": "CNSC-188",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "b3867086-c803-4962-a368-3f0bfba1fc33",
+              "description": "Repository component implements CNSC-188."
+            }
+          ]
+        },
+        {
+          "uuid": "09cc0278-3d13-4afc-a397-257b9d144f40",
+          "control-id": "CNSC-189",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "2e846227-a8ba-4922-b697-f33c46c7a1ae",
+              "description": "Repository component implements CNSC-189."
+            }
+          ]
+        },
+        {
+          "uuid": "8595fdfa-960c-4529-b50e-3452dbc5f9b9",
+          "control-id": "CNSC-190",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "578ced76-fbaa-4a24-8af7-726cc9fe7574",
+              "description": "Repository component implements CNSC-190."
+            }
+          ]
+        },
+        {
+          "uuid": "eecef37c-2edb-43dd-9966-c427633ca09c",
+          "control-id": "CNSC-191",
+          "set-parameters": [
+            {
+              "param-id": "mfa-enforcement-scope",
+              "values": [
+                "organization"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "6b3bb06f-4107-42cb-ab57-ca7128f9780b",
+              "description": "Repository component implements CNSC-191."
+            }
+          ]
+        },
+        {
+          "uuid": "4921d5f6-1be1-4dba-a907-229985b8ba07",
+          "control-id": "CNSC-192",
+          "set-parameters": [
+            {
+              "param-id": "git-config-file",
+              "values": [
+                ".git/config"
+              ]
+            },
+            {
+              "param-id": "ssh-remote-pattern",
+              "values": [
+                "git@github\\.com"
+              ]
+            }
+          ],
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "4687f5d2-90fd-4e51-adb2-b7b8bf68f72b",
+              "description": "Repository component implements CNSC-192."
+            }
+          ]
+        },
+        {
+          "uuid": "2039664b-fbdb-4229-ae08-88b7fbda0ae7",
+          "control-id": "CNSC-193",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c7fb1a6d-fd79-4b93-9d90-4b1d36861ca7",
+              "description": "Repository component implements CNSC-193."
+            }
+          ]
+        },
+        {
+          "uuid": "909e9b9b-494e-410f-862e-3c7af11f77f0",
+          "control-id": "CNSC-194",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c254469e-7946-45af-961c-d9cdd91cbbbb",
+              "description": "Repository component implements CNSC-194."
+            }
+          ]
+        },
+        {
+          "uuid": "768aec89-2c1e-49c5-884e-1024eb361f37",
+          "control-id": "CNSC-121",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "4a6afccc-7394-4bba-a4fa-b68d4a722d36",
+              "description": "Repository component implements CNSC-121."
+            }
+          ]
+        },
+        {
+          "uuid": "cb73a122-bb22-458b-9bf8-772e370d59d7",
+          "control-id": "CNSC-196",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "d6ab2200-d5ac-4b7b-b458-6576ab71c545",
+              "description": "Repository component implements CNSC-196."
+            }
+          ]
+        },
+        {
+          "uuid": "8efb7508-633e-46e8-843a-d47b225303b1",
+          "control-id": "CNSC-197",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "350f8521-df15-459a-bab9-48b65ea9df61",
+              "description": "Repository component implements CNSC-197."
+            }
+          ]
+        },
+        {
+          "uuid": "917bc6ab-0736-4e9f-8864-9f78da011722",
+          "control-id": "CNSC-198",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "fd8e1667-c0e6-4761-97bd-5740e1d7a053",
+              "description": "Repository component implements CNSC-198."
+            }
+          ]
+        },
+        {
+          "uuid": "66c12b3f-0047-4d34-86b2-8e8648e8a6a2",
+          "control-id": "CNSC-199",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "a060ea99-6290-4d2d-8d9a-7b9938fdab8f",
+              "description": "Repository component implements CNSC-199."
+            }
+          ]
+        },
+        {
+          "uuid": "8e8beb78-9665-4d90-ae93-875eaa982bdc",
+          "control-id": "CNSC-200",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "12b2f59f-1593-48aa-970d-b0fe038d44b7",
+              "description": "Repository component implements CNSC-200."
+            }
+          ]
+        },
+        {
+          "uuid": "1158efb4-8246-488a-990f-f043df6a0d7f",
+          "control-id": "CNSC-201",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "1c7c2f5d-77b2-4c38-8e39-aaabc08dacb2",
+              "description": "Repository component implements CNSC-201."
+            }
+          ]
+        },
+        {
+          "uuid": "d34b4422-646f-40ac-84b6-c769d7371a36",
+          "control-id": "CNSC-202",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "11c6f6a0-9d6a-4650-bba4-02cf3efce16d",
+              "description": "Repository component implements CNSC-202."
+            }
+          ]
+        },
+        {
+          "uuid": "64eeaca8-949e-492b-a3b1-ad4061c0630a",
+          "control-id": "CNSC-203",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c524e735-27f7-4615-95f3-869116fc5094",
+              "description": "Repository component implements CNSC-203."
+            }
+          ]
+        },
+        {
+          "uuid": "1ba12699-da24-4347-b624-bac97b499642",
+          "control-id": "CNSC-204",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "3f8a95b7-9610-4c6f-be97-d1e7ad93d95b",
+              "description": "Repository component implements CNSC-204."
+            }
+          ]
+        },
+        {
+          "uuid": "ca659ede-2102-4163-b185-b1dc0d3e1bf0",
+          "control-id": "CNSC-205",
+          "by-components": [
+            {
+              "component-uuid": "829407f1-30ec-4f3e-9067-156c888fd06a",
+              "uuid": "c60b8f70-2410-47f6-9b7a-8251b3643a0b",
+              "description": "Repository component implements CNSC-205."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

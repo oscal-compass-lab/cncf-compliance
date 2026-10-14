@@ -1,0 +1,114 @@
+{
+  "component-definition": {
+    "uuid": "16ac7ee6-f57a-4312-9244-27b6b6db7c37",
+    "metadata": {
+      "title": "Component Definition — argoproj/argo-cd",
+      "last-modified": "2026-10-14T13:29:24.602+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "2806704c-1605-48fd-b627-72a7a431905d",
+          "type": "organization",
+          "name": "argoproj/argo-cd",
+          "links": [
+            {
+              "href": "https://github.com/argoproj/argo-cd",
+              "rel": "canonical"
+            }
+          ]
+        }
+      ]
+    },
+    "import-component-definitions": [
+      {
+        "href": "trestle://component-definitions/cncf-repo/component-definition.json"
+      }
+    ],
+    "components": [
+      {
+        "uuid": "29ba707a-fda8-4f36-8eb8-d3827a23adfa",
+        "type": "software",
+        "title": "argoproj/argo-cd",
+        "description": "Source code repository at https://github.com/argoproj/argo-cd.",
+        "purpose": "CNCF project source repository assessed against the cncf-repo profile.",
+        "links": [
+          {
+            "href": "https://github.com/argoproj/argo-cd",
+            "rel": "reference"
+          }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "1c62e9bc-e080-44d2-a8d3-06d8128bb494",
+            "source": "trestle://profiles/cncf-repo/profile.json",
+            "description": "Parameter overrides for argoproj/argo-cd relative to the shared cncf-repo base.",
+            "set-parameters": [
+              {
+                "param-id": "default-branch",
+                "values": [
+                  "master"
+                ]
+              },
+              {
+                "param-id": "dependency-file",
+                "values": [
+                  "go.mod"
+                ]
+              },
+              {
+                "param-id": "license-scanner",
+                "values": [
+                  "golicense"
+                ]
+              },
+              {
+                "param-id": "lock-file",
+                "values": [
+                  "go.sum"
+                ]
+              },
+              {
+                "param-id": "sast-tool",
+                "values": [
+                  "gosec"
+                ]
+              },
+              {
+                "param-id": "secrets-scan-exclude-paths",
+                "values": [
+                  ".venv,trestle.ws,.git,dist,hack,resource_customizations"
+                ]
+              },
+              {
+                "param-id": "test-dir",
+                "values": [
+                  "test"
+                ]
+              },
+              {
+                "param-id": "trusted-registry-pattern",
+                "values": [
+                  "go get"
+                ]
+              },
+              {
+                "param-id": "vulnerability-scanner",
+                "values": [
+                  "govulncheck"
+                ]
+              }
+            ],
+            "implemented-requirements": [
+              {
+                "uuid": "47925d9a-f930-469f-b224-7194af61f434",
+                "control-id": "CNSC-71",
+                "description": "All control implementations are inherited from the shared base component definition. Only parameter overrides are declared here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
