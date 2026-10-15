@@ -125,6 +125,23 @@ def load_base(
     return specs, defaults, rules, rule_ids, check_ids
 
 
+def load_control_statements(path: Path) -> dict[str, str]:
+    """Return control_id -> statement prose from the OSCAL catalog."""
+    catalog = json.loads(path.read_text(encoding="utf-8"))["catalog"]
+    out: dict[str, str] = {}
+
+    def walk(groups: list[dict]) -> None:
+        for g in groups:
+            for ctrl in g.get("controls", []):
+                for part in ctrl.get("parts", []):
+                    if part.get("name") == "statement" and part.get("prose"):
+                        out[ctrl["id"]] = part["prose"]
+            walk(g.get("groups", []))
+
+    walk(catalog.get("groups", []))
+    return out
+
+
 def load_ssp_params(path: Path) -> dict[str, str]:
     """Flatten the SSP's per-control set-parameters into one param-id -> value map."""
     ssp = json.loads(path.read_text(encoding="utf-8"))["system-security-plan"]
@@ -172,7 +189,7 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
         observations.append(obs)
         findings.append(factory.finding(
             title=f"{o['control_id']} {o['spec'].split('|')[0].strip()}",
-            description=o["rule"],
+            description=o["requirement"],
             control_id=o["control_id"],
             state=state,
             reason=o["reason"],
@@ -279,7 +296,7 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         kind = "MUST" if o["control_id"] in MUST_CONTROLS else "SHOULD"
         lines.append(
             f"| {o['control_id']} | {kind} | {_result_label(o)} | "
-            f"{_cell(o['rule'])} | {_cell(o['evidence'])} |"
+            f"{_cell(o['requirement'])} | {_cell(o['evidence'])} |"
         )
     lines.append("")
     lines.append(
@@ -336,7 +353,8 @@ def main() -> int:
     repo_name = _repo_name(args.repo_url)
     base_path = ws / "component-definitions" / "cncf-repo" / "component-definition.json"
     ssp_path = ws / "system-security-plans" / slug / "system-security-plan.json"
-    for p in (base_path, ssp_path):
+    catalog_path = ws / "catalogs" / "cncf-controls" / "catalog.json"
+    for p in (base_path, ssp_path, catalog_path):
         if not p.exists():
             print(f"Missing {p}; run build_project_compliance.py first.",
                   file=sys.stderr)
@@ -344,6 +362,7 @@ def main() -> int:
 
     specs, defaults, comp_rules, comp_rule_ids, comp_check_ids = load_base(base_path)
     params = {**defaults, **load_ssp_params(ssp_path)}
+    statements = load_control_statements(catalog_path)
 
     start = factory.now_utc()
     repo_root = clone_repo(args.repo_url, Path(args.clone_dir))
@@ -366,6 +385,7 @@ def main() -> int:
             "control_id": cid,
             "spec": spec,
             "rule": rules.get(cid, cid),
+            "requirement": statements.get(cid, rules.get(cid, cid)),
             "rule_id": rule_ids.get(cid, ""),
             "check_id": check_ids.get(cid, ""),
             "ok": ok,
