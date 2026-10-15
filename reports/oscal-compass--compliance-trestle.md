@@ -8,7 +8,23 @@
 - **Level:** **Fail**. MUST controls not satisfied: CNSC-198, CNSC-199
 - **Totals:** 13 satisfied, 4 failed, 5 no result, 33 no check, 159 skipped (of 214 controls)
 
-Levels: *Fail* if any MUST control fails; MUST controls without a decisive result do not fail a project but are listed in the level detail. Otherwise *Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, *Gold* at 90% of automated SHOULD controls. MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. Result labels: PASS and FAIL are decisive. NO-RESULT means a check ran but gave no decisive answer (for example Privateer "Needs Review"). NO-CHECK means the control is in scope but has no unique check. SKIP means the control is out of scope by design. NO-RESULT, NO-CHECK and SKIP controls are excluded from the percentage and never count as passes.
+MUST controls: CNSC-182, CNSC-184, CNSC-190, CNSC-198, CNSC-199. A failed MUST control makes the project **Fail** regardless of SHOULD results. MUST controls without a decisive result do not fail a project but are listed in the level detail.
+
+| Level | Conditions |
+| --- | --- |
+| **Gold** | All MUST controls passed; ≥ 90% of automated SHOULD controls satisfied |
+| **Silver** | All MUST controls passed; ≥ 75% of automated SHOULD controls satisfied |
+| **Bronze** | All MUST controls passed; ≥ 60% of automated SHOULD controls satisfied |
+| **Baseline Pass Only** | All MUST controls passed; ≥ 50% of automated SHOULD controls satisfied |
+| **Fail** | Any MUST control failed, or < 50% of automated SHOULD controls satisfied |
+
+| Result | Meaning | Counted? |
+| --- | --- | --- |
+| PASS | Check ran and passed | Yes |
+| FAIL | Check ran and failed | Yes |
+| NO-RESULT | Check ran but gave no decisive answer (e.g. Privateer "Needs Review") | No |
+| NO-CHECK | Control is in scope but has no unique check | No |
+| SKIP | Control is out of scope by design | No |
 
 ## Results by control
 
