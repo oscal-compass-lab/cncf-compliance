@@ -1,5 +1,60 @@
 # cncf-compliance
 
+This repository assesses every CNCF project (Graduated, Incubation and Sandbox) against the CNCF security controls and publishes the results as [OSCAL](https://pages.nist.gov/OSCAL/) documents, human-readable reports and a status badge per project.
+
+## How to read the project tables
+
+There is one table per CNCF maturity level, listed in the order Graduated, Incubation, Sandbox. Within each table, projects are sorted alphabetically by name. The number in each heading is the count of projects at that level.
+
+| Column | Content |
+| --- | --- |
+| Logo | The project logo from the [CNCF landscape](https://landscape.cncf.io). |
+| Project | The project name, linked to its primary source repository. |
+| cncf-controls status | The [assessment badge](#assessment-badges) for the project. Click it, or the date beneath it, to open the full report for that project. The date is the UTC time of the most recent assessment. |
+| OSCAL documents | A dropdown of links to the OSCAL documents behind the assessment (see [OSCAL documents](#oscal-documents)). |
+
+### How the tables are assembled
+
+The tables are generated. Do not edit the section between the `BEGIN PROJECT TABLES` and `END PROJECT TABLES` markers by hand, because it is overwritten on every run. The [Update CNCF project tables](.github/workflows/update-readme.yml) workflow runs these steps in order:
+
+1. [`scripts/update_readme.py`](scripts/update_readme.py) downloads the current CNCF landscape metadata. It keeps the projects whose maturity is graduated, incubating or sandbox, and records them in [`data/projects.json`](data/projects.json). Assessment results already recorded there are kept. It then rewrites the tables.
+2. [`scripts/build_project_compliance.py base`](scripts/build_project_compliance.py) builds the OSCAL documents shared by all projects: the control catalog, the profile and the base component definition. The base component definition holds the automated check for each control and the default parameter values.
+3. For each project, `scripts/build_project_compliance.py project <repo-url>` clones the repository and probes it for actual parameter values, such as where its CI configuration lives. It writes a project component definition that overrides only the parameters that differ from the defaults, plus a system security plan and an assessment plan.
+4. For each project, [`scripts/assess_project.py`](scripts/assess_project.py) runs the automated check for every control against the clone and writes the OSCAL assessment results and a report in [`reports/`](reports). It then stores the resulting level, report link and assessment time in `data/projects.json` and refreshes the tables.
+
+A project whose assessment has not run yet shows the **TBD** badge and `-` in the OSCAL documents column.
+
+### Assessment badges
+
+Each project gets one badge. The level is computed from the project's automated check results:
+
+- **MUST controls** are the five controls CNSC-182, CNSC-184, CNSC-190, CNSC-198 and CNSC-199. All five must be satisfied.
+- **Automated SHOULD controls** are all other controls that have an automated check that ran. The level depends on the percentage of these that are satisfied.
+- Controls that need manual review, cannot be assessed against a clone of the repository, or are out of scope for static source repository assessments are excluded from the percentage. They are never counted as passes.
+
+| Badge | Level | Meaning |
+| --- | --- | --- |
+| <img src="badges/gold.svg" alt="Gold"> | Gold | Exceptional compliance: satisfied 100% of MUST controls and >= 90% of automated SHOULD controls. |
+| <img src="badges/silver.svg" alt="Silver"> | Silver | Strong compliance: satisfied 100% of MUST controls and >= 75% of automated SHOULD controls. |
+| <img src="badges/bronze.svg" alt="Bronze"> | Bronze | Good compliance: satisfied 100% of MUST controls and >= 60% of automated SHOULD controls. |
+| <img src="badges/baseline-pass-only.svg" alt="Baseline Pass Only"> | Baseline Pass Only | Minimum compliance: satisfied 100% of MUST controls and >= 50% of automated SHOULD controls (below Bronze). |
+| <img src="badges/fail.svg" alt="Fail"> | Fail | Non-compliant: failed one or more MUST controls, or satisfied < 50% of automated SHOULD controls. |
+| <img src="badges/tbd.svg" alt="TBD"> | TBD | Assessment pending, or no automated SHOULD controls could be evaluated. |
+
+### OSCAL documents
+
+The dropdown in the last column links to these documents. The first three are shared by all projects. The others are specific to the project.
+
+| Document | Scope | Purpose |
+| --- | --- | --- |
+| Catalog | Shared | The CNCF security controls. |
+| Profile | Shared | The subset of catalog controls that apply to a repository. |
+| Base Component Definition | Shared | The automated check and default parameter values for each control. |
+| Component Definition | Project | Imports the base component definition and overrides the parameters that differ for this project. |
+| System Security Plan | Project | Binds the project component definition to the profile and records the parameter values found in the repository. |
+| Assessment Plan | Project | Selects the profile controls to assess for this project. |
+| Assessment Results | Project | One observation (the evidence) and one finding (satisfied or not satisfied) for each control. |
+
 ## CNCF Projects
 
 <!-- BEGIN PROJECT TABLES -->
