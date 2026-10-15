@@ -38,12 +38,16 @@ from pathlib import Path
 import oscal_factory as factory
 from build_project_compliance import REQUIREMENTS, _repo_name, _slug, remote_head_commit
 from checks import dispatch_check
+from checks.privateer import evidence_with_hover
 from privateer_mapping import UNMAPPED
 
 def run_check(control_id: str, spec: str, repo_url: str) -> tuple[bool, str, str]:
     """Return (satisfied, evidence, reason) where reason is pass/fail/no-result/no-check/skip."""
     if spec == "no-check":
-        return False, f"No unique Privateer check. {UNMAPPED[control_id]}", "no-check"
+        import html as _html
+        reason = UNMAPPED[control_id]
+        tip = _html.escape(f"No unique Privateer check. {reason}", quote=True)
+        return False, f'<span title="{tip}">No unique check</span>', "no-check"
     return dispatch_check(control_id, spec, {}, Path("."), repo_url)
 
 
@@ -293,7 +297,7 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         kind = "MUST" if o["control_id"] in MUST_CONTROLS else "SHOULD"
         lines.append(
             f"| {o['control_id']} | {kind} | {_result_label(o)} | "
-            f"{_cell(o['requirement'])} | {_cell(o['evidence'])} |"
+            f"{_cell(o['requirement'])} | {_cell(evidence_with_hover(o['evidence']))} |"
         )
     lines.append("")
     lines.append(

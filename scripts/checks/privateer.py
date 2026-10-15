@@ -9,9 +9,46 @@ Review, Unknown, Not Applicable, Not Run, or Privateer being unavailable) is
 reported as "no-result" so it is never counted as a pass.
 """
 
+import html
+import re
+import sys
 from pathlib import Path
 from . import register_check
 from . import privateer_client
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from privateer_mapping import plugin_for  # noqa: E402
+
+
+# "Privateer <plugin> <version> <requirement>: <Status>[ (<n> confidence)]. <message>"
+_EVIDENCE_RE = re.compile(
+    r"^Privateer (?P<plugin>\S+) (?P<version>\S+) (?P<req>\S+): (?P<status>[A-Za-z ]+?)"
+    r"(?: \((?P<conf>\w+) confidence\))?(?:\. (?P<msg>.*))?$",
+    re.S,
+)
+
+
+def evidence_with_hover(evidence: str) -> str:
+    """HTML for a report cell: the finding, with its provenance on hover.
+
+    The hover text says first whether the check is supplied by Privateer itself
+    or by our own plug-in. Evidence not in the Privateer format is returned as
+    plain text.
+    """
+    m = _EVIDENCE_RE.match(evidence)
+    if not m:
+        return evidence
+    if plugin_for(m["req"]) == "github-repo":
+        supplier = f"Check supplied by Privateer (plugin {m['plugin']} {m['version']})"
+    else:
+        supplier = (
+            f"Check supplied by our own plug-in ({m['plugin']} {m['version']}; "
+            "0.0.0 means an unreleased local build)"
+        )
+    tip = f"{supplier}. Requirement {m['req']}. Result: {m['status']}" + (
+        f", {m['conf']} confidence (how sure the check is)." if m["conf"] else "."
+    )
+    return f'<span title="{html.escape(tip, quote=True)}">{m["msg"] or m["status"]}</span>'
 
 
 @register_check("privateer")
