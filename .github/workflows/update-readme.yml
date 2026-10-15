@@ -254,6 +254,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: privateer-plugins/cncf-controls/go.mod
+
+      - name: Install Privateer
+        run: scripts/privateer/install.sh
+
       - name: Download landscape metadata and regenerate README
         run: python3 scripts/update_readme.py
 

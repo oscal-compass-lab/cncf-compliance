@@ -1,0 +1,92 @@
+title: CNCF MUST controls for source repositories
+metadata:
+  id: cncf-must-controls
+  type: ControlCatalog
+  gemara-version: 1.2.0
+  version: v0.1.0
+  description: >
+    The five CNCF security controls (CNSC) that make a project fail its
+    assessment when not satisfied. Each control has one assessment requirement
+    (CNSC-nnn.01) evaluated against a GitHub repository.
+  author:
+    id: oscal-compass-lab
+    name: OSCAL Compass Lab
+    type: Human
+  applicability-groups:
+    - id: maturity-1
+      title: Maturity Level 1
+      description: any project
+    - id: maturity-2
+      title: Maturity Level 2
+      description: any code project with at least 2 maintainers
+    - id: maturity-3
+      title: Maturity Level 3
+      description: any code project with a large number of consistent users
+groups:
+  - id: SSC
+    title: Securing the Source Code
+    description: Controls protecting source code, its history and its secrets.
+controls:
+  - id: CNSC-182
+    group: SSC
+    title: Commit and Tag Signing
+    objective: Commits and tags are signed.
+    state: Active
+    assessment-requirements:
+      - id: CNSC-182.01
+        text: >
+          Recent commits on the default branch and recent tags MUST carry a
+          valid cryptographic signature.
+        applicability: [maturity-1, maturity-2, maturity-3]
+        state: Active
+  - id: CNSC-184
+    group: SSC
+    title: Secrets Not Committed
+    objective: Secrets are not committed to the source code repository unless encrypted.
+    state: Active
+    assessment-requirements:
+      - id: CNSC-184.01
+        text: >
+          The default branch MUST NOT contain unencrypted secrets.
+        applicability: [maturity-1, maturity-2, maturity-3]
+        state: Active
+  - id: CNSC-190
+    group: SSC
+    title: Branch Protection Rules
+    objective: Branch protection rules are used.
+    state: Active
+    assessment-requirements:
+      - id: CNSC-190.01
+        text: >
+          The default branch MUST be protected by branch protection rules or
+          repository rulesets.
+        applicability: [maturity-1, maturity-2, maturity-3]
+        state: Active
+  - id: CNSC-198
+    group: SSC
+    title: Credential Storage and Push Protection
+    objective: >
+      Unencrypted credentials or secrets are never stored in the Git
+      repository and sensitive data is blocked from being pushed.
+    state: Active
+    assessment-requirements:
+      - id: CNSC-198.01
+        text: >
+          Secret scanning and push protection MUST be in use, and the default
+          branch MUST NOT contain unencrypted secrets.
+        applicability: [maturity-1, maturity-2, maturity-3]
+        state: Active
+  - id: CNSC-199
+    group: SSC
+    title: Strong Identity with Signed Commits
+    objective: >
+      Strong identity is enforced with GPG signed commits for accountability
+      and traceability.
+    state: Active
+    assessment-requirements:
+      - id: CNSC-199.01
+        text: >
+          Recent commits on the default branch MUST be signed, and the default
+          branch MUST require signed commits.
+        applicability: [maturity-1, maturity-2, maturity-3]
+        state: Active

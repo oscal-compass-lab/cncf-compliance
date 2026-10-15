@@ -108,7 +108,7 @@ def observation(
     * ``assessment-rule-id`` (no ns) — maps to ``Rule_Id`` in the validation
       component of the component definition.
     * ``idref`` (CNCF ns) — maps to ``Check_Id`` in the validation component.
-    * ``result`` (CNCF ns) — scanner outcome: pass / fail / other.
+    * ``result`` (CNCF ns) — scanner outcome: pass / fail / no-result / no-check / skip.
     """
     obs_uuid = new_uuid()
     obs = common.Observation(
@@ -144,7 +144,8 @@ def finding(
     reason_map = {
         "pass": common.Reason.pass_,
         "fail": common.Reason.fail,
-        "other": common.Reason.other,
+        "no-result": common.Reason.other,
+        "no-check": common.Reason.other,
         "skip": common.Reason.other,
     }
     return common.Finding(

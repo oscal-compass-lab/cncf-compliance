@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Run the automated checks for a CNCF project and write OSCAL assessment results.
+"""Run the Privateer checks for a CNCF project and write OSCAL assessment results.
 
 Reads, from the trestle workspace:
-  * the shared base component definition  (check spec per control + default params)
-  * the project's SSP                     (probed param values for this project)
-Runs each control's check against a clone of the project's repository and writes:
+  * the shared base component definition  (check spec per control)
+Runs each control's Privateer check (one Privateer requirement per control,
+see privateer_mapping.py) and writes:
 
   <trestle-ws>/assessment-results/<slug>/assessment-results.json
 
 Each control yields one observation (the evidence) and one finding
-(satisfied / not-satisfied).  Controls whose check type is "manual" - or that
-cannot be meaningfully checked against a clone - are reported as not-satisfied
-with reason "other" so they are never counted as passes.
+(satisfied / not-satisfied).  Controls that are skipped, have no unique
+Privateer check, or get an inconclusive Privateer result are reported as
+not-satisfied with reason "no-result" or "no-check" (or "skip") so they are never counted as
+passes.
 
 Observations carry three idref props that link them back to the component
 definition, following the oscal-compass e2e-demo-compliance-posture pattern
@@ -22,7 +23,7 @@ definition, following the oscal-compass e2e-demo-compliance-posture pattern
   * ``result`` (CNCF ns) — pass / fail / other
 
 Usage:
-    python scripts/assess_project.py <repo-url> [--trestle-ws PATH] [--clone-dir PATH]
+    python scripts/assess_project.py <repo-url> [--trestle-ws PATH]
 
 Set GITHUB_TOKEN to authenticate GitHub API calls (higher rate limit).
 """
@@ -35,20 +36,15 @@ from datetime import datetime
 from pathlib import Path
 
 import oscal_factory as factory
-from build_project_compliance import REQUIREMENTS, _repo_name, _slug, clone_repo, _git
+from build_project_compliance import REQUIREMENTS, _repo_name, _slug, remote_head_commit
 from checks import dispatch_check
+from privateer_mapping import UNMAPPED
 
-# Checks that read the clone's own .git/config say nothing about how project
-# developers access the upstream repo, so they are not evaluated automatically.
-NOT_ASSESSABLE_ON_CLONE = {"CNSC-192"}
-
-
-def run_check(control_id: str, spec: str, params: dict[str, str],
-              repo_root: Path, repo_url: str) -> tuple[bool, str, str]:
-    """Return (satisfied, evidence, reason) where reason is pass/fail/other."""
-    if control_id in NOT_ASSESSABLE_ON_CLONE:
-        return False, "Not assessable against a clone of the repository.", "other"
-    return dispatch_check(control_id, spec, params, repo_root, repo_url)
+def run_check(control_id: str, spec: str, repo_url: str) -> tuple[bool, str, str]:
+    """Return (satisfied, evidence, reason) where reason is pass/fail/no-result/no-check/skip."""
+    if spec == "no-check":
+        return False, f"No unique Privateer check. {UNMAPPED[control_id]}", "no-check"
+    return dispatch_check(control_id, spec, {}, Path("."), repo_url)
 
 
 # ---------------------------------------------------------------------------
@@ -59,15 +55,13 @@ def load_base(
     path: Path,
 ) -> tuple[
     dict[str, str],   # specs     control_id -> check_description
-    dict[str, str],   # defaults  param_id   -> default_value
     dict[str, str],   # rules     control_id -> rule_description
     dict[str, str],   # rule_ids  control_id -> Rule_Id  (e.g. "RULE-01")
     dict[str, str],   # check_ids control_id -> Check_Id (e.g. "CHECK-01")
 ]:
-    """Return (specs, defaults, rules, rule_ids, check_ids) from the base comp def."""
+    """Return (specs, rules, rule_ids, check_ids) from the base comp def."""
     data = json.loads(path.read_text(encoding="utf-8"))["component-definition"]
     specs: dict[str, str] = {}
-    defaults: dict[str, str] = {}
     rules: dict[str, str] = {}
     rule_ids: dict[str, str] = {}
     check_ids: dict[str, str] = {}
@@ -78,9 +72,9 @@ def load_base(
     ctrl_to_rule: dict[str, str] = {}
 
     for c in data["components"]:
-        # Scan component-level props for Rule_Id / Rule_Description /
-        # Check_Id / Check_Description (present on both the software and
-        # validation components in the base comp def).
+        # Component-level props Rule_Id / Rule_Description / Check_Id /
+        # Check_Description are present on the software and validation
+        # components in the base comp def.
         curr_rule_id: str | None = None
         for p in c.get("props", []):
             name = p.get("name")
@@ -95,8 +89,6 @@ def load_base(
                 rule_to_check[curr_rule_id] = val
 
         for ci in c.get("control-implementations", []):
-            for sp in ci.get("set-parameters", []):
-                defaults[sp["param-id"]] = sp["values"][0]
             for ir in ci.get("implemented-requirements", []):
                 cid = ir["control-id"]
                 for p in ir.get("props", []):
@@ -119,10 +111,8 @@ def load_base(
         rules.setdefault(cid, req["rule"])
         rule_ids.setdefault(cid, req["rule_id"])
         check_ids.setdefault(cid, req["check_id"])
-        for p in req["params"]:
-            defaults.setdefault(p["id"], p["default"])
 
-    return specs, defaults, rules, rule_ids, check_ids
+    return specs, rules, rule_ids, check_ids
 
 
 def load_control_statements(path: Path) -> dict[str, str]:
@@ -139,17 +129,6 @@ def load_control_statements(path: Path) -> dict[str, str]:
             walk(g.get("groups", []))
 
     walk(catalog.get("groups", []))
-    return out
-
-
-def load_ssp_params(path: Path) -> dict[str, str]:
-    """Flatten the SSP's per-control set-parameters into one param-id -> value map."""
-    ssp = json.loads(path.read_text(encoding="utf-8"))["system-security-plan"]
-    out: dict[str, str] = {}
-    for ir in ssp["control-implementation"]["implemented-requirements"]:
-        for sp in ir.get("set-parameters", []):
-            if sp.get("values"):
-                out[sp["param-id"]] = sp["values"][0]
     return out
 
 
@@ -172,9 +151,9 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
         else:
             result_str = (
                 "pass" if o["ok"]
-                else ("other" if o["reason"] == "other" else "fail")
+                else (o["reason"] if o["reason"] in UNDETERMINED else "fail")
             )
-            method = "TEST" if o["spec"] != "manual" else "INTERVIEW"
+            method = "TEST" if o["spec"].startswith("privateer") else "EXAMINE"
             state = "satisfied" if o["ok"] else "not-satisfied"
 
         obs_uuid, obs = factory.observation(
@@ -212,6 +191,10 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
 # ---------------------------------------------------------------------------
 
 # Any MUST control that is not satisfied makes the whole project "Fail".
+# Reasons that are neither a pass nor a fail: there is no check for the control
+# ("no-check"), or the check gave no decisive answer ("no-result").
+UNDETERMINED = {"no-check", "no-result"}
+
 MUST_CONTROLS = {"CNSC-182", "CNSC-184", "CNSC-190", "CNSC-198", "CNSC-199"}
 
 # Fraction of assessable (automated) SHOULD controls that must be satisfied.
@@ -236,16 +219,21 @@ REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
 def compute_level(outcomes: list[dict]) -> tuple[str, str]:
     """Return (level, explanation). Manual / not-assessable controls are excluded."""
     failed_must = sorted(o["control_id"] for o in outcomes
-                         if o["control_id"] in MUST_CONTROLS and not o["ok"])
+                         if o["control_id"] in MUST_CONTROLS and o["reason"] == "fail")
     if failed_must:
         return "Fail", f"MUST controls not satisfied: {', '.join(failed_must)}"
+    undetermined_must = sorted(o["control_id"] for o in outcomes
+                               if o["control_id"] in MUST_CONTROLS and o["reason"] in UNDETERMINED)
     should = [o for o in outcomes
-              if o["control_id"] not in MUST_CONTROLS and o["reason"] != "other" and o["reason"] != "skip"]
+              if o["control_id"] not in MUST_CONTROLS
+              and o["reason"] not in UNDETERMINED and o["reason"] != "skip"]
     if not should:
         return "Not Assessed", "No automated SHOULD controls were evaluated"
     ratio = sum(o["ok"] for o in should) / len(should)
     detail = (f"{sum(o['ok'] for o in should)}/{len(should)} automated SHOULD "
               f"controls satisfied ({ratio:.0%})")
+    if undetermined_must:
+        detail += f"; MUST controls not determined: {', '.join(undetermined_must)}"
     for name, threshold in LEVELS:
         if ratio >= threshold:
             return name, detail
@@ -257,16 +245,21 @@ def _cell(text: str) -> str:
 
 
 def _result_label(o: dict) -> str:
-    return "SKIP" if o["reason"] == "skip" else ("PASS" if o["ok"] else "FAIL" if o["reason"] == "fail" else "N/A")
+    if o["reason"] == "skip":
+        return "SKIP"
+    if o["ok"]:
+        return "PASS"
+    return {"fail": "FAIL", "no-check": "NO-CHECK", "no-result": "NO-RESULT"}[o["reason"]]
 
 
 def render_report(repo_name: str, repo_url: str, commit: str, level: str,
                   detail: str, outcomes: list[dict],
                   assessed_at: datetime) -> str:
     passed = sum(o["ok"] for o in outcomes if o["reason"] != "skip")
-    na = sum(o["reason"] == "other" for o in outcomes)
+    no_check = sum(o["reason"] == "no-check" for o in outcomes)
+    no_result = sum(o["reason"] == "no-result" for o in outcomes)
     skipped = sum(o["reason"] == "skip" for o in outcomes)
-    failed = len(outcomes) - passed - na - skipped
+    failed = len(outcomes) - passed - no_check - no_result - skipped
     badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["TBD"])
     lines = [
         f"# CNCF controls report: {repo_name}",
@@ -277,15 +270,19 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         f"- **Commit assessed:** `{commit or 'unknown'}`",
         f"- **Assessed at:** {assessed_at:%Y-%m-%d %H:%M} UTC",
         f"- **Level:** **{level}**. {detail}",
-        f"- **Totals:** {passed} satisfied, {failed} failed, {na} not automated, {skipped} skipped "
+        f"- **Totals:** {passed} satisfied, {failed} failed, {no_result} no result, "
+        f"{no_check} no check, {skipped} skipped "
         f"(of {len(outcomes)} controls)",
         "",
-        "Levels: *Fail* if any MUST control is not satisfied; otherwise "
+        "Levels: *Fail* if any MUST control fails; MUST controls without a "
+        "decisive result do not fail a project but are listed in the level detail. Otherwise "
         "*Baseline Pass Only* at 50%, *Bronze* at 60%, *Silver* at 75%, "
         "*Gold* at 90% of automated SHOULD controls. "
         "MUST controls: " + ", ".join(sorted(MUST_CONTROLS)) + ". "
-        "Manual, non-assessable, and skipped controls are excluded from the "
-        "percentage and never count as passes.",
+        "Result labels: PASS and FAIL are decisive. NO-RESULT means a check ran but gave no "
+        "decisive answer (for example Privateer \"Needs Review\"). NO-CHECK means the control is in "
+        "scope but has no unique check. SKIP means the control is out of scope by design. "
+        "NO-RESULT, NO-CHECK and SKIP controls are excluded from the percentage and never count as passes.",
         "",
         "## Results by control",
         "",
@@ -345,7 +342,6 @@ def main() -> int:
     )
     ap.add_argument("repo_url")
     ap.add_argument("--trestle-ws", default="trestle.ws")
-    ap.add_argument("--clone-dir", default="/tmp/cncf-compliance-clones")
     args = ap.parse_args()
 
     ws = Path(args.trestle_ws)
@@ -360,12 +356,10 @@ def main() -> int:
                   file=sys.stderr)
             return 1
 
-    specs, defaults, comp_rules, comp_rule_ids, comp_check_ids = load_base(base_path)
-    params = {**defaults, **load_ssp_params(ssp_path)}
+    specs, comp_rules, comp_rule_ids, comp_check_ids = load_base(base_path)
     statements = load_control_statements(catalog_path)
 
     start = factory.now_utc()
-    repo_root = clone_repo(args.repo_url, Path(args.clone_dir))
 
     # Build lookup dicts, letting the comp-def values override REQUIREMENTS fallbacks.
     rules = {**{r["control_id"]: r["rule"] for r in REQUIREMENTS}, **comp_rules}
@@ -380,7 +374,7 @@ def main() -> int:
 
     outcomes = []
     for cid, spec in specs.items():
-        ok, evidence, reason = run_check(cid, spec, params, repo_root, args.repo_url)
+        ok, evidence, reason = run_check(cid, spec, args.repo_url)
         outcomes.append({
             "control_id": cid,
             "spec": spec,
@@ -408,7 +402,7 @@ def main() -> int:
     )
 
     passed = sum(o["ok"] for o in outcomes)
-    manual = sum(o["reason"] == "other" for o in outcomes)
+    manual = sum(o["reason"] in UNDETERMINED for o in outcomes)
     print(f"Written: {out}")
     print(f"Satisfied {passed}/{len(outcomes)}  "
           f"(failed {len(outcomes) - passed - manual}, not automated {manual})")
@@ -420,7 +414,7 @@ def main() -> int:
     (REPORTS_DIR / f"{slug}.md").write_text(
         render_report(
             repo_name, args.repo_url,
-            _git(["rev-parse", "--short", "HEAD"], repo_root),
+            remote_head_commit(args.repo_url),
             level, detail, outcomes, assessed_at,
         ),
         encoding="utf-8",

@@ -1,4 +1,4 @@
-"""Registry and dispatcher for CNCF compliance checks."""
+"""Registry and dispatcher for CNCF compliance checks (Privateer only)."""
 
 from pathlib import Path
 from typing import Callable
@@ -26,23 +26,12 @@ def dispatch_check(control_id: str, spec: str, params: dict[str, str],
     if ctype == "skip":
         return True, "Skipped: This control is out-of-scope for static source repository assessments.", "skip"
 
-    if ctype == "manual":
-        return False, "Manual check - requires human review; not automated.", "other"
-
     handler = REGISTRY.get(ctype)
     if not handler:
-        return False, f"No implementation registered for check type: {ctype}", "other"
+        return False, f"No implementation registered for check type: {ctype}", "no-result"
 
     return handler(control_id, param_names, params, repo_root, repo_url)
 
 
-# Import all separate check implementation modules to register them
-from . import file_exists  # noqa: E402, F401
-from . import file_contains  # noqa: E402, F401
-from . import no_secrets  # noqa: E402, F401
-from . import git_commits_signed  # noqa: E402, F401
-from . import git_branch_protected  # noqa: E402, F401
-from . import makefile_target  # noqa: E402, F401
-from . import ci_vuln_scan  # noqa: E402, F401
-from . import ci_sast  # noqa: E402, F401
-from . import ci_manifest_scan  # noqa: E402, F401
+# Import the check implementation module to register it
+from . import privateer  # noqa: E402, F401
