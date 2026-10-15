@@ -3,8 +3,8 @@
 ![cncf-controls: Silver](../badges/silver.svg)
 
 - **Repository:** [https://github.com/argoproj/argo-cd](https://github.com/argoproj/argo-cd)
-- **Commit assessed:** `f5d79d2`
-- **Assessed at:** 2026-10-14 20:58 UTC
+- **Commit assessed:** `efc6774`
+- **Assessed at:** 2026-10-15 11:22 UTC
 - **Level:** **Silver**. 39/49 automated SHOULD controls satisfied (80%)
 - **Totals:** 44 satisfied, 10 failed, 5 not automated, 155 skipped (of 214 controls)
 

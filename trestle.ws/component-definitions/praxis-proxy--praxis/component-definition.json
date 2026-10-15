@@ -1,0 +1,81 @@
+{
+  "component-definition": {
+    "uuid": "97e2414b-be97-48ef-9ae7-e73e751840f5",
+    "metadata": {
+      "title": "Component Definition — praxis-proxy/praxis",
+      "last-modified": "2026-10-15T11:30:11.771+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "a707d248-1b8f-4706-9610-412f312b7f7d",
+          "type": "organization",
+          "name": "praxis-proxy/praxis",
+          "links": [
+            {
+              "href": "https://github.com/praxis-proxy/praxis",
+              "rel": "canonical"
+            }
+          ]
+        }
+      ]
+    },
+    "import-component-definitions": [
+      {
+        "href": "trestle://component-definitions/cncf-repo/component-definition.json"
+      }
+    ],
+    "components": [
+      {
+        "uuid": "af9f3a14-b2c4-497a-b22b-f007edfbe169",
+        "type": "software",
+        "title": "praxis-proxy/praxis",
+        "description": "Source code repository at https://github.com/praxis-proxy/praxis.",
+        "purpose": "CNCF project source repository assessed against the cncf-repo profile.",
+        "links": [
+          {
+            "href": "https://github.com/praxis-proxy/praxis",
+            "rel": "reference"
+          }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "55814fae-488b-4227-b30a-52ab3b8fc1ff",
+            "source": "trestle://profiles/cncf-repo/profile.json",
+            "description": "Parameter overrides for praxis-proxy/praxis relative to the shared cncf-repo base.",
+            "set-parameters": [
+              {
+                "param-id": "codeowners-file",
+                "values": [
+                  ".github/CODEOWNERS"
+                ],
+                "remarks": "auto-probed"
+              },
+              {
+                "param-id": "dependency-file",
+                "values": [
+                  "Cargo.toml"
+                ],
+                "remarks": "auto-probed"
+              },
+              {
+                "param-id": "lock-file",
+                "values": [
+                  "Cargo.lock"
+                ],
+                "remarks": "auto-probed"
+              }
+            ],
+            "implemented-requirements": [
+              {
+                "uuid": "d9e93f77-60ca-48e7-836f-ff19b163888f",
+                "control-id": "CNSC-71",
+                "description": "All control implementations are inherited from the shared base component definition. Only parameter overrides are declared here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

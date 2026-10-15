@@ -18,21 +18,32 @@ def scan_group(g):
         scan_group(sg)
 scan_group(cat_data["catalog"])
 
-# Load active controls from original profile
-orig_prof = json.loads(orig_prof_path.read_text(encoding="utf-8"))
+# Load active controls from existing active profile (or original profile if active profile does not exist)
+prof_active_path = ROOT / "trestle.ws" / "profiles" / "cncf-repo-active" / "profile.json"
+prof_skip_path = ROOT / "trestle.ws" / "profiles" / "cncf-repo-skip" / "profile.json"
+
+active_source_path = prof_active_path if prof_active_path.exists() else orig_prof_path
+active_prof = json.loads(active_source_path.read_text(encoding="utf-8"))
 active_ctrls = []
-for imp in orig_prof["profile"].get("imports", []):
+for imp in active_prof["profile"].get("imports", []):
     for inc in imp.get("include-controls", []):
         active_ctrls.extend(inc.get("with-ids", []))
 
 skipped_ctrls = [c for c in cat_ctrls if c not in active_ctrls]
 
+orig_prof = json.loads(orig_prof_path.read_text(encoding="utf-8"))
+active_uuid = active_prof["profile"].get("uuid") if prof_active_path.exists() else str(uuid.uuid4())
+skip_uuid = (
+    json.loads(prof_skip_path.read_text(encoding="utf-8"))["profile"].get("uuid")
+    if prof_skip_path.exists()
+    else str(uuid.uuid4())
+)
+
 # Write Profile 1 (Active)
-prof_active_path = ROOT / "trestle.ws" / "profiles" / "cncf-repo-active" / "profile.json"
 prof_active_path.parent.mkdir(parents=True, exist_ok=True)
 prof_active_data = {
     "profile": {
-        "uuid": str(uuid.uuid4()),
+        "uuid": active_uuid,
         "metadata": {
             "title": "CNCF Source Repository Profile - Profile 1 (Active)",
             "last-modified": "2026-10-15T00:00:00.000+00:00",
@@ -49,7 +60,11 @@ prof_active_data = {
         "imports": [
             {
                 "href": "trestle://catalogs/cncf-controls/catalog.json",
-                "include-controls": [{"with-ids": [c]} for c in active_ctrls]
+                "include-controls": [
+                    {
+                        "with-ids": active_ctrls
+                    }
+                ]
             }
         ]
     }
@@ -58,11 +73,10 @@ prof_active_path.write_text(json.dumps(prof_active_data, indent=2), encoding="ut
 print(f"Written Profile 1 (Active): {prof_active_path} with {len(active_ctrls)} controls")
 
 # Write Profile 2 (Skip)
-prof_skip_path = ROOT / "trestle.ws" / "profiles" / "cncf-repo-skip" / "profile.json"
 prof_skip_path.parent.mkdir(parents=True, exist_ok=True)
 prof_skip_data = {
     "profile": {
-        "uuid": str(uuid.uuid4()),
+        "uuid": skip_uuid,
         "metadata": {
             "title": "CNCF Source Repository Profile - Profile 2 (Skipped)",
             "last-modified": "2026-10-15T00:00:00.000+00:00",
@@ -79,7 +93,11 @@ prof_skip_data = {
         "imports": [
             {
                 "href": "trestle://catalogs/cncf-controls/catalog.json",
-                "include-controls": [{"with-ids": [c]} for c in skipped_ctrls]
+                "include-controls": [
+                    {
+                        "with-ids": skipped_ctrls
+                    }
+                ]
             }
         ]
     }
