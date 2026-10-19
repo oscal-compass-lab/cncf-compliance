@@ -13,7 +13,7 @@ all other catalog controls are out of scope) is in exactly one of:
             requirement is used by at most one control, so every mapped
             control has a check no other control shares.
   UNMAPPED  control -> reason
-            No unique Privateer check can be defined, for the stated reason.
+            No Privateer check was found, native or plugin, for the stated reason.
             The control is reported as "not determined" and is never counted
             as a pass.
 
@@ -150,10 +150,10 @@ def render_coverage() -> str:
         "five controls the Baseline cannot. No requirement is used by more than one control.",
         "",
         f"- **Controls in scope:** {total}",
-        f"- **With a unique Privateer check:** {len(MAPPED)} "
+        f"- **With a Privateer check:** {len(MAPPED)} "
         f"({sum(v[1] == 'exact' for v in MAPPED.values())} exact, "
         f"{sum(v[1] == 'partial' for v in MAPPED.values())} partial)",
-        f"- **Without a unique Privateer check:** {len(UNMAPPED)}",
+        f"- **With no Privateer check found:** {len(UNMAPPED)}",
         "",
         "A partial mapping means a pass is necessary but not sufficient evidence for the control. "
         "A control without a check is reported as not determined and never counts as a pass.",
@@ -168,7 +168,7 @@ def render_coverage() -> str:
         lines.append(f"| {cid} | {_cell(cat[cid][1])} | {plugin_for(osps)} | {osps} | {fidelity} | {_cell(note)} |")
     lines += [
         "",
-        "## Controls without a Privateer check",
+        "## Controls with no Privateer check found",
         "",
         "| Control | Title | Reason |",
         "| --- | --- | --- |",

@@ -71,7 +71,7 @@ def _build_requirements() -> list[dict]:
             check_title = f"Privateer {osps} ({fidelity})"
         else:
             check = "no-check"
-            check_title = "No unique Privateer check"
+            check_title = "No Privateer check found, native or plugin"
         reqs.append({
             "control_id": cid,
             "rule_id": f"RULE-{n:02d}",
@@ -160,8 +160,8 @@ def build_base_comp_def() -> comp.Model:
     #    Privateer check are split by the plugin that runs them, so the
     #    component says whether a check is provided by Privateer itself
     #    (privateer-native: the github-repo plugin) or by our own plugin
-    #    (privateer-plugins: cncf-controls). Controls with no unique Privateer
-    #    check are recorded in not-checked so every rule still has a Check_Id.
+    #    (privateer-plugins: cncf-controls). Controls for which no Privateer
+    #    check was found are recorded in not-checked so every rule still has a Check_Id.
     plugin_props: dict[str, list] = {"github-repo": [], "cncf-controls": []}
     no_check_props = []
     for i, req in enumerate(REQUIREMENTS):
@@ -200,8 +200,8 @@ def build_base_comp_def() -> comp.Model:
     no_check_component = factory.validation_component(
         title="not-checked",
         description=(
-            "Controls that are in scope for git repositories but have no unique "
-            "Privateer check (no-check). They are reported as not determined and never "
+            "Controls that are in scope for git repositories but have no "
+            "Privateer check, native or plugin (no-check). They are reported as not determined and never "
             "count as a pass. The reason for each is in docs/privateer-check-coverage.md."
         ),
         purpose="Record in-scope controls that are not yet automatically assessed.",

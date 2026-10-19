@@ -9,7 +9,7 @@ see privateer_mapping.py) and writes:
   <trestle-ws>/assessment-results/<slug>/assessment-results.json
 
 Each control yields one observation (the evidence) and one finding
-(satisfied / not-satisfied).  Controls that have no unique Privateer check, or
+(satisfied / not-satisfied).  Controls for which no Privateer check was found (native or plugin), or
 get an inconclusive Privateer result, are reported as not-satisfied with reason
 "no-check" or "no-result" so they are never counted as passes.  Catalog
 controls outside the cncf-repo profile are out of scope and not assessed.
@@ -46,8 +46,8 @@ def run_check(control_id: str, spec: str, repo_url: str) -> tuple[bool, str, str
     if spec == "no-check":
         import html as _html
         reason = UNMAPPED[control_id]
-        tip = _html.escape(f"No unique Privateer check. {reason}", quote=True)
-        return False, f'<span title="{tip}">No unique check</span>', "no-check"
+        tip = _html.escape(f"No Privateer check found, native or plugin. {reason}", quote=True)
+        return False, f'<span title="{tip}">No Privateer check found</span>', "no-check"
     return dispatch_check(control_id, spec, {}, Path("."), repo_url)
 
 
@@ -273,7 +273,7 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         "| PASS | Check ran and passed | Yes |",
         "| FAIL | Check ran and failed | Yes |",
         "| NO-RESULT | Check ran but gave no decisive answer (e.g. Privateer \"Needs Review\") | No |",
-        "| NO-CHECK | Control is in scope but has no unique check | No |",
+        "| NO-CHECK | Control is in scope but no Privateer check was found, native or plugin | No |",
         "",
         "## Results by control",
         "",
