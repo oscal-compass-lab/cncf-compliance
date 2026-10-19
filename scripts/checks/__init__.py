@@ -23,13 +23,6 @@ def dispatch_check(control_id: str, spec: str, params: dict[str, str],
     ctype, _, rest = (s.strip() for s in spec.partition("|"))
     param_names = [n.strip() for n in rest.replace("param:", "", 1).split(";") if n.strip()]
 
-    if ctype == "skip":
-        return True, (
-            '<span title="Skipped: This control is out-of-scope for static source repository assessments.">'
-            "Out of scope"
-            "</span>"
-        ), "skip"
-
     handler = REGISTRY.get(ctype)
     if not handler:
         return False, f"No implementation registered for check type: {ctype}", "no-result"

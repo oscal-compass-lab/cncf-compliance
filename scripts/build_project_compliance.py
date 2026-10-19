@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build OSCAL compliance artifacts for CNCF projects.
 
-Every control that is in scope has its own Privateer check (see
-privateer_mapping.py). Controls without one, and controls skipped by the
-cncf-repo-skip profile, are recorded with the reason.
+The cncf-repo profile comprises the controls in scope for git repositories; all
+other catalog controls are out of scope. Every control in the profile has its
+own Privateer check (see privateer_mapping.py), or is recorded as not checked,
+with the reason.
 
 Two sub-commands:
 
@@ -49,8 +50,8 @@ CNCF_OSCAL_NS = factory.CNCF_OSCAL_NS
 
 # ---------------------------------------------------------------------------
 # Control requirements table
-# One rule + check per control, generated from the Privateer mapping in
-# privateer_mapping.py (the single source of truth) and the skip profile.
+# One rule + check per in-scope control, generated from the Privateer mapping
+# in privateer_mapping.py (the single source of truth).
 # ---------------------------------------------------------------------------
 
 _catalog = load_catalog()
@@ -58,19 +59,6 @@ _catalog = load_catalog()
 
 def _natural(cid: str) -> int:
     return int(cid.split("-")[1])
-
-
-def _skipped_control_ids() -> list[str]:
-    path = Path(__file__).resolve().parent.parent / "trestle.ws" / "profiles" / "cncf-repo-skip" / "profile.json"
-    if not path.exists():
-        return []
-    profile = json.loads(path.read_text(encoding="utf-8"))["profile"]
-    return sorted(
-        {cid for imp in profile.get("imports", [])
-         for inc in imp.get("include-controls", [])
-         for cid in inc.get("with-ids", [])},
-        key=_natural,
-    )
 
 
 def _build_requirements() -> list[dict]:
@@ -93,17 +81,6 @@ def _build_requirements() -> list[dict]:
             "rule": statement,
             "check": check,
             "requirement": MAPPED[cid][0] if cid in MAPPED else "",
-            "params": [],
-        })
-    for cid in _skipped_control_ids():
-        reqs.append({
-            "control_id": cid,
-            "rule_id": f"RULE-{cid}-SKIP",
-            "rule_title": f"Skipped Control {cid}",
-            "check_id": f"CHECK-{cid}-SKIP",
-            "check_title": f"Skipped Control Check {cid}",
-            "rule": f"Control {cid} is out-of-scope for static source repository assessments.",
-            "check": "skip",
             "params": [],
         })
     return reqs
@@ -180,23 +157,19 @@ def build_base_comp_def() -> comp.Model:
 
     # 2. Validation Components — Rule_Id / Check_Id / Check_Description /
     #    Target_Component props, one group per requirement. Controls with a
-    #    Privateer check are validated by the Privateer component. Controls
-    #    that are skipped, or that have no unique Privateer check, are recorded
-    #    in their own components so every rule still has a Check_Id.
-    #    Controls with a Privateer check are split by the plugin that runs them,
-    #    so the component says whether a check is provided by Privateer itself
-    #    (github-repo) or by our own plugin (cncf-controls).
+    #    Privateer check are split by the plugin that runs them, so the
+    #    component says whether a check is provided by Privateer itself
+    #    (privateer-native: the github-repo plugin) or by our own plugin
+    #    (privateer-plugins: cncf-controls). Controls with no unique Privateer
+    #    check are recorded in not-checked so every rule still has a Check_Id.
     plugin_props: dict[str, list] = {"github-repo": [], "cncf-controls": []}
-    skip_props = []
     no_check_props = []
     for i, req in enumerate(REQUIREMENTS):
         remarks = f"check_set_{i:02d}"
         if req["check"].startswith("privateer"):
             props = plugin_props[plugin_for(req["requirement"])]
-        elif req["check"] == "no-check":
-            props = no_check_props
         else:
-            props = skip_props
+            props = no_check_props
         props.extend([
             factory.cncf_prop("Rule_Id", req["rule_id"], remarks),
             factory.cncf_prop("Check_Id", req["check_id"], remarks),
@@ -205,7 +178,7 @@ def build_base_comp_def() -> comp.Model:
         ])
 
     privateer_component = factory.validation_component(
-        title="Privateer validation",
+        title="privateer-native",
         description=(
             "Checks provided by Privateer (pvtr) itself: its github-repo plugin evaluates the "
             "OpenSSF Open Source Project Security Baseline (OSPS) for a GitHub repository. "
@@ -215,33 +188,24 @@ def build_base_comp_def() -> comp.Model:
         val_props=plugin_props["github-repo"],
     )
     cncf_component = factory.validation_component(
-        title="Privateer plug-in validation",
+        title="privateer-plugins",
         description=(
             "Checks provided by the cncf-controls Privateer plugin written for this project "
-            "(privateer-plugins/cncf-controls), which evaluates the CNCF MUST controls the "
+            "(privateer-plugins/cncf-controls), which evaluates the five CNCF controls the "
             "OSPS Baseline does not cover. It runs alongside github-repo in the same pvtr run."
         ),
-        purpose="Validate the CNCF MUST controls using requirement results from the cncf-controls plugin.",
+        purpose="Validate five CNCF controls using requirement results from the cncf-controls plugin.",
         val_props=plugin_props["cncf-controls"],
     )
     no_check_component = factory.validation_component(
-        title="No-check validation",
+        title="not-checked",
         description=(
-            "Controls that are in scope for repository assessment but have no unique "
+            "Controls that are in scope for git repositories but have no unique "
             "Privateer check (no-check). They are reported as not determined and never "
             "count as a pass. The reason for each is in docs/privateer-check-coverage.md."
         ),
         purpose="Record in-scope controls that are not yet automatically assessed.",
         val_props=no_check_props,
-    )
-    skip_component = factory.validation_component(
-        title="Skip validation",
-        description=(
-            "Controls that are out of scope for static source repository assessments "
-            "(skip). They are excluded from scoring."
-        ),
-        purpose="Record controls that are intentionally not assessed.",
-        val_props=skip_props,
     )
 
     md = factory.org_metadata(
@@ -250,7 +214,7 @@ def build_base_comp_def() -> comp.Model:
     )
 
     return factory.component_definition(
-        md=md, components=[sw_component, privateer_component, cncf_component, no_check_component, skip_component]
+        md=md, components=[sw_component, privateer_component, cncf_component, no_check_component]
     )
 
 

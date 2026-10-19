@@ -21,11 +21,11 @@ DEFAULT_STATUS = "TBD"
 TIMEOUT_SECONDS = 60
 
 STATUS_TOOLTIPS = {
-    "Gold": "Exceptional compliance: satisfied 100% of MUST controls and >= 90% of automated SHOULD controls",
-    "Silver": "Strong compliance: satisfied 100% of MUST controls and >= 75% of automated SHOULD controls",
-    "Bronze": "Good compliance: satisfied 100% of MUST controls and >= 60% of automated SHOULD controls",
-    "Baseline Pass Only": "Minimum compliance: satisfied 100% of MUST controls and >= 50% of automated SHOULD controls (below Bronze tier)",
-    "Fail": "Non-compliant: failed one or more MUST controls, or satisfied < 50% of automated SHOULD controls",
+    "Gold": "Exceptional compliance: satisfied >= 90% of the controls with a decisive result",
+    "Silver": "Strong compliance: satisfied >= 75% of the controls with a decisive result",
+    "Bronze": "Good compliance: satisfied >= 60% of the controls with a decisive result",
+    "Baseline Pass Only": "Minimum compliance: satisfied >= 50% of the controls with a decisive result (below Bronze tier)",
+    "Fail": "Non-compliant: satisfied < 50% of the controls with a decisive result",
     "TBD": "Assessment pending",
 }
 

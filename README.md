@@ -18,40 +18,72 @@ There is one table per CNCF maturity level, listed in the order Graduated, Incub
 The tables are generated. Do not edit the section between the `BEGIN PROJECT TABLES` and `END PROJECT TABLES` markers by hand, because it is overwritten on every run. The [Update CNCF project tables](.github/workflows/update-readme.yml) workflow runs these steps in order:
 
 1. [`scripts/update_readme.py`](scripts/update_readme.py) downloads the current CNCF landscape metadata. It keeps the projects whose maturity is graduated, incubating or sandbox, and records them in [`data/projects.json`](data/projects.json). Assessment results already recorded there are kept. It then rewrites the tables.
-2. [`scripts/build_project_compliance.py base`](scripts/build_project_compliance.py) builds the OSCAL documents shared by all projects: the control catalog, the profile and the base component definition. The base component definition holds the check for each control and the default parameter values. It has two validation components: the [Privateer](#privateer-checks) checks, and an assessment scope component that records the controls that are skipped or have no unique Privateer check.
+2. [`scripts/build_project_compliance.py base`](scripts/build_project_compliance.py) builds the OSCAL documents shared by all projects: the control catalog, the profile and the base component definition. The profile comprises the controls that are in scope for git repositories; all other catalog controls are out of scope. The base component definition holds the check for each profile control and the default parameter values. It has three validation components: `privateer-native` and `privateer-plugins` for the [Privateer](#privateer-checks) checks, and `not-checked` for the controls that have no unique Privateer check.
 3. For each project, `scripts/build_project_compliance.py project <repo-url>` writes a project component definition that imports the base, plus a system security plan and an assessment plan.
-4. For each project, [`scripts/assess_project.py`](scripts/assess_project.py) looks up the Privateer result for each in-scope control and writes the OSCAL assessment results and a report in [`reports/`](reports). Controls that are out of scope are reported as skipped. It then stores the resulting level, report link and assessment time in `data/projects.json` and refreshes the tables.
+4. For each project, [`scripts/assess_project.py`](scripts/assess_project.py) looks up the Privateer result for each in-scope control and writes the OSCAL assessment results and a report in [`reports/`](reports). Controls outside the profile are not assessed. It then stores the resulting level, report link and assessment time in `data/projects.json` and refreshes the tables.
 
 A project whose assessment has not run yet shows the **TBD** badge and `-` in the OSCAL documents column.
 
+### Which controls are in scope
+
+The [catalog](trestle.ws/catalogs/cncf-controls/catalog.json) has 214 CNCF security controls. The assessment covers a git repository, so only the controls that concern a repository are in scope. The profile ([`cncf-repo`](trestle.ws/profiles/cncf-repo/profile.json)) lists these 55 controls. The other 159 are out of scope: they are not in the profile and are not assessed, reported or counted.
+
+A control is **in scope** when its subject is something a git repository holds or controls, so it can be judged from the repository and its GitHub settings:
+
+- the source code and how changes to it are made: commit and tag signing, branch protection, code review, secret prevention
+- repository governance: members, roles, access, contribution policy, multi-factor authentication
+- the development practices recorded in the repository: tests, vulnerability and static analysis in CI, threat modeling, build instructions, dependency lists and SBOMs
+
+A control is **out of scope** when its subject is something a repository does not hold, such as a running system, an environment or an organization-wide practice:
+
+- runtime and infrastructure: workloads, compute, networking, storage, orchestrators, secrets and key management at runtime
+- deployment: registries, image hardening, dedicated environments, deployment strategies
+- access control to running systems, incident response and monitoring
+
+By catalog group:
+
+| Group | In scope | Out of scope |
+| --- | --- | --- |
+| Develop | 13 | 7 |
+| Securing Build Pipelines | 12 | 9 |
+| Securing the Source Code | 11 | 2 |
+| Security Assurance | 9 | 13 |
+| Securing Materials | 8 | 1 |
+| Distribute | 2 | 38 |
+| Access Control | 0 | 22 |
+| Compute | 0 | 36 |
+| Deploy | 0 | 9 |
+| Securing Artefacts | 0 | 8 |
+| Storage | 0 | 14 |
+
+A control in scope is not necessarily checked. Each one either has its own [Privateer](#privateer-checks) check (22 controls) or is recorded as not checked, with the reason (33 controls). See [`docs/privateer-check-coverage.md`](docs/privateer-check-coverage.md). To change the scope, edit `MAPPED` and `UNMAPPED` in [`scripts/privateer_mapping.py`](scripts/privateer_mapping.py), then run [`scripts/generate_profile.py`](scripts/generate_profile.py) to rewrite the profile and `scripts/build_project_compliance.py base` to rebuild the base component definition.
+
 ### Assessment badges
 
-Each project gets one badge. The level is computed from the project's automated check results:
+Each project gets one badge. The level is the percentage of the in-scope controls with a decisive result (PASS or FAIL) that are satisfied. All controls count equally; no control is weighted more heavily than another.
 
-- **MUST controls** are the five controls CNSC-182, CNSC-184, CNSC-190, CNSC-198 and CNSC-199. A MUST control that fails makes the project **Fail**. A MUST control without a decisive result (no unique Privateer check, or Needs Review) does not fail the project, but it is listed in the level detail of the report.
-- **Automated SHOULD controls** are all other controls that have an automated check that ran. The level depends on the percentage of these that are satisfied.
-- Controls that have no unique Privateer check, have an inconclusive Privateer result (for example "Needs Review"), or are out of scope for static source repository assessments are excluded from the percentage. They are never counted as passes.
+Controls that have no unique Privateer check, or have an inconclusive Privateer result (for example "Needs Review"), are excluded from the percentage. They are never counted as passes.
 
 | Badge | Level | Meaning |
 | --- | --- | --- |
-| <img src="badges/gold.svg" alt="Gold"> | Gold | Exceptional compliance: satisfied 100% of MUST controls and >= 90% of automated SHOULD controls. |
-| <img src="badges/silver.svg" alt="Silver"> | Silver | Strong compliance: satisfied 100% of MUST controls and >= 75% of automated SHOULD controls. |
-| <img src="badges/bronze.svg" alt="Bronze"> | Bronze | Good compliance: satisfied 100% of MUST controls and >= 60% of automated SHOULD controls. |
-| <img src="badges/baseline-pass-only.svg" alt="Baseline Pass Only"> | Baseline Pass Only | Minimum compliance: satisfied 100% of MUST controls and >= 50% of automated SHOULD controls (below Bronze). |
-| <img src="badges/fail.svg" alt="Fail"> | Fail | Non-compliant: failed one or more MUST controls, or satisfied < 50% of automated SHOULD controls. |
-| <img src="badges/tbd.svg" alt="TBD"> | TBD | Assessment pending, or no automated SHOULD controls could be evaluated. |
+| <img src="badges/gold.svg" alt="Gold"> | Gold | Exceptional compliance: satisfied >= 90% of the controls with a decisive result. |
+| <img src="badges/silver.svg" alt="Silver"> | Silver | Strong compliance: satisfied >= 75% of the controls with a decisive result. |
+| <img src="badges/bronze.svg" alt="Bronze"> | Bronze | Good compliance: satisfied >= 60% of the controls with a decisive result. |
+| <img src="badges/baseline-pass-only.svg" alt="Baseline Pass Only"> | Baseline Pass Only | Minimum compliance: satisfied >= 50% of the controls with a decisive result (below Bronze). |
+| <img src="badges/fail.svg" alt="Fail"> | Fail | Non-compliant: satisfied < 50% of the controls with a decisive result. |
+| <img src="badges/tbd.svg" alt="TBD"> | TBD | Assessment pending, or no control had a decisive result. |
 
 ### Privateer checks
 
 Some controls are checked by [Privateer](https://openssf.org/projects/privateer/) (`pvtr`) with two plugins, run together as two services of one `pvtr run`:
 
 - `github-repo` evaluates the [Open Source Project Security Baseline](https://baseline.openssf.org) (OSPS) for a GitHub repository.
-- `cncf-controls` is our own plugin, in [`privateer-plugins/cncf-controls`](privateer-plugins/cncf-controls). It checks the five MUST controls that the Baseline cannot: CNSC-182 (signed commits and tags), CNSC-184 (no secrets in the default branch, scanned with [gitleaks](https://github.com/gitleaks/gitleaks)), CNSC-190 (branch protection), CNSC-198 (secret scanning and push protection plus the content scan) and CNSC-199 (signed commits enforced). Commits and tags made by release automation, such as bots and `semantic-release`, are excused and counted in the result. The plugin variables `release-automation-authors`, `signature-commit-count`, `signature-tag-count` and `secrets-scan-ignore-paths` tune it. Its Go module path is that of a future repository, `oscal-compass-lab/pvtr-cncf-controls`.
+- `cncf-controls` is our own plugin, in [`privateer-plugins/cncf-controls`](privateer-plugins/cncf-controls). It checks the five controls that the Baseline cannot: CNSC-182 (signed commits and tags), CNSC-184 (no secrets in the default branch, scanned with [gitleaks](https://github.com/gitleaks/gitleaks)), CNSC-190 (branch protection), CNSC-198 (secret scanning and push protection plus the content scan) and CNSC-199 (signed commits enforced). Commits and tags made by release automation, such as bots and `semantic-release`, are excused and counted in the result. The plugin variables `release-automation-authors`, `signature-commit-count`, `signature-tag-count` and `secrets-scan-ignore-paths` tune it. Its Go module path is that of a future repository, `oscal-compass-lab/pvtr-cncf-controls`.
 
 Privateer evaluates the whole repository in one run, so the run happens once per project and each Privateer-backed control looks up its requirement in the results.
 
-- Every control in scope has its own requirement, or a documented reason why it has none. No requirement is used by more than one control. The mapping is `MAPPED` and `UNMAPPED` in [`scripts/privateer_mapping.py`](scripts/privateer_mapping.py), and [`docs/privateer-check-coverage.md`](docs/privateer-check-coverage.md) lists each control with its requirement, how closely the requirement matches (exact or partial), or the reason there is none. It is written into the base component definition as a check of the form `privateer | plugin: github-repo; requirement: OSPS-GV-03.01`, in the "Privateer validation" component for checks Privateer provides, or the "Privateer plug-in validation" component for checks from our own plugin. Controls without a unique check are recorded in "No-check validation" (in scope, reported as not determined), and controls that are out of scope by design in "Skip validation" (excluded from scoring).
-- Each control's result is one of PASS, FAIL, NO-RESULT, NO-CHECK or SKIP. Only a Passed or Failed Privateer result is decisive. NO-RESULT means a check ran but gave no decisive answer (Needs Review, Unknown, Not Applicable, Not Run, or Privateer unavailable). NO-CHECK means the control is in scope but has no unique check. SKIP means the control is out of scope by design. NO-RESULT, NO-CHECK and SKIP are never counted as passes.
+- Every control in scope has its own requirement, or a documented reason why it has none. No requirement is used by more than one control. The mapping is `MAPPED` and `UNMAPPED` in [`scripts/privateer_mapping.py`](scripts/privateer_mapping.py), and [`docs/privateer-check-coverage.md`](docs/privateer-check-coverage.md) lists each control with its requirement, how closely the requirement matches (exact or partial), or the reason there is none. It is written into the base component definition as a check of the form `privateer | plugin: github-repo; requirement: OSPS-GV-03.01`, in the `privateer-native` validation component for checks Privateer provides (`github-repo`), or the `privateer-plugins` component for checks from our own plugin (`cncf-controls`). Controls without a unique check are recorded in the `not-checked` component (in scope, reported as not determined).
+- Each control's result is one of PASS, FAIL, NO-RESULT or NO-CHECK. Only a Passed or Failed Privateer result is decisive. NO-RESULT means a check ran but gave no decisive answer (Needs Review, Unknown, Not Applicable, Not Run, or Privateer unavailable). NO-CHECK means the control is in scope but has no unique check. NO-RESULT and NO-CHECK are never counted as passes.
 - Some OSPS results depend on the access of the GitHub token used for the run. For example, branch protection is reported as Needs Review when the token cannot see it, so the same project can be assessed differently with a different token.
 - There are no other checks. The repository is not cloned.
 - Install the pinned Privateer binaries with [`scripts/privateer/install.sh`](scripts/privateer/install.sh), which verifies each download against its published SHA-256 checksum and then builds the `cncf-controls` plugin from source with Go (dependencies are pinned in `go.mod` and checked against `go.sum`). They are not Python packages, so they are not in `requirements.txt`. A `GITHUB_TOKEN` must be set for the assessment.
@@ -63,7 +95,7 @@ The dropdown in the last column links to these documents. The first three are sh
 | Document | Scope | Purpose |
 | --- | --- | --- |
 | Catalog | Shared | The CNCF security controls. |
-| Profile | Shared | The subset of catalog controls that apply to a repository. |
+| Profile | Shared | The catalog controls that are in scope for git repositories. The other controls are out of scope. |
 | Base Component Definition | Shared | The automated check and default parameter values for each control. |
 | Component Definition | Project | Imports the base component definition and overrides the parameters that differ for this project. |
 | System Security Plan | Project | Binds the project component definition to the profile and records the parameter values found in the repository. |
@@ -275,7 +307,7 @@ The dropdown in the last column links to these documents. The first three are sh
 | <img src="https://landscape.cncf.io/logos/0476d1e760d3b3faf9ec3feb9a486c2ac9f1f7b325743fd5899900bd7dae201c.svg" alt="OpenShell logo" width="48"> | [OpenShell](https://github.com/NVIDIA/OpenShell "https://github.com/NVIDIA/OpenShell") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |
 | <img src="https://landscape.cncf.io/logos/6526b49341f73e9ce99f4c13a3f51197dd1898cdf027864e91d276b427bfda01.svg" alt="OpenTofu logo" width="48"> | [OpenTofu](https://github.com/opentofu/opentofu "https://github.com/opentofu/opentofu") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |
 | <img src="https://landscape.cncf.io/logos/9fb94960a820a4ca1851097501a745b3e8c66b8a263c1e800e2c2adac2e04cd9.svg" alt="ORAS logo" width="48"> | [ORAS](https://github.com/oras-project/oras "https://github.com/oras-project/oras") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |
-| <img src="https://landscape.cncf.io/logos/8cd09905b32d41ed529878ec92840eb7008bf8e9ca933340cd1b1370de013554.svg" alt="OSCAL-COMPASS logo" width="48"> | [OSCAL-COMPASS](https://github.com/oscal-compass/compliance-trestle "https://github.com/oscal-compass/compliance-trestle") | [<img src="badges/fail.svg" alt="Fail" title="Non-compliant: failed one or more MUST controls, or satisfied < 50% of automated SHOULD controls">](reports/oscal-compass--compliance-trestle.md)<br>[report 2026-10-15 18:53 UTC](reports/oscal-compass--compliance-trestle.md) | <details><summary>OSCAL Docs</summary><ul><li><a href="trestle.ws/catalogs/cncf-controls/catalog.json">Catalog</a></li><li><a href="trestle.ws/profiles/cncf-repo/profile.json">Profile</a></li><li><a href="trestle.ws/component-definitions/cncf-repo/component-definition.json">Base Component Definition</a></li><li><a href="trestle.ws/component-definitions/oscal-compass--compliance-trestle/component-definition.json">Component Definition</a></li><li><a href="trestle.ws/system-security-plans/oscal-compass--compliance-trestle/system-security-plan.json">System Security Plan</a></li><li><a href="trestle.ws/assessment-plans/oscal-compass--compliance-trestle/assessment-plan.json">Assessment Plan</a></li><li><a href="trestle.ws/assessment-results/oscal-compass--compliance-trestle/assessment-results.json">Assessment Results</a></li></ul></details> |
+| <img src="https://landscape.cncf.io/logos/8cd09905b32d41ed529878ec92840eb7008bf8e9ca933340cd1b1370de013554.svg" alt="OSCAL-COMPASS logo" width="48"> | [OSCAL-COMPASS](https://github.com/oscal-compass/compliance-trestle "https://github.com/oscal-compass/compliance-trestle") | [<img src="badges/silver.svg" alt="Silver" title="Strong compliance: satisfied >= 75% of the controls with a decisive result">](reports/oscal-compass--compliance-trestle.md)<br>[report 2026-10-19 19:07 UTC](reports/oscal-compass--compliance-trestle.md) | <details><summary>OSCAL Docs</summary><ul><li><a href="trestle.ws/catalogs/cncf-controls/catalog.json">Catalog</a></li><li><a href="trestle.ws/profiles/cncf-repo/profile.json">Profile</a></li><li><a href="trestle.ws/component-definitions/cncf-repo/component-definition.json">Base Component Definition</a></li><li><a href="trestle.ws/component-definitions/oscal-compass--compliance-trestle/component-definition.json">Component Definition</a></li><li><a href="trestle.ws/system-security-plans/oscal-compass--compliance-trestle/system-security-plan.json">System Security Plan</a></li><li><a href="trestle.ws/assessment-plans/oscal-compass--compliance-trestle/assessment-plan.json">Assessment Plan</a></li><li><a href="trestle.ws/assessment-results/oscal-compass--compliance-trestle/assessment-results.json">Assessment Results</a></li></ul></details> |
 | <img src="https://landscape.cncf.io/logos/2a67fb52c5a35b36cc411c124934d565d6c525778a3afbb5ca1116f7cad63c52.svg" alt="OVN-Kubernetes logo" width="48"> | [OVN-Kubernetes](https://github.com/ovn-kubernetes/ovn-kubernetes "https://github.com/ovn-kubernetes/ovn-kubernetes") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |
 | <img src="https://landscape.cncf.io/logos/bc3d9e39270e79753f21971a82f81ae3038c46471c7372f68fbbec4121412516.svg" alt="Oxia logo" width="48"> | [Oxia](https://github.com/oxia-db/oxia "https://github.com/oxia-db/oxia") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |
 | <img src="https://landscape.cncf.io/logos/a81b2c55fb19e52355b3b0eb674f8a292d740b628cf067a2156644668fa06ef0.svg" alt="Paralus logo" width="48"> | [Paralus](https://github.com/paralus/paralus "https://github.com/paralus/paralus") | <img src="badges/tbd.svg" alt="TBD" title="Assessment pending"> | - |

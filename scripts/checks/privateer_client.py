@@ -1,7 +1,7 @@
 """Wrapper around Privateer (pvtr) and its plugins.
 
 Two plugins are run as two services of one ``pvtr run``: ``github-repo``
-(OSPS Baseline requirements) and our own ``cncf-controls`` (the CNCF MUST
+(OSPS Baseline requirements) and our own ``cncf-controls`` (five CNCF
 controls, see privateer-plugins/cncf-controls). Privateer evaluates a whole
 repository in a single run, so this module runs it once per repository and
 caches the flattened results. Individual ``privateer`` checks then look their
@@ -30,8 +30,8 @@ RESULTS_DIR = PRIVATEER_DIR / "evaluation_results"
 # (OSPS-... versus CNSC-...), so results are keyed by requirement alone.
 PLUGINS = {
     # service name: (plugin binary name, catalog)
-    "target": ("github-repo", "osps-baseline"),
-    "must": ("cncf-controls", "cncf-must-controls"),
+    "github-repo": ("github-repo", "osps-baseline"),
+    "cncf-controls": ("cncf-controls", "cncf-controls"),
 }
 APPLICABILITY = ["maturity-1", "maturity-2", "maturity-3"]
 RUN_TIMEOUT_SECONDS = 240

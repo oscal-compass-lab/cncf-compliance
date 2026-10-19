@@ -9,10 +9,10 @@ see privateer_mapping.py) and writes:
   <trestle-ws>/assessment-results/<slug>/assessment-results.json
 
 Each control yields one observation (the evidence) and one finding
-(satisfied / not-satisfied).  Controls that are skipped, have no unique
-Privateer check, or get an inconclusive Privateer result are reported as
-not-satisfied with reason "no-result" or "no-check" (or "skip") so they are never counted as
-passes.
+(satisfied / not-satisfied).  Controls that have no unique Privateer check, or
+get an inconclusive Privateer result, are reported as not-satisfied with reason
+"no-check" or "no-result" so they are never counted as passes.  Catalog
+controls outside the cncf-repo profile are out of scope and not assessed.
 
 Observations carry three idref props that link them back to the component
 definition, following the oscal-compass e2e-demo-compliance-posture pattern
@@ -42,7 +42,7 @@ from checks.privateer import evidence_with_hover
 from privateer_mapping import UNMAPPED
 
 def run_check(control_id: str, spec: str, repo_url: str) -> tuple[bool, str, str]:
-    """Return (satisfied, evidence, reason) where reason is pass/fail/no-result/no-check/skip."""
+    """Return (satisfied, evidence, reason) where reason is pass/fail/no-result/no-check."""
     if spec == "no-check":
         import html as _html
         reason = UNMAPPED[control_id]
@@ -148,17 +148,12 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
     findings = []
 
     for o in outcomes:
-        if o["reason"] == "skip":
-            result_str = "skip"
-            method = "EXAMINE"
-            state = "not-satisfied"
-        else:
-            result_str = (
-                "pass" if o["ok"]
-                else (o["reason"] if o["reason"] in UNDETERMINED else "fail")
-            )
-            method = "TEST" if o["spec"].startswith("privateer") else "EXAMINE"
-            state = "satisfied" if o["ok"] else "not-satisfied"
+        result_str = (
+            "pass" if o["ok"]
+            else (o["reason"] if o["reason"] in UNDETERMINED else "fail")
+        )
+        method = "TEST" if o["spec"].startswith("privateer") else "EXAMINE"
+        state = "satisfied" if o["ok"] else "not-satisfied"
 
         obs_uuid, obs = factory.observation(
             title=f"{o['control_id']} evidence",
@@ -194,14 +189,11 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
 # Level, human-readable report, and project record update
 # ---------------------------------------------------------------------------
 
-# Any MUST control that is not satisfied makes the whole project "Fail".
 # Reasons that are neither a pass nor a fail: there is no check for the control
 # ("no-check"), or the check gave no decisive answer ("no-result").
 UNDETERMINED = {"no-check", "no-result"}
 
-MUST_CONTROLS = {"CNSC-182", "CNSC-184", "CNSC-190", "CNSC-198", "CNSC-199"}
-
-# Fraction of assessable (automated) SHOULD controls that must be satisfied.
+# Fraction of the decisive (passed or failed) controls that must be satisfied.
 LEVELS = [("Gold", 0.90), ("Silver", 0.75), ("Bronze", 0.60), ("Baseline Pass Only", 0.50)]
 
 # Badge SVG paths for each pipeline level.
@@ -221,23 +213,13 @@ REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
 
 
 def compute_level(outcomes: list[dict]) -> tuple[str, str]:
-    """Return (level, explanation). Manual / not-assessable controls are excluded."""
-    failed_must = sorted(o["control_id"] for o in outcomes
-                         if o["control_id"] in MUST_CONTROLS and o["reason"] == "fail")
-    if failed_must:
-        return "Fail", f"MUST controls not satisfied: {', '.join(failed_must)}"
-    undetermined_must = sorted(o["control_id"] for o in outcomes
-                               if o["control_id"] in MUST_CONTROLS and o["reason"] in UNDETERMINED)
-    should = [o for o in outcomes
-              if o["control_id"] not in MUST_CONTROLS
-              and o["reason"] not in UNDETERMINED and o["reason"] != "skip"]
-    if not should:
-        return "Not Assessed", "No automated SHOULD controls were evaluated"
-    ratio = sum(o["ok"] for o in should) / len(should)
-    detail = (f"{sum(o['ok'] for o in should)}/{len(should)} automated SHOULD "
-              f"controls satisfied ({ratio:.0%})")
-    if undetermined_must:
-        detail += f"; MUST controls not determined: {', '.join(undetermined_must)}"
+    """Return (level, explanation). Controls without a decisive result are excluded."""
+    decisive = [o for o in outcomes if o["reason"] not in UNDETERMINED]
+    if not decisive:
+        return "Not Assessed", "No controls had a decisive result"
+    ratio = sum(o["ok"] for o in decisive) / len(decisive)
+    detail = (f"{sum(o['ok'] for o in decisive)}/{len(decisive)} controls with a "
+              f"decisive result satisfied ({ratio:.0%})")
     for name, threshold in LEVELS:
         if ratio >= threshold:
             return name, detail
@@ -249,8 +231,6 @@ def _cell(text: str) -> str:
 
 
 def _result_label(o: dict) -> str:
-    if o["reason"] == "skip":
-        return "SKIP"
     if o["ok"]:
         return "PASS"
     return {"fail": "FAIL", "no-check": "NO-CHECK", "no-result": "NO-RESULT"}[o["reason"]]
@@ -259,11 +239,10 @@ def _result_label(o: dict) -> str:
 def render_report(repo_name: str, repo_url: str, commit: str, level: str,
                   detail: str, outcomes: list[dict],
                   assessed_at: datetime) -> str:
-    passed = sum(o["ok"] for o in outcomes if o["reason"] != "skip")
+    passed = sum(o["ok"] for o in outcomes)
     no_check = sum(o["reason"] == "no-check" for o in outcomes)
     no_result = sum(o["reason"] == "no-result" for o in outcomes)
-    skipped = sum(o["reason"] == "skip" for o in outcomes)
-    failed = len(outcomes) - passed - no_check - no_result - skipped
+    failed = len(outcomes) - passed - no_check - no_result
     badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["TBD"])
     lines = [
         f"# CNCF controls report: {repo_name}",
@@ -275,20 +254,19 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         f"- **Assessed at:** {assessed_at:%Y-%m-%d %H:%M} UTC",
         f"- **Level:** **{level}**. {detail}",
         f"- **Totals:** {passed} satisfied, {failed} failed, {no_result} no result, "
-        f"{no_check} no check, {skipped} skipped "
-        f"(of {len(outcomes)} controls)",
+        f"{no_check} no check "
+        f"(of {len(outcomes)} controls in scope)",
         "",
-        "MUST controls: " + ", ".join(sorted(MUST_CONTROLS)) + ". "
-        "A failed MUST control makes the project **Fail** regardless of SHOULD results. "
-        "MUST controls without a decisive result do not fail a project but are listed in the level detail.",
+        "The level depends on the percentage of controls with a decisive result "
+        "(PASS or FAIL) that passed. All controls count equally.",
         "",
         "| Level | Conditions |",
         "| --- | --- |",
-        "| **Gold** | All MUST controls passed; ≥ 90% of automated SHOULD controls satisfied |",
-        "| **Silver** | All MUST controls passed; ≥ 75% of automated SHOULD controls satisfied |",
-        "| **Bronze** | All MUST controls passed; ≥ 60% of automated SHOULD controls satisfied |",
-        "| **Baseline Pass Only** | All MUST controls passed; ≥ 50% of automated SHOULD controls satisfied |",
-        "| **Fail** | Any MUST control failed, or < 50% of automated SHOULD controls satisfied |",
+        "| **Gold** | ≥ 90% of controls with a decisive result satisfied |",
+        "| **Silver** | ≥ 75% satisfied |",
+        "| **Bronze** | ≥ 60% satisfied |",
+        "| **Baseline Pass Only** | ≥ 50% satisfied |",
+        "| **Fail** | < 50% satisfied |",
         "",
         "| Result | Meaning | Counted? |",
         "| --- | --- | --- |",
@@ -296,17 +274,15 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
         "| FAIL | Check ran and failed | Yes |",
         "| NO-RESULT | Check ran but gave no decisive answer (e.g. Privateer \"Needs Review\") | No |",
         "| NO-CHECK | Control is in scope but has no unique check | No |",
-        "| SKIP | Control is out of scope by design | No |",
         "",
         "## Results by control",
         "",
-        "| Control | Priority | Result | Requirement | Evidence |",
-        "| --- | --- | --- | --- | --- |",
+        "| Control | Result | Requirement | Evidence |",
+        "| --- | --- | --- | --- |",
     ]
     for o in outcomes:
-        kind = "MUST" if o["control_id"] in MUST_CONTROLS else "SHOULD"
         lines.append(
-            f"| {o['control_id']} | {kind} | {_result_label(o)} | "
+            f"| {o['control_id']} | {_result_label(o)} | "
             f"{_cell(o['requirement'])} | {_cell(evidence_with_hover(o['evidence']))} |"
         )
     lines.append("")

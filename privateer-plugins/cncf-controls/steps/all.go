@@ -5,7 +5,7 @@ import (
 	"github.com/ossf/pvtr-github-repo-scanner/evaluation_plans/osps/build_release"
 )
 
-// All maps assessment requirement ids of the cncf-must-controls catalog to
+// All maps assessment requirement ids of the cncf-controls catalog to
 // their steps. Steps of one requirement run in order; the first failure ends
 // the requirement.
 var All = map[string][]Step{
