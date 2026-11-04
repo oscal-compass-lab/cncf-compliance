@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/kubevirt/kubevirt](https://github.com/kubevirt/kubevirt)
 - **Commit assessed:** `e63503d`
-- **Assessed at:** 2026-11-04 15:44 UTC
+- **Assessed at:** 2026-11-04 20:48 UTC
 - **Level:** **Fail**. 6/15 controls with a decisive result satisfied (40%)
 - **Totals:** 6 satisfied, 9 failed, 10 no result, 30 no check (of 55 controls in scope)
 
