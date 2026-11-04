@@ -3,8 +3,8 @@
 ![cncf-controls: Baseline Pass Only](../badges/baseline-pass-only.svg)
 
 - **Repository:** [https://github.com/etcd-io/etcd](https://github.com/etcd-io/etcd)
-- **Commit assessed:** `4b0b745`
-- **Assessed at:** 2026-11-04 14:34 UTC
+- **Commit assessed:** `65da638`
+- **Assessed at:** 2026-11-04 20:33 UTC
 - **Level:** **Baseline Pass Only**. 8/14 controls with a decisive result satisfied (57%)
 - **Totals:** 8 satisfied, 6 failed, 11 no result, 30 no check (of 55 controls in scope)
 
@@ -30,7 +30,7 @@ The level depends on the percentage of controls with a decisive result (PASS or 
 | Control | Result | Requirement | Evidence |
 | --- | --- | --- | --- |
 | CNSC-65 | NO-RESULT | Vulnerability and configuration scanning is integrated in the IDE or at the pull request | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-VM-05.03. Result: Not Applicable.">Repo Status is</span> |
-| CNSC-67 | PASS | Tests are built for business-critical code | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.01. Result: Passed.">11 status checks were run</span> |
+| CNSC-67 | PASS | Tests are built for business-critical code | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.01. Result: Passed.">13 status checks were run</span> |
 | CNSC-68 | NO-CHECK | Tests are built for business-critical infrastructure | <span title="No Privateer check found, native or plugin. OSPS-QA-06.01 only checks that CI ran an automated test suite; it does not distinguish infrastructure tests.">No Privateer check found</span> |
 | CNSC-69 | NO-RESULT | Test suites are able to be run locally | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.02. Result: Needs Review, Low confidence (how sure the check is).">Review project documentation to ensure it explains when and how tests are run</span> |
 | CNSC-71 | NO-CHECK | Two non-author reviewers or approvers are required prior to merging | <span title="No Privateer check found, native or plugin. OSPS-QA-07.01 requires one non-author approval, not two. A pass would overstate this control.">No Privateer check found</span> |
@@ -63,7 +63,7 @@ The level depends on the percentage of controls with a decisive result (PASS or 
 | CNSC-180 | NO-CHECK | Software is scanned for license implications | <span title="No Privateer check found, native or plugin. License scanning of dependencies is not evaluated by the OSPS Baseline. OSPS-LE-02.01 checks the project&#x27;s own license.">No Privateer check found</span> |
 | CNSC-181 | NO-RESULT | Software composition analysis is run on ingested software | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-VM-05.03. Result: Not Applicable.">Repo Status is</span> |
 | CNSC-182 | FAIL | Commits and tags are signed | <span title="Check supplied by our own plug-in (cncf-controls 0.0.0; 0.0.0 means an unreleased local build). Requirement CNSC-182.01. Result: Failed, High confidence (how sure the check is).">15 of 20 recent commits are signed (2 unsigned by release automation excused); unsigned: ba2f762, 099de8c, 8f34a9c; 10 of 10 recent tags are signed</span> |
-| CNSC-183 | FAIL | Full attestation and verification is enforced for protected branches | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-03.01. Result: Failed.">Some executed status checks are not mandatory but all should be: DCO, Analyze (go), CodeQL, Approve ok-to-test, codecov/project, codecov/patch, Approve ok-to-test</span> |
+| CNSC-183 | FAIL | Full attestation and verification is enforced for protected branches | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-03.01. Result: Failed.">Some executed status checks are not mandatory but all should be: DCO, codecov/project, codecov/patch, Analyze (go), dependabot-metadata, CodeQL, Approve ok-to-test, Approve ok-to-test</span> |
 | CNSC-184 | FAIL | Secrets are not committed to the source code repository unless encrypted | <span title="Check supplied by our own plug-in (cncf-controls 0.0.0; 0.0.0 means an unreleased local build). Requirement CNSC-184.01. Result: Failed, Medium confidence (how sure the check is).">Gitleaks found 19 potential secrets in the default branch: codecov.yml (generic-api-key), pkg/proxy/fixtures/server.key.insecure (private-key), scripts/genproto.sh (generic-api-key), tests/e2e/discovery_v3_test.go (generic-api-key), tests/fixtures/CommonName-root.key (private-key), and 14 more</span> |
 | CNSC-185 | NO-RESULT | Individuals or teams with write access to a repository are defined | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-GV-01.01. Result: Not Applicable.">Repo Status is</span> |
 | CNSC-186 | NO-CHECK | Software security scanning and testing is automated | <span title="No Privateer check found, native or plugin. OSPS-VM-06.02 covers SAST only. The control also asks for DAST, which is not evaluated.">No Privateer check found</span> |
