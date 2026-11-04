@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/falcosecurity/falco](https://github.com/falcosecurity/falco)
 - **Commit assessed:** `b3c37fe`
-- **Assessed at:** 2026-11-04 14:35 UTC
+- **Assessed at:** 2026-11-04 20:33 UTC
 - **Level:** **Fail**. 6/15 controls with a decisive result satisfied (40%)
 - **Totals:** 6 satisfied, 9 failed, 10 no result, 30 no check (of 55 controls in scope)
 
