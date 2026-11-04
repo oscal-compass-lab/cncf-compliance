@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/dragonflyoss/dragonfly](https://github.com/dragonflyoss/dragonfly)
 - **Commit assessed:** `0a744fd`
-- **Assessed at:** 2026-11-04 14:31 UTC
+- **Assessed at:** 2026-11-04 20:28 UTC
 - **Level:** **Silver**. 10/12 controls with a decisive result satisfied (83%)
 - **Totals:** 10 satisfied, 2 failed, 13 no result, 30 no check (of 55 controls in scope)
 
