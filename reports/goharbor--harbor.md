@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/goharbor/harbor](https://github.com/goharbor/harbor)
 - **Commit assessed:** `e43834c`
-- **Assessed at:** 2026-11-04 14:36 UTC
+- **Assessed at:** 2026-11-04 20:35 UTC
 - **Level:** **Fail**. 6/14 controls with a decisive result satisfied (43%)
 - **Totals:** 6 satisfied, 8 failed, 11 no result, 30 no check (of 55 controls in scope)
 
