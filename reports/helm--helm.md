@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/helm/helm](https://github.com/helm/helm)
 - **Commit assessed:** `87285a1`
-- **Assessed at:** 2026-11-04 14:37 UTC
+- **Assessed at:** 2026-11-04 20:35 UTC
 - **Level:** **Baseline Pass Only**. 9/16 controls with a decisive result satisfied (56%)
 - **Totals:** 9 satisfied, 7 failed, 9 no result, 30 no check (of 55 controls in scope)
 
