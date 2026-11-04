@@ -34,7 +34,7 @@ PLUGINS = {
     "cncf-controls": ("cncf-controls", "cncf-controls"),
 }
 APPLICABILITY = ["maturity-1", "maturity-2", "maturity-3"]
-RUN_TIMEOUT_SECONDS = 240
+RUN_TIMEOUT_SECONDS = 600
 
 
 class PrivateerError(Exception):

@@ -20,8 +20,10 @@ Usage
 import argparse
 import json
 import os
+import signal
 import subprocess
 import sys
+import threading
 import time
 import urllib.request
 from datetime import datetime, timezone
@@ -37,14 +39,22 @@ RESET_MARGIN_SECONDS = 5      # slack after the reported reset time
 HEARTBEAT_SECONDS = 300       # log a line at least this often while waiting
 MAX_WAIT_SECONDS = 3900       # never wait longer than one window plus a margin
 MAX_ATTEMPTS = 2              # one redo after a project that ran out of budget
+# Longest one project may take (build + assess, excluding rate-limit waits).
+# There is deliberately no limit on the whole run: it may take as long as it
+# likes while it keeps moving on to the next project.
+PROJECT_TIMEOUT_SECONDS = int(os.environ.get("ASSESS_PROJECT_TIMEOUT", "1200"))
+TIME_FORMAT = "%Y-%m-%d %H:%M:%S UTC"
 
 
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%H:%M:%S")
+def utc_from_epoch(epoch: float) -> str:
+    return datetime.fromtimestamp(epoch, timezone.utc).strftime(TIME_FORMAT)
 
 
-def utc_from_epoch(epoch: int) -> str:
-    return datetime.fromtimestamp(epoch, timezone.utc).strftime("%H:%M:%S UTC")
+def log(message: str = "") -> None:
+    """The one way this script writes to the log: every line gets the UTC date and time."""
+    stamp = datetime.now(timezone.utc).strftime(TIME_FORMAT)
+    for line in message.splitlines() or [""]:
+        print(f"[{stamp}] {line}", flush=True)
 
 
 def fmt_duration(seconds: float) -> str:
@@ -70,21 +80,19 @@ def core_rate_limit() -> dict | None:
         with urllib.request.urlopen(request, timeout=RATE_LIMIT_TIMEOUT_SECONDS) as r:  # noqa: S310 (fixed https URL)
             return json.load(r)["resources"]["core"]
     except Exception as exc:  # noqa: BLE001 - diagnostics only
-        print(f"rate limit: could not read ({type(exc).__name__})", flush=True)
+        log(f"rate limit: could not read ({type(exc).__name__})")
         return None
 
 
 def wait_until(epoch: float, why: str) -> None:
     """Sleep until ``epoch`` (plus a margin), logging a heartbeat while waiting."""
     resume_at = min(epoch + RESET_MARGIN_SECONDS, time.time() + MAX_WAIT_SECONDS)
-    print(f"rate limit: {why}; waiting until {utc_from_epoch(resume_at)} [{utc_now()} UTC]",
-          flush=True)
+    log(f"rate limit: {why}; waiting until {utc_from_epoch(resume_at)}")
     while (left := resume_at - time.time()) > 0:
         time.sleep(min(left, HEARTBEAT_SECONDS))
         left = resume_at - time.time()
         if left > 0:
-            print(f"rate limit: still waiting, {fmt_duration(left)} to go [{utc_now()} UTC]",
-                  flush=True)
+            log(f"rate limit: still waiting, {fmt_duration(left)} to go")
 
 
 def read_budget_waiting_if_empty() -> dict | None:
@@ -98,21 +106,65 @@ def read_budget_waiting_if_empty() -> dict | None:
         wait_until(rl["reset"], "budget is 0")
         rl = core_rate_limit()
         if rl:
-            print(f"rate limit: now {rl['remaining']}/{rl['limit']} remaining; next reset "
-                  f"{utc_from_epoch(rl['reset'])} [{utc_now()} UTC]", flush=True)
+            log(f"rate limit: now {rl['remaining']}/{rl['limit']} remaining; next reset "
+                f"{utc_from_epoch(rl['reset'])}")
     return rl
 
 
+def _timestamp_lines(stream) -> None:
+    """Copy ``stream`` to the log, one stamped line at a time."""
+    for line in stream:
+        log(line.rstrip("\r\n"))
+
+
+def run_with_deadline(cmd: list[str], seconds: float) -> int | None:
+    """Run ``cmd`` and return its exit status, or None if it ran past ``seconds``.
+
+    The command runs in its own process group so a timeout also kills anything
+    it started (for example the pvtr plugins), not just the Python process.
+    Every line it prints is logged with the UTC date and time it was written.
+    """
+    proc = subprocess.Popen(
+        cmd, cwd=ROOT, start_new_session=True, stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, text=True, errors="replace", bufsize=1,
+        env={**os.environ, "PYTHONUNBUFFERED": "1"},  # so the time is when it was printed
+    )
+    pump = threading.Thread(target=_timestamp_lines, args=(proc.stdout,), daemon=True)
+    pump.start()
+    try:
+        return proc.wait(timeout=max(seconds, 1))
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        proc.wait()
+        return None
+    finally:
+        pump.join(timeout=10)
+
+
 def assess_one(url: str) -> tuple[bool, dict | None, dict | None, float]:
-    """Assess one project. Returns (ok, budget before, budget after, seconds)."""
+    """Assess one project. Returns (ok, budget before, budget after, seconds).
+
+    The project as a whole gets PROJECT_TIMEOUT_SECONDS; a project that takes
+    longer is stopped and reported as failed so the run can move on.
+    """
     before = read_budget_waiting_if_empty()
     started = time.monotonic()
+    deadline = started + PROJECT_TIMEOUT_SECONDS
     ok = True
     for script, args in (("build_project_compliance.py", ["project", url]),
                          ("assess_project.py", [url])):
-        r = subprocess.run([sys.executable, str(SCRIPTS / script), *args], cwd=ROOT, check=False)
-        if r.returncode != 0:
-            print(f"WARNING: {script} failed for {url}", flush=True)
+        status = run_with_deadline([sys.executable, str(SCRIPTS / script), *args],
+                                   deadline - time.monotonic())
+        if status is None:
+            log(f"WARNING: {script} for {url} exceeded the {fmt_duration(PROJECT_TIMEOUT_SECONDS)} "
+                "project limit and was stopped; moving on")
+            ok = False
+            break
+        if status != 0:
+            log(f"WARNING: {script} failed for {url}")
             ok = False
             break
     return ok, before, core_rate_limit(), time.monotonic() - started
@@ -146,8 +198,8 @@ def assess_maturity(maturity: str) -> int:
     projects = [p for p in json.loads(DATA_FILE.read_text(encoding="utf-8"))
                 if p.get("maturity") == maturity]
     to_assess = [p["repo_url"] for p in projects if p.get("repo_url")]
-    print(f"[{maturity}] Assessing {len(to_assess)} project(s), "
-          f"skipping {len(projects) - len(to_assess)}.", flush=True)
+    log(f"[{maturity}] Assessing {len(to_assess)} project(s), "
+        f"skipping {len(projects) - len(to_assess)}.")
 
     failed = []
     redone = []
@@ -155,18 +207,17 @@ def assess_maturity(maturity: str) -> int:
     started = time.monotonic()
     for url in to_assess:
         for attempt in range(1, MAX_ATTEMPTS + 1):
-            print(f"\n=== {url} === attempt {attempt} [{utc_now()} UTC]", flush=True)
+            log(f"=== {url} === attempt {attempt}")
             ok, before, after, secs = assess_one(url)
             used = None
             if after:
                 if before and before["remaining"] >= after["remaining"]:
                     used = before["remaining"] - after["remaining"]  # else: window reset
-                print(f"rate limit: {url} used {'?' if used is None else used} request(s) "
-                      f"in {fmt_duration(secs)}; {after['remaining']}/{after['limit']} remaining "
-                      f"(window resets {utc_from_epoch(after['reset'])}) [{utc_now()} UTC]",
-                      flush=True)
+                log(f"rate limit: {url} used {'?' if used is None else used} request(s) "
+                    f"in {fmt_duration(secs)}; {after['remaining']}/{after['limit']} remaining "
+                    f"(window resets {utc_from_epoch(after['reset'])})")
             else:
-                print(f"{url} took {fmt_duration(secs)} [{utc_now()} UTC]", flush=True)
+                log(f"{url} took {fmt_duration(secs)}")
             # Two signs that requests may have been refused during the project:
             #  - the budget is 0 afterwards: wait for the reset, then redo it;
             #  - the window rolled over mid-project (the reset time moved on): the
@@ -177,9 +228,9 @@ def assess_maturity(maturity: str) -> int:
                 break
             why = ("budget exhausted" if exhausted else
                    "rate-limit window reset mid-project, so exhaustion can't be ruled out")
-            print(f"WARNING: {why} during {url}; its result may be incomplete", flush=True)
+            log(f"WARNING: {why} during {url}; its result may be incomplete")
             if attempt == MAX_ATTEMPTS:
-                print(f"WARNING: giving up on a clean result for {url}", flush=True)
+                log(f"WARNING: giving up on a clean result for {url}")
                 break
             redone.append(url)
             if exhausted:
@@ -188,18 +239,17 @@ def assess_maturity(maturity: str) -> int:
             failed.append(url)
         usage.append((url, used, after["remaining"] if after else None, secs))
     elapsed = time.monotonic() - started
-    print(f"\n[{maturity}] Finished {len(to_assess)} project(s) in {fmt_duration(elapsed)} "
-          f"[{utc_now()} UTC]", flush=True)
+    log(f"[{maturity}] Finished {len(to_assess)} project(s) in {fmt_duration(elapsed)}")
     write_step_summary(maturity, usage, elapsed)
 
     if redone:
-        print(f"\n[{maturity}] Redone after the budget ran out ({len(redone)}):")
+        log(f"[{maturity}] Redone after the budget ran out ({len(redone)}):")
         for u in redone:
-            print(f"  {u}")
+            log(f"  {u}")
     if failed:
-        print(f"\n[{maturity}] Failed assessments ({len(failed)}):")
+        log(f"[{maturity}] Failed assessments ({len(failed)}):")
         for u in failed:
-            print(f"  {u}")
+            log(f"  {u}")
     return 0
 
 
