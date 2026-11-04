@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/cubeFS/cubefs](https://github.com/cubeFS/cubefs)
 - **Commit assessed:** `0d7ee2c`
-- **Assessed at:** 2026-11-04 14:29 UTC
+- **Assessed at:** 2026-11-04 20:27 UTC
 - **Level:** **Baseline Pass Only**. 8/14 controls with a decisive result satisfied (57%)
 - **Totals:** 8 satisfied, 6 failed, 11 no result, 30 no check (of 55 controls in scope)
 
