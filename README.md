@@ -15,7 +15,7 @@ There is one table per CNCF maturity level, listed in the order Graduated, Incub
 
 ### How the tables are assembled
 
-The tables are generated. Do not edit the section between the `BEGIN PROJECT TABLES` and `END PROJECT TABLES` markers by hand, because it is overwritten on every run. The [Update CNCF project tables](.github/workflows/update-readme.yml) workflow runs these steps in order:
+The tables are generated. Do not edit the section between the `BEGIN PROJECT TABLES` and `END PROJECT TABLES` markers by hand, because it is overwritten on every run. The [Assess all projects](.github/workflows/assess-all.yml) workflow runs these steps in order:
 
 1. [`scripts/update_readme.py`](scripts/update_readme.py) downloads the current CNCF landscape metadata. It keeps the projects whose maturity is graduated, incubating or sandbox, and records them in [`data/projects.json`](data/projects.json). Assessment results already recorded there are kept. It then rewrites the tables.
 2. [`scripts/build_project_compliance.py base`](scripts/build_project_compliance.py) builds the OSCAL documents shared by all projects: the control catalog, the profile and the base component definition. The profile comprises the controls that are in scope for git repositories; all other catalog controls are out of scope. The base component definition holds the check for each profile control and the default parameter values. It has three validation components: `privateer-native` and `privateer-plugins` for the [Privateer](#privateer-checks) checks, and `not-checked` for the controls for which no Privateer check was found, native or plugin.

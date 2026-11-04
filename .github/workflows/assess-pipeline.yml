@@ -1,0 +1,154 @@
+name: Assessment pipeline
+
+# Reusable pipeline, called by assess-all.yml (all levels) and by
+# assess-graduated.yml, assess-incubating.yml and assess-sandbox.yml.
+#
+# Do not set `concurrency` here. The four caller workflows share one group so
+# that they never run at the same time; setting the same group in the called
+# workflow as well would make the run wait on itself.
+
+on:
+  workflow_call:
+    inputs:
+      maturities:
+        description: 'JSON array of maturity levels to assess, e.g. ["graduated"]'
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+# Three stages:
+#   prepare  refresh the landscape metadata and build the shared base once, so
+#            every assessment uses the same base component definition.
+#   assess   one job per requested maturity level, run in parallel. Each uploads
+#            only the files it wrote.
+#   publish  merge the results, regenerate the README and commit once.
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download landscape metadata and regenerate README
+        run: python3 scripts/update_readme.py
+
+      - name: Build base OSCAL artifacts
+        run: python3 scripts/build_project_compliance.py base
+
+      - name: Package changed files
+        run: |
+          { git status --porcelain --untracked-files=all -- README.md data trestle.ws reports | cut -c4-
+            echo data/projects.json; } | sort -u > changed.txt
+          tar czf prepare.tgz -T changed.txt
+
+      - name: Upload prepared files
+        uses: actions/upload-artifact@v7
+        with:
+          name: prepare
+          path: prepare.tgz
+          retention-days: 1
+
+  assess:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    strategy:
+      fail-fast: false
+      matrix:
+        maturity: ${{ fromJSON(inputs.maturities) }}
+    env:
+      MATURITY: ${{ matrix.maturity }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Download prepared files
+        uses: actions/download-artifact@v8
+        with:
+          name: prepare
+
+      - name: Unpack prepared files
+        run: |
+          tar xzf prepare.tgz
+          rm prepare.tgz
+          touch .stamp
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: privateer-plugins/cncf-controls/go.mod
+
+      - name: Install Privateer
+        run: scripts/privateer/install.sh
+
+      - name: Assess projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/assess_maturity.py "$MATURITY"
+
+      - name: Package files written by this job
+        run: |
+          cp data/projects.json "projects-${MATURITY}.json"
+          { find reports trestle.ws -type f -newer .stamp
+            echo "projects-${MATURITY}.json"; } > changed.txt
+          tar czf "${MATURITY}.tgz" -T changed.txt
+
+      - name: Upload results
+        uses: actions/upload-artifact@v7
+        with:
+          name: assess-${{ matrix.maturity }}
+          path: ${{ matrix.maturity }}.tgz
+          retention-days: 1
+
+  publish:
+    # Run even if an assess job failed, so the levels that finished are published.
+    needs: [prepare, assess]
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Download results
+        uses: actions/download-artifact@v8
+        with:
+          path: results
+
+      - name: Unpack results
+        run: |
+          tar xzf results/prepare/prepare.tgz
+          for f in results/assess-*/*.tgz; do
+            [ -e "$f" ] && tar xzf "$f"
+          done
+          rm -rf results
+
+      - name: Merge results and regenerate README
+        run: |
+          files=$(ls projects-*.json 2>/dev/null || true)
+          python3 scripts/merge_assessments.py $files
+
+      - name: Commit and push changes
+        run: |
+          rm -f projects-*.json
+          git add README.md data/projects.json reports/ trestle.ws/
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update CNCF project assessments and README tables"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

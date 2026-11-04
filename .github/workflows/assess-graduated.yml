@@ -1,0 +1,22 @@
+name: Assess graduated projects
+
+# Assess only the graduated projects. Manual trigger only.
+# All four assessment workflows share the "cncf-assessment" concurrency group,
+# so they never run at the same time. GitHub keeps one running and one pending
+# run per group; a newer pending run replaces an older pending one.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cncf-assessment
+  cancel-in-progress: false
+
+jobs:
+  pipeline:
+    uses: ./.github/workflows/assess-pipeline.yml
+    with:
+      maturities: '["graduated"]'
