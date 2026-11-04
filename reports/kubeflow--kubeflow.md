@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/kubeflow/kubeflow](https://github.com/kubeflow/kubeflow)
 - **Commit assessed:** `0e48fec`
-- **Assessed at:** 2026-11-04 14:43 UTC
+- **Assessed at:** 2026-11-04 20:41 UTC
 - **Level:** **Baseline Pass Only**. 5/10 controls with a decisive result satisfied (50%)
 - **Totals:** 5 satisfied, 5 failed, 15 no result, 30 no check (of 55 controls in scope)
 
