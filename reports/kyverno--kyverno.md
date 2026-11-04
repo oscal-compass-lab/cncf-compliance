@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/kyverno/kyverno](https://github.com/kyverno/kyverno)
 - **Commit assessed:** `d0cce69`
-- **Assessed at:** 2026-11-04 14:48 UTC
+- **Assessed at:** 2026-11-04 20:49 UTC
 - **Level:** **Bronze**. 10/14 controls with a decisive result satisfied (71%)
 - **Totals:** 10 satisfied, 4 failed, 11 no result, 30 no check (of 55 controls in scope)
 
