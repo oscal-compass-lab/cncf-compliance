@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/in-toto/in-toto](https://github.com/in-toto/in-toto)
 - **Commit assessed:** `e352b43`
-- **Assessed at:** 2026-11-04 14:37 UTC
+- **Assessed at:** 2026-11-04 20:35 UTC
 - **Level:** **Baseline Pass Only**. 7/14 controls with a decisive result satisfied (50%)
 - **Totals:** 7 satisfied, 7 failed, 11 no result, 30 no check (of 55 controls in scope)
 
