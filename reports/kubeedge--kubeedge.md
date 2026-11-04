@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/kubeedge/kubeedge](https://github.com/kubeedge/kubeedge)
 - **Commit assessed:** `b1a36da`
-- **Assessed at:** 2026-11-04 14:43 UTC
+- **Assessed at:** 2026-11-04 20:41 UTC
 - **Level:** **Baseline Pass Only**. 8/14 controls with a decisive result satisfied (57%)
 - **Totals:** 8 satisfied, 6 failed, 11 no result, 30 no check (of 55 controls in scope)
 
