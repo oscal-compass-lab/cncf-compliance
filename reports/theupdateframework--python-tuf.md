@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/theupdateframework/python-tuf](https://github.com/theupdateframework/python-tuf)
 - **Commit assessed:** `ec01d81`
-- **Assessed at:** 2026-11-04 14:55 UTC
+- **Assessed at:** 2026-11-04 20:56 UTC
 - **Level:** **Baseline Pass Only**. 7/14 controls with a decisive result satisfied (50%)
 - **Totals:** 7 satisfied, 7 failed, 11 no result, 30 no check (of 55 controls in scope)
 
