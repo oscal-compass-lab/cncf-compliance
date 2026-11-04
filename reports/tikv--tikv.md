@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/tikv/tikv](https://github.com/tikv/tikv)
 - **Commit assessed:** `67fe25a`
-- **Assessed at:** 2026-11-04 14:56 UTC
+- **Assessed at:** 2026-11-04 20:57 UTC
 - **Level:** **Fail**. 6/14 controls with a decisive result satisfied (43%)
 - **Totals:** 6 satisfied, 8 failed, 11 no result, 30 no check (of 55 controls in scope)
 
