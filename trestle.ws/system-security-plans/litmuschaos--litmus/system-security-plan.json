@@ -1,0 +1,2749 @@
+{
+  "system-security-plan": {
+    "uuid": "1125bd1e-1796-4a62-a5a0-b4b418f44e41",
+    "metadata": {
+      "title": "System Security Plan — litmuschaos/litmus",
+      "last-modified": "2026-11-04T15:45:15.223+00:00",
+      "version": "1.0",
+      "oscal-version": "1.2.1",
+      "parties": [
+        {
+          "uuid": "c1378bba-8fea-41ba-996c-33f4993ffd27",
+          "type": "organization",
+          "name": "litmuschaos/litmus",
+          "links": [
+            {
+              "href": "https://github.com/litmuschaos/litmus",
+              "rel": "canonical"
+            }
+          ]
+        }
+      ]
+    },
+    "import-profile": {
+      "href": "trestle://profiles/cncf-repo/profile.json"
+    },
+    "system-characteristics": {
+      "system-ids": [
+        {
+          "identifier-type": "https://github.com/",
+          "id": "https://github.com/litmuschaos/litmus"
+        }
+      ],
+      "system-name": "litmuschaos/litmus",
+      "description": "Source code repository at https://github.com/litmuschaos/litmus, assessed against the CNCF cncf-repo profile.",
+      "system-information": {
+        "information-types": [
+          {
+            "uuid": "b6dc1f5f-0fc0-4212-9682-096e3c9048ec",
+            "title": "Source Code and Build Artifacts",
+            "description": "Source code, scripts, configuration files, dependency declarations, and generated OSCAL artifacts."
+          }
+        ]
+      },
+      "status": {
+        "state": "operational"
+      },
+      "authorization-boundary": {
+        "description": "The source code repository, its build pipeline, dependency declarations, branch protection settings, and committed artifacts."
+      }
+    },
+    "system-implementation": {
+      "users": [
+        {
+          "uuid": "9eb7f7e2-6151-4a09-9e74-1b2ffa10bdfa",
+          "title": "Repository Contributor",
+          "short-name": "contributor",
+          "description": "Developer with commit access to the repository.",
+          "role-ids": [
+            "developer"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "uuid": "1b4b1f53-a717-4e9e-ac90-cee024146576",
+          "type": "root='software'",
+          "title": "CNCF Source Repository",
+          "description": "Shared software component representing any CNCF source repository.",
+          "purpose": "Define compliance rules for CNCF source repositories.",
+          "props": [
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-01",
+              "remarks": "rule_set_00"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Early Vulnerability Scanning: Vulnerability and configuration scanning is integrated in the IDE or at the pull request",
+              "remarks": "rule_set_00"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-02",
+              "remarks": "rule_set_01"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Business-Critical Code Testing: Tests are built for business-critical code",
+              "remarks": "rule_set_01"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-03",
+              "remarks": "rule_set_02"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Infrastructure Testing: Tests are built for business-critical infrastructure",
+              "remarks": "rule_set_02"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-04",
+              "remarks": "rule_set_03"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Local Test Execution: Test suites are able to be run locally",
+              "remarks": "rule_set_03"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-05",
+              "remarks": "rule_set_04"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Code Review Requirements: Two non-author reviewers or approvers are required prior to merging",
+              "remarks": "rule_set_04"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-06",
+              "remarks": "rule_set_05"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Code Quality: Code is clean and well commented",
+              "remarks": "rule_set_05"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-07",
+              "remarks": "rule_set_06"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Full Infrastructure Testing: Full infrastructure tests are used",
+              "remarks": "rule_set_06"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-08",
+              "remarks": "rule_set_07"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Regression Testing: Regression tests are used",
+              "remarks": "rule_set_07"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-09",
+              "remarks": "rule_set_08"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Security Regression Testing: Test suites are updated against new and emerging threats and developed into security regression tests",
+              "remarks": "rule_set_08"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-10",
+              "remarks": "rule_set_09"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Threat-Informed Test Development: Threat model results are used to determine ROI for test development",
+              "remarks": "rule_set_09"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-11",
+              "remarks": "rule_set_10"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Static Application Security Testing: Static application security testing (SAST) is performed",
+              "remarks": "rule_set_10"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-12",
+              "remarks": "rule_set_11"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Manifest Scanning: Application manifests are scanned in CI pipeline",
+              "remarks": "rule_set_11"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-13",
+              "remarks": "rule_set_12"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Threat Modeling and Vulnerability Analysis: Threat model code and infrastructure",
+              "remarks": "rule_set_12"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-14",
+              "remarks": "rule_set_13"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Environment and Dependency Validation: Environments and dependencies are validated before usage",
+              "remarks": "rule_set_13"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-15",
+              "remarks": "rule_set_14"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Reproducible Builds: Build artefacts are validated through verifiably reproducible builds",
+              "remarks": "rule_set_14"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-16",
+              "remarks": "rule_set_15"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "External Requirement Verification: External requirements from the build process are locked and verified",
+              "remarks": "rule_set_15"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-17",
+              "remarks": "rule_set_16"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Build Determinism: Sources of non-determinism are found and eliminated",
+              "remarks": "rule_set_16"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-18",
+              "remarks": "rule_set_17"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Build Environment Recording: The build environment is recorded",
+              "remarks": "rule_set_17"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-19",
+              "remarks": "rule_set_18"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Build Environment Automation: Creation of the build environment is automated",
+              "remarks": "rule_set_18"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-20",
+              "remarks": "rule_set_19"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Pipeline as Code: Build and related CI/CD steps are automated through a pipeline delivered as code",
+              "remarks": "rule_set_19"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-21",
+              "remarks": "rule_set_20"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Pipeline Standardization: Pipelines are standardized across projects",
+              "remarks": "rule_set_20"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-22",
+              "remarks": "rule_set_21"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Secured Output Storage: Output is written to a separate secured storage repo",
+              "remarks": "rule_set_21"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-23",
+              "remarks": "rule_set_22"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Pipeline Modification Control: Pipeline modification is only allowed through pipeline as code",
+              "remarks": "rule_set_22"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-24",
+              "remarks": "rule_set_23"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "User Role Definition: User roles are defined",
+              "remarks": "rule_set_23"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-25",
+              "remarks": "rule_set_24"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Root of Trust Establishment: Established practices are followed for establishing a root of trust from an offline source",
+              "remarks": "rule_set_24"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-26",
+              "remarks": "rule_set_25"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Third-Party Artifact Verification: Third party artefacts and open source libraries are verified",
+              "remarks": "rule_set_25"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-27",
+              "remarks": "rule_set_26"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Third-Party SBOM Requirements: SBOM is required from third party suppliers",
+              "remarks": "rule_set_26"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-28",
+              "remarks": "rule_set_27"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Dependency Tracking: Dependencies between open source components are tracked",
+              "remarks": "rule_set_27"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-29",
+              "remarks": "rule_set_28"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Trusted Package Sources: Trusted package managers and repositories are defined and prioritized",
+              "remarks": "rule_set_28"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-30",
+              "remarks": "rule_set_29"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Immutable SBOM Generation: An immutable SBOM of the code is generated",
+              "remarks": "rule_set_29"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-31",
+              "remarks": "rule_set_30"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Software Vulnerability Scanning: Software is scanned for vulnerabilities",
+              "remarks": "rule_set_30"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-32",
+              "remarks": "rule_set_31"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "License Compliance Scanning: Software is scanned for license implications",
+              "remarks": "rule_set_31"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-33",
+              "remarks": "rule_set_32"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Software Composition Analysis: Software composition analysis is run on ingested software",
+              "remarks": "rule_set_32"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-34",
+              "remarks": "rule_set_33"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Commit and Tag Signing: Commits and tags are signed",
+              "remarks": "rule_set_33"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-35",
+              "remarks": "rule_set_34"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Branch Protection Attestation: Full attestation and verification is enforced for protected branches",
+              "remarks": "rule_set_34"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-36",
+              "remarks": "rule_set_35"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Secret Commit Prevention: Secrets are not committed to the source code repository unless encrypted",
+              "remarks": "rule_set_35"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-37",
+              "remarks": "rule_set_36"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Repository Access Definition: Individuals or teams with write access to a repository are defined",
+              "remarks": "rule_set_36"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-38",
+              "remarks": "rule_set_37"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Automated Security Scanning: Software security scanning and testing is automated",
+              "remarks": "rule_set_37"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-39",
+              "remarks": "rule_set_38"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Contribution Policy Enforcement: Contribution policies are established and adhered to",
+              "remarks": "rule_set_38"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-40",
+              "remarks": "rule_set_39"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Functional Role Definition: Roles are defined and aligned to functional responsibilities",
+              "remarks": "rule_set_39"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-41",
+              "remarks": "rule_set_40"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Four-Eyes Principle: An independent four-eyes principle is enforced",
+              "remarks": "rule_set_40"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-42",
+              "remarks": "rule_set_41"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Branch Protection Rules: Branch protection rules are used",
+              "remarks": "rule_set_41"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-43",
+              "remarks": "rule_set_42"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Repository MFA Enforcement: MFA is enforced for accessing source code repositories",
+              "remarks": "rule_set_42"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-44",
+              "remarks": "rule_set_43"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Key Rotation Policy: A key rotation policy is maintained",
+              "remarks": "rule_set_43"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-45",
+              "remarks": "rule_set_44"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Secure Configuration Defaults: Secure configuration is implemented as the default state of the system",
+              "remarks": "rule_set_44"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-46",
+              "remarks": "rule_set_45"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Supply Chain Security Best Practices: Supply chain security best practices are adhered to",
+              "remarks": "rule_set_45"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-47",
+              "remarks": "rule_set_46"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Repository and Branch Access Control: Access to repository and branches is restricted",
+              "remarks": "rule_set_46"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-48",
+              "remarks": "rule_set_47"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Git Secret Prevention: Unencrypted credentials or secrets are never stored in the Git repository and sensitive data is blocked from being pushed",
+              "remarks": "rule_set_47"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-49",
+              "remarks": "rule_set_48"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Commit Identity Enforcement: Strong identity is enforced with GPG Signed Commits for accountability and traceability",
+              "remarks": "rule_set_48"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-50",
+              "remarks": "rule_set_49"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Linear History Enforcement: Linear history is required and commit history is maintained by disallowing force pushes",
+              "remarks": "rule_set_49"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-51",
+              "remarks": "rule_set_50"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Branching Policy Enforcement: Branching policy is enforced with main branch protection and code review required before merging",
+              "remarks": "rule_set_50"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-52",
+              "remarks": "rule_set_51"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Git Tool Security Monitoring: Vulnerabilities are monitored and Git and GitOps tools are kept up to date",
+              "remarks": "rule_set_51"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-53",
+              "remarks": "rule_set_52"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Privilege Escalation Prevention: Users who can elevate permissions to remove security features are limited to prevent deletion of audit trails and silencing of alerts",
+              "remarks": "rule_set_52"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-54",
+              "remarks": "rule_set_53"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Early Vulnerability Scanning: Integrate vulnerability and configuration scanning in both the IDE and at the CI system during pull request",
+              "remarks": "rule_set_53"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-55",
+              "remarks": "rule_set_54"
+            },
+            {
+              "name": "Rule_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "Code Review Requirements: Implement at least one other non-author reviewer/approver prior to merging",
+              "remarks": "rule_set_54"
+            }
+          ],
+          "links": [
+            {
+              "href": "trestle://component-definitions/cncf-repo/component-definition.json",
+              "rel": "imported-from"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        },
+        {
+          "uuid": "c5ddad14-a935-47cd-a3bc-b3b48731b960",
+          "type": "root='validation'",
+          "title": "privateer-native",
+          "description": "Checks provided by Privateer (pvtr) itself: its github-repo plugin evaluates the OpenSSF Open Source Project Security Baseline (OSPS) for a GitHub repository. Each control has its own OSPS requirement.",
+          "purpose": "Validate CNCF controls using OSPS Baseline requirement results from Privateer.",
+          "props": [
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-01",
+              "remarks": "check_set_00"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-01",
+              "remarks": "check_set_00"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-VM-05.03",
+              "remarks": "check_set_00"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_00"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-02",
+              "remarks": "check_set_01"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-02",
+              "remarks": "check_set_01"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-06.01",
+              "remarks": "check_set_01"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_01"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-04",
+              "remarks": "check_set_03"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-04",
+              "remarks": "check_set_03"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-06.02",
+              "remarks": "check_set_03"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_03"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-11",
+              "remarks": "check_set_10"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-11",
+              "remarks": "check_set_10"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-VM-06.02",
+              "remarks": "check_set_10"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_10"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-13",
+              "remarks": "check_set_12"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-13",
+              "remarks": "check_set_12"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-SA-03.02",
+              "remarks": "check_set_12"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_12"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-18",
+              "remarks": "check_set_17"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-18",
+              "remarks": "check_set_17"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-DO-07.01",
+              "remarks": "check_set_17"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_17"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-24",
+              "remarks": "check_set_23"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-24",
+              "remarks": "check_set_23"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-GV-01.02",
+              "remarks": "check_set_23"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_23"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-28",
+              "remarks": "check_set_27"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-28",
+              "remarks": "check_set_27"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-02.01",
+              "remarks": "check_set_27"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_27"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-29",
+              "remarks": "check_set_28"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-29",
+              "remarks": "check_set_28"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-BR-05.01",
+              "remarks": "check_set_28"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_28"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-30",
+              "remarks": "check_set_29"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-30",
+              "remarks": "check_set_29"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-02.02",
+              "remarks": "check_set_29"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_29"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-31",
+              "remarks": "check_set_30"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-31",
+              "remarks": "check_set_30"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-VM-05.03",
+              "remarks": "check_set_30"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_30"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-33",
+              "remarks": "check_set_32"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-33",
+              "remarks": "check_set_32"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-VM-05.03",
+              "remarks": "check_set_32"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_32"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-35",
+              "remarks": "check_set_34"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-35",
+              "remarks": "check_set_34"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-03.01",
+              "remarks": "check_set_34"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_34"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-37",
+              "remarks": "check_set_36"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-37",
+              "remarks": "check_set_36"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-GV-01.01",
+              "remarks": "check_set_36"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_36"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-39",
+              "remarks": "check_set_38"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-39",
+              "remarks": "check_set_38"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-GV-03.01",
+              "remarks": "check_set_38"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_38"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-40",
+              "remarks": "check_set_39"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-40",
+              "remarks": "check_set_39"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-GV-01.02",
+              "remarks": "check_set_39"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_39"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-43",
+              "remarks": "check_set_42"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-43",
+              "remarks": "check_set_42"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-AC-01.01",
+              "remarks": "check_set_42"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_42"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-44",
+              "remarks": "check_set_43"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-44",
+              "remarks": "check_set_43"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-BR-07.02",
+              "remarks": "check_set_43"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_43"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-53",
+              "remarks": "check_set_52"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-53",
+              "remarks": "check_set_52"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-GV-04.01",
+              "remarks": "check_set_52"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_52"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-55",
+              "remarks": "check_set_54"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-55",
+              "remarks": "check_set_54"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: github-repo; requirement: OSPS-QA-07.01",
+              "remarks": "check_set_54"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_54"
+            }
+          ],
+          "links": [
+            {
+              "href": "trestle://component-definitions/cncf-repo/component-definition.json",
+              "rel": "imported-from"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        },
+        {
+          "uuid": "52f8a86b-4c40-4d29-88eb-7f96809f54ac",
+          "type": "root='validation'",
+          "title": "privateer-plugins",
+          "description": "Checks provided by the cncf-controls Privateer plugin written for this project (privateer-plugins/cncf-controls), which evaluates the five CNCF controls the OSPS Baseline does not cover. It runs alongside github-repo in the same pvtr run.",
+          "purpose": "Validate five CNCF controls using requirement results from the cncf-controls plugin.",
+          "props": [
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-34",
+              "remarks": "check_set_33"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-34",
+              "remarks": "check_set_33"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: cncf-controls; requirement: CNSC-182.01",
+              "remarks": "check_set_33"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_33"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-36",
+              "remarks": "check_set_35"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-36",
+              "remarks": "check_set_35"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: cncf-controls; requirement: CNSC-184.01",
+              "remarks": "check_set_35"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_35"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-42",
+              "remarks": "check_set_41"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-42",
+              "remarks": "check_set_41"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: cncf-controls; requirement: CNSC-190.01",
+              "remarks": "check_set_41"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_41"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-48",
+              "remarks": "check_set_47"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-48",
+              "remarks": "check_set_47"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: cncf-controls; requirement: CNSC-198.01",
+              "remarks": "check_set_47"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_47"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-49",
+              "remarks": "check_set_48"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-49",
+              "remarks": "check_set_48"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "privateer | plugin: cncf-controls; requirement: CNSC-199.01",
+              "remarks": "check_set_48"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_48"
+            }
+          ],
+          "links": [
+            {
+              "href": "trestle://component-definitions/cncf-repo/component-definition.json",
+              "rel": "imported-from"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        },
+        {
+          "uuid": "b7a88d12-3e1a-4191-a1df-535ac0c6272f",
+          "type": "root='validation'",
+          "title": "not-checked",
+          "description": "Controls that are in scope for git repositories but have no Privateer check, native or plugin (no-check). They are reported as not determined and never count as a pass. The reason for each is in docs/privateer-check-coverage.md.",
+          "purpose": "Record in-scope controls that are not yet automatically assessed.",
+          "props": [
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-03",
+              "remarks": "check_set_02"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-03",
+              "remarks": "check_set_02"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_02"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_02"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-05",
+              "remarks": "check_set_04"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-05",
+              "remarks": "check_set_04"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_04"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_04"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-06",
+              "remarks": "check_set_05"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-06",
+              "remarks": "check_set_05"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_05"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_05"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-07",
+              "remarks": "check_set_06"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-07",
+              "remarks": "check_set_06"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_06"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_06"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-08",
+              "remarks": "check_set_07"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-08",
+              "remarks": "check_set_07"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_07"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_07"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-09",
+              "remarks": "check_set_08"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-09",
+              "remarks": "check_set_08"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_08"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_08"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-10",
+              "remarks": "check_set_09"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-10",
+              "remarks": "check_set_09"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_09"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_09"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-12",
+              "remarks": "check_set_11"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-12",
+              "remarks": "check_set_11"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_11"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_11"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-14",
+              "remarks": "check_set_13"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-14",
+              "remarks": "check_set_13"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_13"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_13"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-15",
+              "remarks": "check_set_14"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-15",
+              "remarks": "check_set_14"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_14"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_14"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-16",
+              "remarks": "check_set_15"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-16",
+              "remarks": "check_set_15"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_15"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_15"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-17",
+              "remarks": "check_set_16"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-17",
+              "remarks": "check_set_16"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_16"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_16"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-19",
+              "remarks": "check_set_18"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-19",
+              "remarks": "check_set_18"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_18"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_18"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-20",
+              "remarks": "check_set_19"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-20",
+              "remarks": "check_set_19"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_19"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_19"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-21",
+              "remarks": "check_set_20"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-21",
+              "remarks": "check_set_20"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_20"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_20"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-22",
+              "remarks": "check_set_21"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-22",
+              "remarks": "check_set_21"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_21"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_21"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-23",
+              "remarks": "check_set_22"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-23",
+              "remarks": "check_set_22"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_22"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_22"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-25",
+              "remarks": "check_set_24"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-25",
+              "remarks": "check_set_24"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_24"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_24"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-26",
+              "remarks": "check_set_25"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-26",
+              "remarks": "check_set_25"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_25"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_25"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-27",
+              "remarks": "check_set_26"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-27",
+              "remarks": "check_set_26"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_26"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_26"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-32",
+              "remarks": "check_set_31"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-32",
+              "remarks": "check_set_31"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_31"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_31"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-38",
+              "remarks": "check_set_37"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-38",
+              "remarks": "check_set_37"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_37"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_37"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-41",
+              "remarks": "check_set_40"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-41",
+              "remarks": "check_set_40"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_40"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_40"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-45",
+              "remarks": "check_set_44"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-45",
+              "remarks": "check_set_44"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_44"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_44"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-46",
+              "remarks": "check_set_45"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-46",
+              "remarks": "check_set_45"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_45"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_45"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-47",
+              "remarks": "check_set_46"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-47",
+              "remarks": "check_set_46"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_46"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_46"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-50",
+              "remarks": "check_set_49"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-50",
+              "remarks": "check_set_49"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_49"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_49"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-51",
+              "remarks": "check_set_50"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-51",
+              "remarks": "check_set_50"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_50"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_50"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-52",
+              "remarks": "check_set_51"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-52",
+              "remarks": "check_set_51"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_51"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_51"
+            },
+            {
+              "name": "Rule_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "RULE-54",
+              "remarks": "check_set_53"
+            },
+            {
+              "name": "Check_Id",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CHECK-54",
+              "remarks": "check_set_53"
+            },
+            {
+              "name": "Check_Description",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "no-check",
+              "remarks": "check_set_53"
+            },
+            {
+              "name": "Target_Component",
+              "ns": "https://oscal-compass/compliance-trestle/schemas/oscal/cd",
+              "value": "CNCF Source Repository",
+              "remarks": "check_set_53"
+            }
+          ],
+          "links": [
+            {
+              "href": "trestle://component-definitions/cncf-repo/component-definition.json",
+              "rel": "imported-from"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        },
+        {
+          "uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+          "type": "root='software'",
+          "title": "litmuschaos/litmus",
+          "description": "Source code repository at https://github.com/litmuschaos/litmus.",
+          "purpose": "CNCF project source repository assessed against the cncf-repo profile.",
+          "links": [
+            {
+              "href": "https://github.com/litmuschaos/litmus",
+              "rel": "reference"
+            },
+            {
+              "href": "trestle://component-definitions/litmuschaos--litmus/component-definition.json",
+              "rel": "imported-from"
+            }
+          ],
+          "status": {
+            "state": "operational"
+          }
+        }
+      ]
+    },
+    "control-implementation": {
+      "description": "Implementation of cncf-repo profile controls. Parameter values are specific to this repository.",
+      "implemented-requirements": [
+        {
+          "uuid": "17d796aa-ecbe-48d8-be93-1fa9bd92c267",
+          "control-id": "CNSC-65",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "25ff9dc9-94f7-444a-b36c-e989b3ca02ee",
+              "description": "Repository component implements CNSC-65."
+            }
+          ]
+        },
+        {
+          "uuid": "33ec41d0-eb50-4bfa-94c5-d93bb54d813b",
+          "control-id": "CNSC-67",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "82c6e707-6e79-4313-a92c-0b96cba31fb0",
+              "description": "Repository component implements CNSC-67."
+            }
+          ]
+        },
+        {
+          "uuid": "5191d714-90c8-4e88-b5dc-97dd81b58825",
+          "control-id": "CNSC-68",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "48aade28-3474-4807-b2af-8f926c7686d5",
+              "description": "Repository component implements CNSC-68."
+            }
+          ]
+        },
+        {
+          "uuid": "c45b1be7-db34-4284-9024-21b14b56cafd",
+          "control-id": "CNSC-69",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "649d6251-19f4-41ed-a12c-ea0091df8951",
+              "description": "Repository component implements CNSC-69."
+            }
+          ]
+        },
+        {
+          "uuid": "855cca1b-4464-438e-8421-956f5a50a165",
+          "control-id": "CNSC-71",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "d4587d18-0e64-4387-931d-8f07989e9e80",
+              "description": "Repository component implements CNSC-71."
+            }
+          ]
+        },
+        {
+          "uuid": "3268934d-6306-4abe-9fa9-bf72ab53822d",
+          "control-id": "CNSC-72",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "7e145640-8274-41b8-bc1c-ed3a0c447d91",
+              "description": "Repository component implements CNSC-72."
+            }
+          ]
+        },
+        {
+          "uuid": "41316f22-9e01-4e1e-b5b9-8e8a68041320",
+          "control-id": "CNSC-73",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "284c2aa5-91ad-4f48-9e8f-27eab2409b42",
+              "description": "Repository component implements CNSC-73."
+            }
+          ]
+        },
+        {
+          "uuid": "2d45e238-25e7-4986-a725-96962f134f0e",
+          "control-id": "CNSC-74",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "c0e148d1-6235-41a6-902c-329268ea5f2f",
+              "description": "Repository component implements CNSC-74."
+            }
+          ]
+        },
+        {
+          "uuid": "bfc86bb3-c703-43fa-bc74-e61be77705bb",
+          "control-id": "CNSC-75",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "94920224-9c4a-42c8-a43c-7077e2d94486",
+              "description": "Repository component implements CNSC-75."
+            }
+          ]
+        },
+        {
+          "uuid": "d0dade97-4e49-4243-8af8-294e5df457d4",
+          "control-id": "CNSC-78",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "b30239c7-2db5-4ca4-84c5-63582229e40c",
+              "description": "Repository component implements CNSC-78."
+            }
+          ]
+        },
+        {
+          "uuid": "2cf64a61-66bf-47c6-8fd4-c01eeb962f2b",
+          "control-id": "CNSC-82",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "141bbce6-706c-47ff-b78d-b1b44bc7dbe5",
+              "description": "Repository component implements CNSC-82."
+            }
+          ]
+        },
+        {
+          "uuid": "83e3ca73-50a9-4828-93f5-92148e7a1ac6",
+          "control-id": "CNSC-85",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "8e6b77d6-db93-4a8b-9658-bd3dba090466",
+              "description": "Repository component implements CNSC-85."
+            }
+          ]
+        },
+        {
+          "uuid": "f56d557d-dc13-467e-a97d-ff266ada55c2",
+          "control-id": "CNSC-121",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "0915983b-270c-431c-bcf3-50392b41a7f7",
+              "description": "Repository component implements CNSC-121."
+            }
+          ]
+        },
+        {
+          "uuid": "af633242-344e-4bbe-a722-4b48afd3037a",
+          "control-id": "CNSC-150",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "a83146b4-a393-4330-a20d-2881b4ad2c00",
+              "description": "Repository component implements CNSC-150."
+            }
+          ]
+        },
+        {
+          "uuid": "a01499f2-950b-4525-a1f3-ce3ffa3c592e",
+          "control-id": "CNSC-152",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "c4838de5-3946-4703-81a5-32960eec4444",
+              "description": "Repository component implements CNSC-152."
+            }
+          ]
+        },
+        {
+          "uuid": "be9e84ae-491d-4154-8652-fbae6786527f",
+          "control-id": "CNSC-153",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "89ee9082-657b-479a-9640-4355efc6b561",
+              "description": "Repository component implements CNSC-153."
+            }
+          ]
+        },
+        {
+          "uuid": "dbf96123-21d6-424a-80d3-233303674ec7",
+          "control-id": "CNSC-154",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "49d51407-f17d-47ab-8cb9-d3d67a22fa61",
+              "description": "Repository component implements CNSC-154."
+            }
+          ]
+        },
+        {
+          "uuid": "761452c9-2854-4b97-b1da-c050187b585b",
+          "control-id": "CNSC-155",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "1545452b-31da-4b6d-8042-94e51be87b49",
+              "description": "Repository component implements CNSC-155."
+            }
+          ]
+        },
+        {
+          "uuid": "d476ffe1-6a27-4757-9ae2-e5ddf82e7cf4",
+          "control-id": "CNSC-156",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "08c647d1-f72a-4cd0-bef9-6031ba8daec1",
+              "description": "Repository component implements CNSC-156."
+            }
+          ]
+        },
+        {
+          "uuid": "a49d0a9a-d27a-4d9f-85ed-3273200e34b2",
+          "control-id": "CNSC-158",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "29291750-a502-4e61-bde3-cc8c3f854639",
+              "description": "Repository component implements CNSC-158."
+            }
+          ]
+        },
+        {
+          "uuid": "faeed2a1-23cb-4f0c-9183-ff0ff3036b3b",
+          "control-id": "CNSC-159",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "691cee23-6217-450a-8690-654afd1679d8",
+              "description": "Repository component implements CNSC-159."
+            }
+          ]
+        },
+        {
+          "uuid": "422e5767-23c8-4e40-a7a3-d83b233dfde4",
+          "control-id": "CNSC-165",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "a694b1c7-f9f5-42ea-88fc-66e189f931a3",
+              "description": "Repository component implements CNSC-165."
+            }
+          ]
+        },
+        {
+          "uuid": "c1cff4a0-7d12-49ae-90fd-eb96831f378e",
+          "control-id": "CNSC-166",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "3a7aa187-75ba-4cb8-92de-8c8c9bf22800",
+              "description": "Repository component implements CNSC-166."
+            }
+          ]
+        },
+        {
+          "uuid": "e8285542-332a-48ec-bb47-6cd9c309e6ae",
+          "control-id": "CNSC-167",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "0ffbf054-6ce0-434c-bda7-29c5bb4f6718",
+              "description": "Repository component implements CNSC-167."
+            }
+          ]
+        },
+        {
+          "uuid": "27023b95-7aa1-44fe-a8a1-314fad0c9182",
+          "control-id": "CNSC-168",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "4b79e65a-185e-4013-9786-2210bc0026d5",
+              "description": "Repository component implements CNSC-168."
+            }
+          ]
+        },
+        {
+          "uuid": "37bd494b-c4ef-4be0-b930-6264e604ffe9",
+          "control-id": "CNSC-173",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "692cc396-cdc1-4039-b398-3e0b28d3f928",
+              "description": "Repository component implements CNSC-173."
+            }
+          ]
+        },
+        {
+          "uuid": "29e05241-4697-49bf-860e-942a4af1b8d1",
+          "control-id": "CNSC-174",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "63630008-f563-4f7f-92d7-f008eb2c8d1e",
+              "description": "Repository component implements CNSC-174."
+            }
+          ]
+        },
+        {
+          "uuid": "6f7303db-1cfc-4eca-941e-c4cabbc8e87e",
+          "control-id": "CNSC-175",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "862bdda9-b9f3-4e0e-8c9e-ca1740e7f061",
+              "description": "Repository component implements CNSC-175."
+            }
+          ]
+        },
+        {
+          "uuid": "a960ec0f-e22d-456c-86f3-98339c3b554d",
+          "control-id": "CNSC-177",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "acd6c700-a50c-48b6-ab85-fc89d74b8d8d",
+              "description": "Repository component implements CNSC-177."
+            }
+          ]
+        },
+        {
+          "uuid": "4326f03a-0c81-45f1-97da-3396bbf2c8be",
+          "control-id": "CNSC-178",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "c628bc99-47af-4cbb-9f37-3cd58210ab45",
+              "description": "Repository component implements CNSC-178."
+            }
+          ]
+        },
+        {
+          "uuid": "a59ec41b-82c0-4b90-b3f6-fa1eb93e2bf0",
+          "control-id": "CNSC-179",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "cf933a20-1aec-477a-8aa5-ff504f7e99cb",
+              "description": "Repository component implements CNSC-179."
+            }
+          ]
+        },
+        {
+          "uuid": "803c3f46-6743-478a-9ff9-4bfe48d793ad",
+          "control-id": "CNSC-180",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "c904702f-302c-4992-985d-e884397c39b9",
+              "description": "Repository component implements CNSC-180."
+            }
+          ]
+        },
+        {
+          "uuid": "499b1e3c-1720-4304-a28f-df60c2a96682",
+          "control-id": "CNSC-181",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "b41667dd-e783-43f7-a240-5c5a04b7f1b6",
+              "description": "Repository component implements CNSC-181."
+            }
+          ]
+        },
+        {
+          "uuid": "5566d8a6-89c2-498e-b502-013921177bd6",
+          "control-id": "CNSC-182",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "e2837f01-bf17-437f-ade0-234d36547f22",
+              "description": "Repository component implements CNSC-182."
+            }
+          ]
+        },
+        {
+          "uuid": "b025fe85-fbcb-4aff-b1da-5f54b4bd39cb",
+          "control-id": "CNSC-183",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "d49ed67f-848b-4ad9-ac4c-eccd55b1fac8",
+              "description": "Repository component implements CNSC-183."
+            }
+          ]
+        },
+        {
+          "uuid": "5c9c6a30-8d0b-4006-8668-475c8873fd49",
+          "control-id": "CNSC-184",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "85cb5b77-ef4a-4d5f-9e53-6f0eb578fd13",
+              "description": "Repository component implements CNSC-184."
+            }
+          ]
+        },
+        {
+          "uuid": "25b22989-df42-4110-b24a-e82c8d5ade06",
+          "control-id": "CNSC-185",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "f90b4407-e334-4ee0-8952-5037fdbeb15e",
+              "description": "Repository component implements CNSC-185."
+            }
+          ]
+        },
+        {
+          "uuid": "3ca8f6cd-5647-4b4a-ba7a-580be787e54c",
+          "control-id": "CNSC-186",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "a38469ce-bfb2-4be4-9ecd-4516cff8fc5a",
+              "description": "Repository component implements CNSC-186."
+            }
+          ]
+        },
+        {
+          "uuid": "3d24416f-6bf1-4b94-bbcb-79381b3e4927",
+          "control-id": "CNSC-187",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "d3994e74-12d4-487f-bb46-6c9356089651",
+              "description": "Repository component implements CNSC-187."
+            }
+          ]
+        },
+        {
+          "uuid": "e3c8fc23-f9a3-45d4-870a-6753b7e2b2fd",
+          "control-id": "CNSC-188",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "fe88bb1e-9dbb-4d4f-b3aa-9ead0f4cc38d",
+              "description": "Repository component implements CNSC-188."
+            }
+          ]
+        },
+        {
+          "uuid": "e0acb81e-8a8a-463a-b522-257e0ab08d03",
+          "control-id": "CNSC-189",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "50fd405d-54f1-4f6f-ad90-badc2f9c43eb",
+              "description": "Repository component implements CNSC-189."
+            }
+          ]
+        },
+        {
+          "uuid": "2525db76-982f-404f-8652-766e2b8552cf",
+          "control-id": "CNSC-190",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "2ffe17cc-6840-411d-89b9-96d5b6a5d4ee",
+              "description": "Repository component implements CNSC-190."
+            }
+          ]
+        },
+        {
+          "uuid": "f64ce5a9-d248-4122-aa72-514d68a8cb47",
+          "control-id": "CNSC-191",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "a6e04ece-111f-4435-aa3f-53f1109d992a",
+              "description": "Repository component implements CNSC-191."
+            }
+          ]
+        },
+        {
+          "uuid": "9cc4f893-a11d-4c61-a130-cab1e1e22c91",
+          "control-id": "CNSC-193",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "e20e6339-79b5-4788-8422-a2de1edbbf6a",
+              "description": "Repository component implements CNSC-193."
+            }
+          ]
+        },
+        {
+          "uuid": "d16c9f91-58eb-402c-9ae3-f345447fdc38",
+          "control-id": "CNSC-195",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "564a0705-9605-4527-8146-4f2bf5790cf5",
+              "description": "Repository component implements CNSC-195."
+            }
+          ]
+        },
+        {
+          "uuid": "8a1000ca-e1de-4ef7-9fd2-53700dd50921",
+          "control-id": "CNSC-196",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "d7d282fb-06db-4471-b117-435c76c19b2c",
+              "description": "Repository component implements CNSC-196."
+            }
+          ]
+        },
+        {
+          "uuid": "4608ff57-20f7-4264-8923-a2e0c83f5b3e",
+          "control-id": "CNSC-197",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "85129cd9-2b29-4338-b854-004f6190c77e",
+              "description": "Repository component implements CNSC-197."
+            }
+          ]
+        },
+        {
+          "uuid": "32fa2e49-80ca-4f19-aaaa-8e46ff054749",
+          "control-id": "CNSC-198",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "3236f231-452f-44ec-978a-0bc2d9a07d7b",
+              "description": "Repository component implements CNSC-198."
+            }
+          ]
+        },
+        {
+          "uuid": "bd295d0f-2543-499f-8e8e-b8f1a39cbebe",
+          "control-id": "CNSC-199",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "afbcfb4d-ba84-4a7f-a41f-a2c3f313f2ab",
+              "description": "Repository component implements CNSC-199."
+            }
+          ]
+        },
+        {
+          "uuid": "d70f98c8-53d7-433d-aa3d-b46324f6f69e",
+          "control-id": "CNSC-200",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "f0070537-992c-4b6c-84af-7e430269a54c",
+              "description": "Repository component implements CNSC-200."
+            }
+          ]
+        },
+        {
+          "uuid": "4db62d7f-1bd4-4aa8-bcf5-25181b9db427",
+          "control-id": "CNSC-201",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "8a792977-ab07-45b8-afff-1fb6a393d481",
+              "description": "Repository component implements CNSC-201."
+            }
+          ]
+        },
+        {
+          "uuid": "bcff22ab-b8af-4e58-bcb2-bbb73a59ce5c",
+          "control-id": "CNSC-202",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "5e8df3fb-662c-4ef6-9742-95561ec61d07",
+              "description": "Repository component implements CNSC-202."
+            }
+          ]
+        },
+        {
+          "uuid": "a01ce0f1-3cd3-42d2-b226-642a73f36ffa",
+          "control-id": "CNSC-205",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "141cb963-be73-4a56-b406-327f76cce3d4",
+              "description": "Repository component implements CNSC-205."
+            }
+          ]
+        },
+        {
+          "uuid": "6a94b35d-d0b1-4495-9a33-e119bebbea75",
+          "control-id": "CNSC-259",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "ecb11d32-3d21-421d-863a-7fe98099a3c6",
+              "description": "Repository component implements CNSC-259."
+            }
+          ]
+        },
+        {
+          "uuid": "7160d8ae-358d-4c11-8b74-0657b52363f6",
+          "control-id": "CNSC-265",
+          "by-components": [
+            {
+              "component-uuid": "b53cf6c4-7114-48f3-8b20-f54348848a8c",
+              "uuid": "1c6e9679-9a27-4444-a35a-882f57b5cf27",
+              "description": "Repository component implements CNSC-265."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
