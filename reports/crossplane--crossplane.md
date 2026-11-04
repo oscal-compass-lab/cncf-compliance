@@ -3,8 +3,8 @@
 ![cncf-controls: Fail](../badges/fail.svg)
 
 - **Repository:** [https://github.com/crossplane/crossplane](https://github.com/crossplane/crossplane)
-- **Commit assessed:** `20a4516`
-- **Assessed at:** 2026-11-04 14:28 UTC
+- **Commit assessed:** `6e72766`
+- **Assessed at:** 2026-11-04 20:25 UTC
 - **Level:** **Fail**. 0/3 controls with a decisive result satisfied (0%)
 - **Totals:** 0 satisfied, 3 failed, 22 no result, 30 no check (of 55 controls in scope)
 
