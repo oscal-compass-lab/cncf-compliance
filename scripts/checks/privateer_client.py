@@ -35,6 +35,9 @@ PLUGINS = {
 }
 APPLICABILITY = ["maturity-1", "maturity-2", "maturity-3"]
 RUN_TIMEOUT_SECONDS = 600
+# Exit status of assess_project.py when Privateer failed and the earlier result
+# is to be kept (ASSESS_PRIVATEER_FAILURE=keep-previous).
+PRIVATEER_FAILED_EXIT = 3
 
 
 class PrivateerError(Exception):
@@ -44,6 +47,12 @@ class PrivateerError(Exception):
 # repo key -> parsed results, or the PrivateerError from the first attempt so a
 # missing binary or token is not retried for every control.
 _cache: dict[str, dict | PrivateerError] = {}
+
+
+def failure(repo_url: str) -> str | None:
+    """Why Privateer failed for ``repo_url`` in this process, or None if it did not."""
+    cached = _cache.get(repo_url.strip().rstrip("/").lower())
+    return str(cached) if isinstance(cached, PrivateerError) else None
 
 
 def evaluate(repo_url: str) -> dict:

@@ -26,10 +26,19 @@ Usage:
     python scripts/assess_project.py <repo-url> [--trestle-ws PATH]
 
 Set GITHUB_TOKEN to authenticate GitHub API calls (higher rate limit).
+
+When Privateer cannot evaluate the repository (timeout, crash, no results) every
+Privateer control is "no-result". What happens then is set by the environment
+variable ASSESS_PRIVATEER_FAILURE:
+
+  store          (default) write the result as usual, typically "Not Assessed"
+  keep-previous  write nothing and exit with status 3, so the caller keeps the
+                 project's earlier result
 """
 
 import argparse
 import json
+import os
 import re
 import sys
 from datetime import datetime
@@ -38,6 +47,7 @@ from pathlib import Path
 import oscal_factory as factory
 from build_project_compliance import REQUIREMENTS, _repo_name, _slug, remote_head_commit
 from checks import dispatch_check
+from checks import privateer_client
 from checks.privateer import evidence_with_hover
 from privateer_mapping import UNMAPPED
 
@@ -376,6 +386,12 @@ def main() -> int:
             "evidence": evidence,
             "reason": reason,
         })
+
+    privateer_failure = privateer_client.failure(args.repo_url)
+    if privateer_failure and os.environ.get("ASSESS_PRIVATEER_FAILURE") == "keep-previous":
+        print(f"Privateer failed for {args.repo_url}: {privateer_failure}", file=sys.stderr)
+        print("Nothing written; the project's previous result is kept.", file=sys.stderr)
+        return privateer_client.PRIVATEER_FAILED_EXIT
 
     # Sort outcomes naturally by control_id so all downstream reports and files are in order
     def _nat_key(o):
