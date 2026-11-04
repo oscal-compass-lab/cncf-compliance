@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/linkerd/linkerd2](https://github.com/linkerd/linkerd2)
 - **Commit assessed:** `59d4d4c`
-- **Assessed at:** 2026-11-04 14:49 UTC
+- **Assessed at:** 2026-11-04 20:50 UTC
 - **Level:** **Bronze**. 8/13 controls with a decisive result satisfied (62%)
 - **Totals:** 8 satisfied, 5 failed, 12 no result, 30 no check (of 55 controls in scope)
 
