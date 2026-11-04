@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/praxis-proxy/praxis](https://github.com/praxis-proxy/praxis)
 - **Commit assessed:** `e214971`
-- **Assessed at:** 2026-11-04 13:38 UTC
+- **Assessed at:** 2026-11-04 18:55 UTC
 - **Level:** **Bronze**. 11/16 controls with a decisive result satisfied (69%)
 - **Totals:** 11 satisfied, 5 failed, 9 no result, 30 no check (of 55 controls in scope)
 

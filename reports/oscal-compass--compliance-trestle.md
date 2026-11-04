@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/oscal-compass/compliance-trestle](https://github.com/oscal-compass/compliance-trestle)
 - **Commit assessed:** `ef83106`
-- **Assessed at:** 2026-11-04 13:37 UTC
+- **Assessed at:** 2026-11-04 18:42 UTC
 - **Level:** **Silver**. 14/16 controls with a decisive result satisfied (88%)
 - **Totals:** 14 satisfied, 2 failed, 9 no result, 30 no check (of 55 controls in scope)
 
