@@ -3,8 +3,8 @@
 ![cncf-controls: Baseline Pass Only](../badges/baseline-pass-only.svg)
 
 - **Repository:** [https://github.com/open-policy-agent/opa](https://github.com/open-policy-agent/opa)
-- **Commit assessed:** `11c2ed2`
-- **Assessed at:** 2026-11-04 14:52 UTC
+- **Commit assessed:** `1b57f11`
+- **Assessed at:** 2026-11-04 20:53 UTC
 - **Level:** **Baseline Pass Only**. 8/14 controls with a decisive result satisfied (57%)
 - **Totals:** 8 satisfied, 6 failed, 11 no result, 30 no check (of 55 controls in scope)
 
@@ -30,7 +30,7 @@ The level depends on the percentage of controls with a decisive result (PASS or 
 | Control | Result | Requirement | Evidence |
 | --- | --- | --- | --- |
 | CNSC-65 | NO-RESULT | Vulnerability and configuration scanning is integrated in the IDE or at the pull request | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-VM-05.03. Result: Not Applicable.">Repo Status is</span> |
-| CNSC-67 | PASS | Tests are built for business-critical code | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.01. Result: Passed.">30 status checks were run</span> |
+| CNSC-67 | PASS | Tests are built for business-critical code | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.01. Result: Passed.">31 status checks were run</span> |
 | CNSC-68 | NO-CHECK | Tests are built for business-critical infrastructure | <span title="No Privateer check found, native or plugin. OSPS-QA-06.01 only checks that CI ran an automated test suite; it does not distinguish infrastructure tests.">No Privateer check found</span> |
 | CNSC-69 | NO-RESULT | Test suites are able to be run locally | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-06.02. Result: Needs Review, Low confidence (how sure the check is).">Review project documentation to ensure it explains when and how tests are run</span> |
 | CNSC-71 | NO-CHECK | Two non-author reviewers or approvers are required prior to merging | <span title="No Privateer check found, native or plugin. OSPS-QA-07.01 requires one non-author approval, not two. A pass would overstate this control.">No Privateer check found</span> |
@@ -63,7 +63,7 @@ The level depends on the percentage of controls with a decisive result (PASS or 
 | CNSC-180 | NO-CHECK | Software is scanned for license implications | <span title="No Privateer check found, native or plugin. License scanning of dependencies is not evaluated by the OSPS Baseline. OSPS-LE-02.01 checks the project&#x27;s own license.">No Privateer check found</span> |
 | CNSC-181 | NO-RESULT | Software composition analysis is run on ingested software | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-VM-05.03. Result: Not Applicable.">Repo Status is</span> |
 | CNSC-182 | FAIL | Commits and tags are signed | <span title="Check supplied by our own plug-in (cncf-controls 0.0.0; 0.0.0 means an unreleased local build). Requirement CNSC-182.01. Result: Failed, High confidence (how sure the check is).">17 of 20 recent commits are signed; unsigned: fcc0161, f0a4fa6, 8a3c10d; 0 of 10 recent tags are signed; unsigned: v1.22.0 (lightweight), v1.21.4 (lightweight), v1.21.3 (lightweight), v1.21.2 (lightweight), v1.21.1 (lightweight), and 5 more</span> |
-| CNSC-183 | FAIL | Full attestation and verification is enforced for protected branches | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-03.01. Result: Failed.">Some executed status checks are not mandatory but all should be: DCO, Check what files changed, Go Lint, Release Tool, Generate Code, Go Race Detector, Check Generated, Go compat build/test (macos-15, 1.26.6), Go Build (darwin arm64), Go Test (darwin), Go Build (windows amd64), Go compat build/test (ubuntu-24.04, 1.26.6), Go Build (linux arm64), Go Test (linux), Go Build (linux arm64GO_TAGS="-tags=opa_no_oci"), Go Build (linux amd64), PR checks</span> |
+| CNSC-183 | FAIL | Full attestation and verification is enforced for protected branches | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-QA-03.01. Result: Failed.">Some executed status checks are not mandatory but all should be: DCO, PR checks, Check what files changed, Github Actions Lint, Release Tool, Go Lint, Generate Code, YAML Lint, Check Generated, Go Race Detector, Go compat build/test (macos-15, 1.26.6), WASM, Go Test (linux), Go Build (windows amd64), Go Test (darwin), Go Build (linux arm64), Go compat build/test (ubuntu-24.04, 1.26.6), Go Build (linux amd64), Go Build (linux arm64GO_TAGS="-tags=opa_no_oci"), zizmor</span> |
 | CNSC-184 | FAIL | Secrets are not committed to the source code repository unless encrypted | <span title="Check supplied by our own plug-in (cncf-controls 0.0.0; 0.0.0 means an unreleased local build). Requirement CNSC-184.01. Result: Failed, Medium confidence (how sure the check is).">Gitleaks found 379 potential secrets in the default branch: cmd/sign.go (jwt), cmd/sign_jsonv2_test.go (jwt), cmd/sign_test.go (jwt), docs/docs/configuration.md (generic-api-key), docs/docs/deploy/aws/ec2.mdx (generic-api-key), and 276 more</span> |
 | CNSC-185 | NO-RESULT | Individuals or teams with write access to a repository are defined | <span title="Check supplied by Privateer (plugin github-repo 0.32.3). Requirement OSPS-GV-01.01. Result: Not Applicable.">Repo Status is</span> |
 | CNSC-186 | NO-CHECK | Software security scanning and testing is automated | <span title="No Privateer check found, native or plugin. OSPS-VM-06.02 covers SAST only. The control also asks for DAST, which is not evaluated.">No Privateer check found</span> |
