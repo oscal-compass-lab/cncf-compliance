@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/fluent/fluentd](https://github.com/fluent/fluentd)
 - **Commit assessed:** `d3f9955`
-- **Assessed at:** 2026-11-04 14:35 UTC
+- **Assessed at:** 2026-11-04 20:34 UTC
 - **Level:** **Baseline Pass Only**. 7/13 controls with a decisive result satisfied (54%)
 - **Totals:** 7 satisfied, 6 failed, 12 no result, 30 no check (of 55 controls in scope)
 
