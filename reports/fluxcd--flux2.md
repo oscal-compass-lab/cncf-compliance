@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/fluxcd/flux2](https://github.com/fluxcd/flux2)
 - **Commit assessed:** `22c6ee1`
-- **Assessed at:** 2026-11-04 14:36 UTC
+- **Assessed at:** 2026-11-04 20:34 UTC
 - **Level:** **Baseline Pass Only**. 8/15 controls with a decisive result satisfied (53%)
 - **Totals:** 8 satisfied, 7 failed, 10 no result, 30 no check (of 55 controls in scope)
 
