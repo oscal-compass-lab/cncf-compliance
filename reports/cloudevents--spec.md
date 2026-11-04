@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/cloudevents/spec](https://github.com/cloudevents/spec)
 - **Commit assessed:** `1025510`
-- **Assessed at:** 2026-11-04 14:25 UTC
+- **Assessed at:** 2026-11-04 20:22 UTC
 - **Level:** **Fail**. 8/18 controls with a decisive result satisfied (44%)
 - **Totals:** 8 satisfied, 10 failed, 7 no result, 30 no check (of 55 controls in scope)
 
