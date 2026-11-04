@@ -3,8 +3,8 @@
 ![cncf-controls: Fail](../badges/fail.svg)
 
 - **Repository:** [https://github.com/istio/istio](https://github.com/istio/istio)
-- **Commit assessed:** `8d59889`
-- **Assessed at:** 2026-11-04 14:38 UTC
+- **Commit assessed:** `7ecfbd5`
+- **Assessed at:** 2026-11-04 20:37 UTC
 - **Level:** **Fail**. 6/15 controls with a decisive result satisfied (40%)
 - **Totals:** 6 satisfied, 9 failed, 10 no result, 30 no check (of 55 controls in scope)
 
