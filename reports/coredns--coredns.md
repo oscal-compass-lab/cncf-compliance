@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/coredns/coredns](https://github.com/coredns/coredns)
 - **Commit assessed:** `506b5c4`
-- **Assessed at:** 2026-11-04 14:26 UTC
+- **Assessed at:** 2026-11-04 20:24 UTC
 - **Level:** **Bronze**. 8/13 controls with a decisive result satisfied (62%)
 - **Totals:** 8 satisfied, 5 failed, 12 no result, 30 no check (of 55 controls in scope)
 
