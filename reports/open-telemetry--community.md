@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/open-telemetry/community](https://github.com/open-telemetry/community)
 - **Commit assessed:** `5b04979`
-- **Assessed at:** 2026-11-04 14:52 UTC
+- **Assessed at:** 2026-11-04 20:53 UTC
 - **Level:** **Silver**. 10/13 controls with a decisive result satisfied (77%)
 - **Totals:** 10 satisfied, 3 failed, 12 no result, 30 no check (of 55 controls in scope)
 
