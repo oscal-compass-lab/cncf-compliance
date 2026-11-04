@@ -9,9 +9,10 @@ all other catalog controls are out of scope) is in exactly one of:
             The control is checked by that requirement of a Privateer plugin:
             an OSPS Baseline requirement of ``github-repo`` (OSPS-...), or a
             requirement of our own ``cncf-controls`` plugin (CNSC-nnn.01, see
-            privateer-plugins/cncf-controls) where the Baseline has none. Each
-            requirement is used by at most one control, so every mapped
-            control has a check no other control shares.
+            privateer-plugins/cncf-controls) where the Baseline has none. A
+            requirement may be used by more than one control, provided a pass
+            fully establishes what each of those controls states. If it would
+            establish only part of a control, that control is UNMAPPED.
   UNMAPPED  control -> reason
             No Privateer check was found, native or plugin, for the stated reason.
             The control is reported as "not determined" and is never counted
@@ -47,6 +48,9 @@ MAPPED: dict[str, tuple[str, str, str]] = {
     "CNSC-185": ("OSPS-GV-01.01", "exact", "Documentation lists the members with access to sensitive resources."),
     "CNSC-187": ("OSPS-GV-03.01", "partial", "Covers an explained contribution process, not adherence to it."),
     "CNSC-188": ("OSPS-GV-01.02", "exact", "Documentation describes member roles and responsibilities."),
+    "CNSC-167": ("OSPS-GV-01.02", "exact", "Documentation describes member roles and responsibilities, which includes defining user roles."),
+    "CNSC-179": ("OSPS-VM-05.03", "partial", "Covers automated scanning of every change for known vulnerabilities and malicious dependencies, with violations blocked. Vulnerabilities in the project's own code are not covered."),
+    "CNSC-181": ("OSPS-VM-05.03", "partial", "Covers an SCA scanner that runs on every change and is enforced as a required check. It does not show that third-party software is scanned when it is ingested."),
     "CNSC-182": ("CNSC-182.01", "partial", "Covers the 20 most recent default-branch commits and 10 most recent tags, not the full history. Unsigned commits and tags made by release automation (bot accounts, semantic-release) are excused and counted in the result."),
     "CNSC-184": ("CNSC-184.01", "partial", "Gitleaks scan of the files of the default branch (up to 1 MiB each), not of the Git history. Binary and larger files are skipped."),
     "CNSC-190": ("CNSC-190.01", "exact", "Branch protection or a ruleset restricts pushes or requires approving reviews on the default branch. Reuses the github-repo step of OSPS-AC-03.01."),
@@ -62,11 +66,11 @@ _NO_REQ = "The OSPS Baseline has no requirement for this."
 _TAKEN = "The only related OSPS requirement is used by {other}, which states it more precisely."
 
 UNMAPPED: dict[str, str] = {
-    "CNSC-68":  "The only OSPS test requirement (OSPS-QA-06.01) is used by CNSC-67 and does not distinguish infrastructure tests.",
-    "CNSC-71":  "OSPS-QA-07.01 requires one approval, not two, and is used by CNSC-265. A pass would overstate this control.",
+    "CNSC-68":  "OSPS-QA-06.01 only checks that CI ran an automated test suite; it does not distinguish infrastructure tests.",
+    "CNSC-71":  "OSPS-QA-07.01 requires one non-author approval, not two. A pass would overstate this control.",
     "CNSC-72":  "Code cleanliness and commenting are not evaluated by the OSPS Baseline.",
-    "CNSC-73":  "The only OSPS test requirement (OSPS-QA-06.01) is used by CNSC-67 and does not distinguish full infrastructure tests.",
-    "CNSC-74":  "The only OSPS test requirement (OSPS-QA-06.01) is used by CNSC-67 and does not identify regression tests.",
+    "CNSC-73":  "OSPS-QA-06.01 only checks that CI ran an automated test suite; it does not distinguish full infrastructure tests.",
+    "CNSC-74":  "OSPS-QA-06.01 only checks that CI ran an automated test suite; it does not identify regression tests.",
     "CNSC-75":  "OSPS-QA-06.03 covers a policy to update tests with changes, not security regression tests driven by emerging threats.",
     "CNSC-78":  "OSPS-SA-03.02 checks that a threat model exists (CNSC-121), not that it drives test priorities.",
     "CNSC-85":  "The Baseline analyses workflows for risks (OSPS-BR-01.x) but does not check that manifests are scanned in CI.",
@@ -74,32 +78,27 @@ UNMAPPED: dict[str, str] = {
     "CNSC-152": "Reproducible builds are not evaluated by the OSPS Baseline.",
     "CNSC-153": "Hash pinning and locking of external requirements are not evaluated by the OSPS Baseline.",
     "CNSC-154": "Build determinism is not evaluated by the OSPS Baseline.",
-    "CNSC-156": "OSPS-DO-07.01 (used by CNSC-155) detects build documentation or automation but not automated creation of the build environment.",
+    "CNSC-156": "OSPS-DO-07.01 detects build documentation or automation but not automated creation of the build environment.",
     "CNSC-158": "The Baseline does not check that build and CI/CD steps are defined as code.",
     "CNSC-159": "Pipeline standardization across projects is not evaluated by the OSPS Baseline.",
     "CNSC-165": "Separate secured storage for pipeline output is not evaluated by the OSPS Baseline.",
     "CNSC-166": "Immutability of pipeline configuration is not evaluated by the OSPS Baseline.",
-    "CNSC-167": "The only related OSPS requirement (OSPS-GV-01.02) is used by CNSC-188, which states it more precisely.",
     "CNSC-168": "Root-of-trust establishment from an offline source is not evaluated by the OSPS Baseline.",
     "CNSC-173": "Verification of third-party artifacts is not evaluated by the OSPS Baseline.",
     "CNSC-174": "OSPS-QA-02.02 covers the project's own SBOM (CNSC-178), not SBOMs required from suppliers.",
-    "CNSC-179": "The only OSPS requirement for automated vulnerability evaluation (OSPS-VM-05.03) is used by CNSC-65.",
     "CNSC-180": "License scanning of dependencies is not evaluated by the OSPS Baseline. OSPS-LE-02.01 checks the project's own license.",
-    "CNSC-181": "The only OSPS requirement for automated dependency evaluation (OSPS-VM-05.03) is used by CNSC-65.",
-    "CNSC-186": "The only OSPS requirement for automated security scanning (OSPS-VM-06.02) is used by CNSC-82. DAST is not evaluated.",
-    "CNSC-189": "OSPS-QA-07.01 is used by CNSC-265. It does not test that the author differs from the approver or that there are two reviewers.",
+    "CNSC-186": "OSPS-VM-06.02 covers SAST only. The control also asks for DAST, which is not evaluated.",
+    "CNSC-189": "OSPS-QA-07.01 requires one non-author approval, not the two reviewers the control asks for. A pass would overstate this control.",
     "CNSC-195": "Secure defaults of the software are not evaluated by the repository-level OSPS Baseline.",
     "CNSC-196": "This umbrella control has no single OSPS equivalent. Related practices are covered by CNSC-175, CNSC-177 and CNSC-178.",
-    "CNSC-197": "The OSPS requirement for restricting branch access (OSPS-AC-03.01) is used by CNSC-190. OSPS-AC-02.01 is enforced by GitHub for every project, so it would pass unconditionally.",
+    "CNSC-197": "OSPS-AC-03.01 covers the primary branch only, not access to the repository. OSPS-AC-02.01 is enforced by GitHub for every project, so it would pass unconditionally.",
     "CNSC-200": "Linear history and force-push protection are not evaluated by the OSPS Baseline. OSPS-AC-03.02 covers branch deletion only.",
-    "CNSC-201": "The related OSPS requirements (OSPS-AC-03.01, OSPS-QA-07.01) are used by CNSC-190 and CNSC-265.",
+    "CNSC-201": "The control needs both branch protection (OSPS-AC-03.01) and required code review (OSPS-QA-07.01). Each control maps to one requirement, and neither covers both.",
     "CNSC-202": "Monitoring and updating of Git and GitOps tooling is not observable from the repository.",
-    "CNSC-259": "The only OSPS requirement for automated vulnerability evaluation (OSPS-VM-05.03) is used by CNSC-65, which this control duplicates.",
+    "CNSC-259": "OSPS-VM-05.03 covers scanning in CI during pull requests. The control also asks for IDE scanning, so a pass would overstate it.",
 }
 
 assert not set(MAPPED) & set(UNMAPPED), "a control is both mapped and unmapped"
-_reqs = [v[0] for v in MAPPED.values()]
-assert len(_reqs) == len(set(_reqs)), "a requirement is used by more than one control"
 assert all(v[1] in ("exact", "partial") for v in MAPPED.values())
 
 
@@ -143,11 +142,12 @@ def render_coverage() -> str:
         "Do not edit by hand.",
         "",
         "Every control in the `cncf-repo` profile (the controls in scope for git repositories) "
-        "is checked by its own Privateer requirement, or has no check for the stated reason. "
+        "is checked by a Privateer requirement, or has no check for the stated reason. "
         "Requirements come from two plugins: `github-repo`, which evaluates the "
         "[OSPS Baseline](https://baseline.openssf.org), and our own `cncf-controls` plugin "
         "([`privateer-plugins/cncf-controls`](../privateer-plugins/cncf-controls)), which covers the "
-        "five controls the Baseline cannot. No requirement is used by more than one control.",
+        "five controls the Baseline cannot. A requirement is shared by several controls only when a pass "
+        "fully establishes each of them.",
         "",
         f"- **Controls in scope:** {total}",
         f"- **With a Privateer check:** {len(MAPPED)} "

@@ -1,6 +1,9 @@
 name: Update CNCF project tables
 
 on:
+  schedule:
+    # Hourly, at the top of the hour. Scheduled runs use the default branch.
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:

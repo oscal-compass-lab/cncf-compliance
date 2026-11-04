@@ -9,6 +9,7 @@
    table per maturity level, each sorted alphabetically.
 """
 
+import html
 import json
 import re
 import sys
@@ -108,8 +109,18 @@ def build_projects(items, existing):
     return projects
 
 
-def md_cell(text):
-    return str(text).replace("|", "\\|").replace("\n", " ").strip()
+# Column widths shared by every table so the three tables line up.
+# (header, width) -- GitHub honours the width attribute on <th>.
+COLUMNS = [
+    ("Logo", "8%"),
+    ("Project", "27%"),
+    ("cncf-controls status", "35%"),
+    ("OSCAL documents", "30%"),
+]
+
+
+def esc(text):
+    return html.escape(str(text), quote=True)
 
 
 def render_oscal_docs(project):
@@ -156,43 +167,51 @@ def render_oscal_docs(project):
 
 
 def render_row(project):
+    # HTML (not markdown) cells: markdown is not parsed inside HTML tables.
     logo = ""
     if project["logo"]:
-        logo_url = f"{LANDSCAPE_BASE}/{project['logo']}"
-        logo = f'<img src="{logo_url}" alt="{md_cell(project["name"])} logo" width="48">'
-    name = md_cell(project["name"])
+        logo_url = esc(f"{LANDSCAPE_BASE}/{project['logo']}")
+        logo = f'<img src="{logo_url}" alt="{esc(project["name"])} logo" width="48">'
+    name = esc(project["name"])
     if project.get("repo_url"):
-        repo_url = project["repo_url"]
-        project_cell = f'[{name}]({repo_url} "{repo_url}")'
+        repo_url = esc(project["repo_url"])
+        project_cell = f'<a href="{repo_url}" title="{repo_url}">{name}</a>'
     else:
         project_cell = name
 
     status_text = project["cncf_controls_status"]
     tooltip = STATUS_TOOLTIPS.get(status_text, "")
     badge_path = STATUS_BADGES.get(status_text, STATUS_BADGES["TBD"])
-    badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}">'
+    badge_img = f'<img src="{badge_path}" alt="{esc(status_text)}">'
     if tooltip:
-        badge_img = f'<img src="{badge_path}" alt="{md_cell(status_text)}" title="{tooltip}">'
+        badge_img = f'<img src="{badge_path}" alt="{esc(status_text)}" title="{esc(tooltip)}">'
     if project.get("cncf_controls_report"):
-        report_url = project["cncf_controls_report"]
+        report_url = esc(project["cncf_controls_report"])
         assessed_at = project.get("cncf_controls_assessed_at", "")
-        link_text = f"report {assessed_at}" if assessed_at else "report"
-        status = f'[{badge_img}]({report_url})<br>[{link_text}]({report_url})'
+        link_text = esc(f"report {assessed_at}" if assessed_at else "report")
+        status = (f'<a href="{report_url}">{badge_img}</a><br>'
+                  f'<a href="{report_url}">{link_text}</a>')
     else:
         status = badge_img
     oscal_docs = render_oscal_docs(project)
-    return f"| {logo} | {project_cell} | {status} | {oscal_docs} |"
+    cells = "".join(f"<td>{c}</td>" for c in (logo, project_cell, status, oscal_docs))
+    return f"<tr>{cells}</tr>"
 
 
 def render_tables(projects):
+    header = "".join(f'<th width="{w}" align="left">{h}</th>' for h, w in COLUMNS)
     lines = []
     for key, title in SECTIONS:
         section = [p for p in projects if p["maturity"] == key]
         lines.append(f"### {title} ({len(section)})")
         lines.append("")
-        lines.append("| Logo | Project | cncf-controls status | OSCAL documents |")
-        lines.append("| --- | --- | --- | --- |")
+        # No blank lines inside the table, or markdown would end the HTML block.
+        lines.append('<table width="100%">')
+        lines.append(f"<thead><tr>{header}</tr></thead>")
+        lines.append("<tbody>")
         lines.extend(render_row(p) for p in section)
+        lines.append("</tbody>")
+        lines.append("</table>")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
