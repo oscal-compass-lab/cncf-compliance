@@ -4,7 +4,7 @@
 
 - **Repository:** [https://github.com/spiffe/spiffe](https://github.com/spiffe/spiffe)
 - **Commit assessed:** `03e916d`
-- **Assessed at:** 2026-11-04 14:54 UTC
+- **Assessed at:** 2026-11-04 20:55 UTC
 - **Level:** **Bronze**. 7/11 controls with a decisive result satisfied (64%)
 - **Totals:** 7 satisfied, 4 failed, 14 no result, 30 no check (of 55 controls in scope)
 
