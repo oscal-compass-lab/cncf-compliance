@@ -107,8 +107,8 @@ The dropdown in the last column links to these documents. The first three are sh
 <!-- BEGIN PROJECT TABLES -->
 ### Graduated (39)
 
-<table width="100%">
-<thead><tr><th width="8%" align="left">Logo</th><th width="27%" align="left">Project</th><th width="35%" align="left">cncf-controls status</th><th width="30%" align="left">OSCAL documents</th></tr></thead>
+<table>
+<thead><tr><th align="left">Logo<br><img src="badges/spacer.svg" width="56" height="1" alt=""></th><th align="left">Project<br><img src="badges/spacer.svg" width="290" height="1" alt=""></th><th align="left">cncf-controls status<br><img src="badges/spacer.svg" width="220" height="1" alt=""></th><th align="left">OSCAL documents<br><img src="badges/spacer.svg" width="140" height="1" alt=""></th></tr></thead>
 <tbody>
 <tr><td><img src="https://landscape.cncf.io/logos/ba71fd50cbc06c7bad3554de23cbca4298593141df3842003a94065c209610f4.svg" alt="Argo logo" width="48"></td><td><a href="https://github.com/argoproj/argo-cd" title="https://github.com/argoproj/argo-cd">Argo</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>
 <tr><td><img src="https://landscape.cncf.io/logos/90290bef758df2bd10485616a6445e240b903ecbaee96a8cc844d1c3ed6591ba.svg" alt="Buildpacks logo" width="48"></td><td><a href="https://github.com/buildpacks/pack" title="https://github.com/buildpacks/pack">Buildpacks</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>
@@ -154,8 +154,8 @@ The dropdown in the last column links to these documents. The first three are sh
 
 ### Incubation (38)
 
-<table width="100%">
-<thead><tr><th width="8%" align="left">Logo</th><th width="27%" align="left">Project</th><th width="35%" align="left">cncf-controls status</th><th width="30%" align="left">OSCAL documents</th></tr></thead>
+<table>
+<thead><tr><th align="left">Logo<br><img src="badges/spacer.svg" width="56" height="1" alt=""></th><th align="left">Project<br><img src="badges/spacer.svg" width="290" height="1" alt=""></th><th align="left">cncf-controls status<br><img src="badges/spacer.svg" width="220" height="1" alt=""></th><th align="left">OSCAL documents<br><img src="badges/spacer.svg" width="140" height="1" alt=""></th></tr></thead>
 <tbody>
 <tr><td><img src="https://landscape.cncf.io/logos/07c63442d3e8608cbfe2ef02894d00fc4daf3f66ca4083addb5f62c7ad58cb9e.svg" alt="Artifact Hub logo" width="48"></td><td><a href="https://github.com/artifacthub/hub" title="https://github.com/artifacthub/hub">Artifact Hub</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>
 <tr><td><img src="https://landscape.cncf.io/logos/041229aa6e716c8d0beb5752747b4789f42dc3239c245c6cf3af8d5cf651b1ee.svg" alt="Backstage logo" width="48"></td><td><a href="https://github.com/backstage/backstage" title="https://github.com/backstage/backstage">Backstage</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>
@@ -200,8 +200,8 @@ The dropdown in the last column links to these documents. The first three are sh
 
 ### Sandbox (154)
 
-<table width="100%">
-<thead><tr><th width="8%" align="left">Logo</th><th width="27%" align="left">Project</th><th width="35%" align="left">cncf-controls status</th><th width="30%" align="left">OSCAL documents</th></tr></thead>
+<table>
+<thead><tr><th align="left">Logo<br><img src="badges/spacer.svg" width="56" height="1" alt=""></th><th align="left">Project<br><img src="badges/spacer.svg" width="290" height="1" alt=""></th><th align="left">cncf-controls status<br><img src="badges/spacer.svg" width="220" height="1" alt=""></th><th align="left">OSCAL documents<br><img src="badges/spacer.svg" width="140" height="1" alt=""></th></tr></thead>
 <tbody>
 <tr><td><img src="https://landscape.cncf.io/logos/59c6f1bd9eef9221d44e07e22b383a835d1f0af878803761ee3c3883a8e32112.svg" alt="Aeraki Mesh logo" width="48"></td><td><a href="https://github.com/aeraki-mesh/aeraki" title="https://github.com/aeraki-mesh/aeraki">Aeraki Mesh</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>
 <tr><td><img src="https://landscape.cncf.io/logos/12393ea733625a06899ec27331bdb213a197281ad80b0e39af5e1c4fe7a6d44c.svg" alt="Agent Substrate logo" width="48"></td><td><a href="https://github.com/agent-substrate/substrate" title="https://github.com/agent-substrate/substrate">Agent Substrate</a></td><td><img src="badges/tbd.svg" alt="TBD" title="Assessment pending"></td><td>-</td></tr>

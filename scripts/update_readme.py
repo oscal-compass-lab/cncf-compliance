@@ -109,13 +109,17 @@ def build_projects(items, existing):
     return projects
 
 
-# Column widths shared by every table so the three tables line up.
-# (header, width) -- GitHub honours the width attribute on <th>.
+# Column widths in px shared by every table so the three tables line up.
+# GitHub strips width/style attributes from <table>/<th>/<td>, so each header
+# cell carries a transparent spacer image of the column width instead. Each
+# width must be at least as wide as the widest content in that column
+# (longest project name, status badge + report link, "OSCAL Docs" summary).
+SPACER = "badges/spacer.svg"
 COLUMNS = [
-    ("Logo", "8%"),
-    ("Project", "27%"),
-    ("cncf-controls status", "35%"),
-    ("OSCAL documents", "30%"),
+    ("Logo", 56),
+    ("Project", 290),
+    ("cncf-controls status", 220),
+    ("OSCAL documents", 140),
 ]
 
 
@@ -199,14 +203,17 @@ def render_row(project):
 
 
 def render_tables(projects):
-    header = "".join(f'<th width="{w}" align="left">{h}</th>' for h, w in COLUMNS)
+    header = "".join(
+        f'<th align="left">{h}<br><img src="{SPACER}" width="{w}" height="1" alt=""></th>'
+        for h, w in COLUMNS
+    )
     lines = []
     for key, title in SECTIONS:
         section = [p for p in projects if p["maturity"] == key]
         lines.append(f"### {title} ({len(section)})")
         lines.append("")
         # No blank lines inside the table, or markdown would end the HTML block.
-        lines.append('<table width="100%">')
+        lines.append("<table>")
         lines.append(f"<thead><tr>{header}</tr></thead>")
         lines.append("<tbody>")
         lines.extend(render_row(p) for p in section)
