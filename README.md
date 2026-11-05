@@ -121,7 +121,7 @@ The dropdown in the last column links to these documents. The first three are sh
 
 This repository uses one tool from [OSCAL Compass <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass):
 
-- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle) (`compliance-trestle` 5.2.0, OSCAL 1.2.1), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds every OSCAL object with trestle's typed Python models (component definition, system security plan, assessment plan, assessment results), and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
+- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds every OSCAL object with trestle's typed Python models (component definition, system security plan, assessment plan, assessment results), and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
 - **Validation with `trestle validate`.** Every OSCAL document is validated as soon as the script that writes it has written it, and a document that does not validate stops that script with an error:
 
   | Document | Validated by | When |
@@ -133,8 +133,6 @@ This repository uses one tool from [OSCAL Compass <img src="icons/external-link.
   | System Security Plan | `build_project_compliance.py project` | After it is written |
   | Assessment Plan | `build_project_compliance.py project` | After it is written |
   | Assessment Results | `assess_project.py` | After it is written |
-
-  A project whose documents fail validation counts as a failed assessment: it is rolled back to its previous result and the run moves on to the next project (see [How the tables are assembled](#how-the-tables-are-assembled)). A failure in the shared base stops the [prepare job](.github/workflows/assess-pipeline.yml) before anything is committed. The check is one function, `validate` in [`scripts/oscal_factory.py`](scripts/oscal_factory.py), which runs `trestle validate -f <document>` in the trestle workspace.
 
 ## CNCF Projects
 
