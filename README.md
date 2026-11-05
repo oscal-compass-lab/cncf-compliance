@@ -67,15 +67,15 @@ Each project gets one badge. The level is the percentage of the in-scope control
 Controls for which no Privateer check was found (native or plugin), or that have an inconclusive Privateer result (for example "Needs Review"), are excluded from the percentage. They are never counted as passes.
 
 <table>
-<thead><tr><th align="left">Badge<br><img src="badges/spacer.svg" width="300" height="1" alt=""></th><th align="left">Level<br><img src="badges/spacer.svg" width="130" height="1" alt=""></th><th align="left">Meaning<br><img src="badges/spacer.svg" width="280" height="1" alt=""></th></tr></thead>
+<thead><tr><th align="left">Badge<br><img src="badges/spacer.svg" width="250" height="1" alt=""></th><th align="left">Level<br><img src="badges/spacer.svg" width="150" height="1" alt=""></th><th align="left">Meaning<br><img src="badges/spacer.svg" width="260" height="1" alt=""></th></tr></thead>
 <tbody>
-<tr><td><img src="badges/gold.svg" alt="Gold"></td><td>Gold</td><td>Exceptional compliance: satisfied &gt;= 90% of the controls with a decisive result.</td></tr>
-<tr><td><img src="badges/silver.svg" alt="Silver"></td><td>Silver</td><td>Strong compliance: satisfied &gt;= 75% of the controls with a decisive result.</td></tr>
-<tr><td><img src="badges/bronze.svg" alt="Bronze"></td><td>Bronze</td><td>Good compliance: satisfied &gt;= 60% of the controls with a decisive result.</td></tr>
-<tr><td><img src="badges/baseline-pass-only.svg" alt="Baseline Pass Only"></td><td>Baseline Pass Only</td><td>Minimum compliance: satisfied &gt;= 50% of the controls with a decisive result (below Bronze).</td></tr>
-<tr><td><img src="badges/fail.svg" alt="Fail"></td><td>Fail</td><td>Non-compliant: satisfied &lt; 50% of the controls with a decisive result.</td></tr>
-<tr><td><img src="badges/not-assessed.svg" alt="Not Assessed"></td><td>Not Assessed</td><td>No assessment has been run for the project yet.</td></tr>
-<tr><td><img src="badges/assessment-incomplete.svg" alt="Assessment Incomplete"></td><td>Assessment Incomplete</td><td>The assessment ran, but no control had a decisive result (PASS or FAIL), for example because no Privateer check was found or the results were inconclusive.</td></tr>
+<tr><td><img src="badges/gold.svg" alt="Gold"></td><td>Gold</td><td>Exceptional compliance: satisfied<br>&gt;= 90% of the controls with a<br>decisive result.</td></tr>
+<tr><td><img src="badges/silver.svg" alt="Silver"></td><td>Silver</td><td>Strong compliance: satisfied &gt;=<br>75% of the controls with a<br>decisive result.</td></tr>
+<tr><td><img src="badges/bronze.svg" alt="Bronze"></td><td>Bronze</td><td>Good compliance: satisfied &gt;=<br>60% of the controls with a<br>decisive result.</td></tr>
+<tr><td><img src="badges/baseline-pass-only.svg" alt="Baseline Pass Only"></td><td>Baseline Pass Only</td><td>Minimum compliance: satisfied<br>&gt;= 50% of the controls with a<br>decisive result (below Bronze).</td></tr>
+<tr><td><img src="badges/fail.svg" alt="Fail"></td><td>Fail</td><td>Non-compliant: satisfied &lt; 50%<br>of the controls with a decisive<br>result.</td></tr>
+<tr><td><img src="badges/not-assessed.svg" alt="Not Assessed"></td><td>Not Assessed</td><td>No assessment has been run for the<br>project yet.</td></tr>
+<tr><td><img src="badges/assessment-incomplete.svg" alt="Assessment Incomplete"></td><td>Assessment Incomplete</td><td>The assessment ran, but no control<br>had a decisive result (PASS or<br>FAIL), for example because no<br>Privateer check was found or the<br>results were inconclusive.</td></tr>
 </tbody>
 </table>
 
