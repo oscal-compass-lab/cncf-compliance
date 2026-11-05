@@ -44,7 +44,7 @@ A control is **out of scope** when its subject is something a repository does no
 
 By catalog group, with how each in-scope control is assessed:
 
-| Group | In scope | of which Privateer native | of which Privateer plugin | of which not checked | Out of scope |
+| Group | In scope | Privateer native checked | Privateer plugin checked | Not checked | Out of scope |
 | --- | --- | --- | --- | --- | --- |
 | Develop | 13 | 4 | 0 | 9 | 7 |
 | Securing Build Pipelines | 12 | 2 | 0 | 10 | 9 |
@@ -59,17 +59,11 @@ By catalog group, with how each in-scope control is assessed:
 | Storage | 0 | 0 | 0 | 0 | 14 |
 | **Total** | **55** | **20** | **5** | **30** | **159** |
 
-- **Privateer native:** checked by a requirement of the `github-repo` plugin that Privateer provides, which evaluates the OSPS Baseline.
-- **Privateer plugin:** checked by a requirement of our own `cncf-controls` plugin, used where the Baseline has none.
+- **Privateer native checked:** checked by a requirement of the `github-repo` plugin that Privateer provides, which evaluates the OSPS Baseline.
+- **Privateer plugin checked:** checked by a requirement of our own `cncf-controls` plugin, used where the Baseline has none.
 - **Not checked:** no Privateer requirement, native or plugin, fully establishes the control. It is reported as NO-CHECK and left out of the badge percentage.
 
-```mermaid
-pie showData
-    title In-scope controls by how they are assessed (55)
-    "Privateer native (github-repo)" : 20
-    "Privateer plugin (cncf-controls)" : 5
-    "Not checked" : 30
-```
+<img src="docs/control-scope.svg" alt="Of 214 catalog controls, 159 are out of scope and 55 are in scope. Of the 55 in scope, 20 are checked by Privateer native, 5 by the Privateer plugin and 30 are not checked." width="760">
 
 Of the 25 controls with a check, 9 match their requirement exactly (8 native, 1 plugin) and 16 match only partly (12 native, 4 plugin). A partial match means a pass is necessary but not sufficient evidence for the control.
 
