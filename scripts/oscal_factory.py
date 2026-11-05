@@ -13,8 +13,11 @@ e2e-demo-compliance-posture reference implementation:
 
 from __future__ import annotations
 
+import subprocess
+import sys
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
 from trestle.oscal import OSCAL_VERSION
 from trestle.oscal import assessment_plan as ap_mod
@@ -25,6 +28,40 @@ from trestle.oscal import ssp as ssp_mod
 
 # Namespace used across all CNCF OSCAL properties in this project.
 CNCF_OSCAL_NS = "https://oscal-compass/compliance-trestle/schemas/oscal/cd"
+
+
+# ---------------------------------------------------------------------------
+# Validation
+# ---------------------------------------------------------------------------
+
+VALIDATE_TIMEOUT_SECONDS = 120
+
+
+def validate(trestle_ws: Path, document: str) -> bool:
+    """Validate one document with ``trestle validate``; True if it is valid.
+
+    ``document`` is a path relative to the trestle workspace, for example
+    ``catalogs/cncf-controls/catalog.json``. A trestle failure, a missing file or
+    a timeout counts as invalid. Trestle's own message is printed when invalid.
+    """
+    root = Path(trestle_ws).resolve()
+    if not (root / document).is_file():
+        print(f"INVALID (missing): {document}", file=sys.stderr)
+        return False
+    try:
+        result = subprocess.run(
+            [sys.executable, "-m", "trestle", "validate", "-tr", str(root),
+             "-f", document, "--quiet"],
+            capture_output=True, text=True, timeout=VALIDATE_TIMEOUT_SECONDS, check=False)
+    except subprocess.TimeoutExpired:
+        print(f"INVALID (timed out): {document}", file=sys.stderr)
+        return False
+    if result.returncode != 0:
+        print(f"INVALID: {document}", file=sys.stderr)
+        print((result.stderr or result.stdout).strip(), file=sys.stderr)
+        return False
+    print(f"  Valid OSCAL: {document}")
+    return True
 
 
 # ---------------------------------------------------------------------------

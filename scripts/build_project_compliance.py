@@ -352,6 +352,10 @@ def build_ap(repo_name: str, slug: str) -> factory.ap_mod.Model:
 # ---------------------------------------------------------------------------
 
 def cmd_base(trestle_ws: Path) -> int:
+    # The base builds on the catalog and the profile, so they must be valid too.
+    for doc in ("catalogs/cncf-controls/catalog.json", "profiles/cncf-repo/profile.json"):
+        if not factory.validate(trestle_ws, doc):
+            return 1
     print("Building shared base component definition...")
     model = build_base_comp_def()
     out_dir = trestle_ws / "component-definitions" / "cncf-repo"
@@ -362,6 +366,8 @@ def cmd_base(trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {out_path}  ({len(REQUIREMENTS)} requirements)")
+    if not factory.validate(trestle_ws, "component-definitions/cncf-repo/component-definition.json"):
+        return 1
     return 0
 
 
@@ -381,6 +387,8 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {cd_path}")
+    if not factory.validate(trestle_ws, f"component-definitions/{slug}/component-definition.json"):
+        return 1
 
     # 2. SSP
     ssp_model = build_ssp(repo_url, repo_name, slug, trestle_ws)
@@ -392,6 +400,8 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {ssp_path}")
+    if not factory.validate(trestle_ws, f"system-security-plans/{slug}/system-security-plan.json"):
+        return 1
 
     # 3. Assessment plan
     ap_model = build_ap(repo_name, slug)
@@ -403,6 +413,8 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {ap_path}")
+    if not factory.validate(trestle_ws, f"assessment-plans/{slug}/assessment-plan.json"):
+        return 1
 
     return 0
 

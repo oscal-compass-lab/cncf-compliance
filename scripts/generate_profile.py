@@ -11,6 +11,7 @@ import json
 import sys
 from pathlib import Path
 
+import oscal_factory as factory
 from privateer_mapping import MAPPED, UNMAPPED, load_catalog
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -57,6 +58,8 @@ def main() -> int:
     }
     PROFILE_PATH.write_text(json.dumps(profile, indent=2), encoding="utf-8")
     print(f"Written: {PROFILE_PATH} with {len(in_scope)} controls")
+    if not factory.validate(ROOT / "trestle.ws", "profiles/cncf-repo/profile.json"):
+        return 1
     return 0
 
 

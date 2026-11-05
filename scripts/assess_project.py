@@ -410,6 +410,8 @@ def main() -> int:
     passed = sum(o["ok"] for o in outcomes)
     manual = sum(o["reason"] in UNDETERMINED for o in outcomes)
     print(f"Written: {out}")
+    if not factory.validate(ws, f"assessment-results/{slug}/assessment-results.json"):
+        return 1
     print(f"Satisfied {passed}/{len(outcomes)}  "
           f"(failed {len(outcomes) - passed - manual}, not automated {manual})")
 

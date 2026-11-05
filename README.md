@@ -45,7 +45,7 @@ A control is **out of scope** when its subject is something a repository does no
 By catalog group, with how each in-scope control is assessed:
 
 | Group | In scope | Privateer native checked | Privateer plugin checked | Not checked | Out of scope |
-| --- | --- | --- | --- | --- | --- |
+| --- | ---: | ---: | ---: | ---: | ---: |
 | Develop | 13 | 4 | 0 | 9 | 7 |
 | Securing Build Pipelines | 12 | 2 | 0 | 10 | 9 |
 | Securing the Source Code | 11 | 6 | 3 | 2 | 2 |
@@ -116,6 +116,25 @@ The dropdown in the last column links to these documents. The first three are sh
 | System Security Plan | Project | Binds the project component definition to the profile and records the parameter values found in the repository. |
 | Assessment Plan | Project | Selects the profile controls to assess for this project. |
 | Assessment Results | Project | One observation (the evidence) and one finding (satisfied or not satisfied) for each control. |
+
+### How OSCAL Compass is used
+
+This repository uses one tool from [OSCAL Compass <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass):
+
+- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle) (`compliance-trestle` 5.2.0, OSCAL 1.2.1), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds every OSCAL object with trestle's typed Python models (component definition, system security plan, assessment plan, assessment results), and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
+- **Validation with `trestle validate`.** Every OSCAL document is validated as soon as the script that writes it has written it, and a document that does not validate stops that script with an error:
+
+  | Document | Validated by | When |
+  | --- | --- | --- |
+  | Catalog | `build_project_compliance.py base` | Before the base is built |
+  | Profile | `generate_profile.py` and `build_project_compliance.py base` | After it is written, and before the base is built |
+  | Base Component Definition | `build_project_compliance.py base` | After it is written |
+  | Component Definition | `build_project_compliance.py project` | After it is written |
+  | System Security Plan | `build_project_compliance.py project` | After it is written |
+  | Assessment Plan | `build_project_compliance.py project` | After it is written |
+  | Assessment Results | `assess_project.py` | After it is written |
+
+  A project whose documents fail validation counts as a failed assessment: it is rolled back to its previous result and the run moves on to the next project (see [How the tables are assembled](#how-the-tables-are-assembled)). A failure in the shared base stops the [prepare job](.github/workflows/assess-pipeline.yml) before anything is committed. The check is one function, `validate` in [`scripts/oscal_factory.py`](scripts/oscal_factory.py), which runs `trestle validate -f <document>` in the trestle workspace.
 
 ## CNCF Projects
 
