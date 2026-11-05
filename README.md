@@ -121,11 +121,11 @@ The dropdown in the last column links to these documents. The first three are sh
 | Assessment Plan | Project | Selects the profile controls to assess for this project. |
 | Assessment Results | Project | One observation (the evidence) and one finding (satisfied or not satisfied) for each control. |
 
-### How OSCAL Compass is used
+### How CNCF OSCAL Compass is used
 
-This repository uses one tool from [OSCAL Compass <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass):
+This repository uses one tool from [CNCF OSCAL Compass <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass):
 
-- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds every OSCAL object with trestle's typed Python models (component definition, system security plan, assessment plan, assessment results), and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
+- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds every OSCAL object with trestle's typed Python models (component definition, system security plan, assessment plan, assessment results), and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the CNCF OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
 - **Validation with `trestle validate`.** Every OSCAL document is validated as soon as the script that writes it has written it, and a document that does not validate stops that script with an error:
 
   | Document | Validated by | When |
