@@ -26,9 +26,13 @@ The tables are generated. Do not edit the section of `README.md` between the `BE
 
 A project whose assessment has not run yet shows the **Not Assessed** badge and `-` in the OSCAL documents column.
 
+### The control catalog
+
+The [catalog](trestle.ws/catalogs/cncf-controls/catalog.json) is not built in this repository. It is a copy of the OSCAL catalog from [oscal-compass-lab/cncf-controls <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass-lab/cncf-controls), which converts the [CNCF TAG Security and Compliance controls catalog <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/cncf/contribute-site/tree/main/docs/community/tags/security-and-compliance/publications/controls-catalog) to OSCAL. It has 214 controls in 11 groups, mapped to NIST SP 800-53 Rev. 5. See that repository for how it is built.
+
 ### Which controls are in scope
 
-The [catalog](trestle.ws/catalogs/cncf-controls/catalog.json) has 214 CNCF security controls. The assessment covers a git repository, so only the controls that concern a repository are in scope. The profile ([`cncf-repo`](trestle.ws/profiles/cncf-repo/profile.json)) lists these 55 controls. The other 159 are out of scope: they are not in the profile and are not assessed, reported or counted.
+The catalog has 214 CNCF security controls. The assessment covers a git repository, so only the controls that concern a repository are in scope. The profile ([`cncf-repo`](trestle.ws/profiles/cncf-repo/profile.json)) lists these 55 controls. The other 159 are out of scope: they are not in the profile and are not assessed, reported or counted.
 
 A control is **in scope** when its subject is something a git repository holds or controls, so it can be judged from the repository and its GitHub settings:
 
