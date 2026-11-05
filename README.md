@@ -66,7 +66,7 @@ Each project gets one badge. The level is the percentage of the in-scope control
 
 Controls for which no Privateer check was found (native or plugin), or that have an inconclusive Privateer result (for example "Needs Review"), are excluded from the percentage. They are never counted as passes.
 
-| Badge | Level | Meaning |
+| Badge<br><img src="badges/spacer.svg" width="243" height="1" alt=""> | Level | Meaning |
 | --- | --- | --- |
 | <img src="badges/gold.svg" alt="Gold"> | Gold | Exceptional compliance: satisfied >= 90% of the controls with a decisive result. |
 | <img src="badges/silver.svg" alt="Silver"> | Silver | Strong compliance: satisfied >= 75% of the controls with a decisive result. |
