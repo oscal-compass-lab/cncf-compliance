@@ -39,13 +39,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-import oscal_factory as factory
+import trestle_api as api
 from privateer_mapping import MAPPED, UNMAPPED, load_catalog, plugin_for
 from trestle.oscal import component as comp
 from trestle.oscal import ssp as ssp_mod
 
 # Re-export so callers that import CNCF_OSCAL_NS from here still work.
-CNCF_OSCAL_NS = factory.CNCF_OSCAL_NS
+CNCF_OSCAL_NS = api.CNCF_OSCAL_NS
 
 
 # ---------------------------------------------------------------------------
@@ -129,25 +129,25 @@ def build_base_comp_def() -> comp.Model:
     for i, req in enumerate(REQUIREMENTS):
         remarks = f"rule_set_{i:02d}"
         sw_props.extend([
-            factory.cncf_prop("Rule_Id", req["rule_id"], remarks),
-            factory.cncf_prop("Rule_Description",
+            api.cncf_prop("Rule_Id", req["rule_id"], remarks),
+            api.cncf_prop("Rule_Description",
                               f"{req['rule_title']}: {req['rule']}", remarks),
         ])
         sw_implemented.append(comp.ImplementedRequirement(
-            uuid=factory.new_uuid(),
+            uuid=api.new_uuid(),
             **{"control-id": req["control_id"]},
             description="",
-            props=[factory.cncf_prop("Rule_Id", req["rule_id"])],
+            props=[api.cncf_prop("Rule_Id", req["rule_id"])],
         ))
 
     sw_control_impl = comp.ControlImplementation(
-        uuid=factory.new_uuid(),
+        uuid=api.new_uuid(),
         source=profile_href,
         description="Software compliance rules implementing cncf-repo profile controls.",
         **{"implemented-requirements": sw_implemented},
     )
 
-    sw_component = factory.software_component(
+    sw_component = api.software_component(
         title="CNCF Source Repository",
         description="Shared software component representing any CNCF source repository.",
         purpose="Define compliance rules for CNCF source repositories.",
@@ -171,13 +171,13 @@ def build_base_comp_def() -> comp.Model:
         else:
             props = no_check_props
         props.extend([
-            factory.cncf_prop("Rule_Id", req["rule_id"], remarks),
-            factory.cncf_prop("Check_Id", req["check_id"], remarks),
-            factory.cncf_prop("Check_Description", req["check"], remarks),
-            factory.cncf_prop("Target_Component", "CNCF Source Repository", remarks),
+            api.cncf_prop("Rule_Id", req["rule_id"], remarks),
+            api.cncf_prop("Check_Id", req["check_id"], remarks),
+            api.cncf_prop("Check_Description", req["check"], remarks),
+            api.cncf_prop("Target_Component", "CNCF Source Repository", remarks),
         ])
 
-    privateer_component = factory.validation_component(
+    privateer_component = api.validation_component(
         title="privateer-native",
         description=(
             "Checks provided by Privateer (pvtr) itself: its github-repo plugin evaluates the "
@@ -187,7 +187,7 @@ def build_base_comp_def() -> comp.Model:
         purpose="Validate CNCF controls using OSPS Baseline requirement results from Privateer.",
         val_props=plugin_props["github-repo"],
     )
-    cncf_component = factory.validation_component(
+    cncf_component = api.validation_component(
         title="privateer-plugins",
         description=(
             "Checks provided by the cncf-controls Privateer plugin written for this project "
@@ -197,7 +197,7 @@ def build_base_comp_def() -> comp.Model:
         purpose="Validate five CNCF controls using requirement results from the cncf-controls plugin.",
         val_props=plugin_props["cncf-controls"],
     )
-    no_check_component = factory.validation_component(
+    no_check_component = api.validation_component(
         title="not-checked",
         description=(
             "Controls that are in scope for git repositories but have no "
@@ -208,12 +208,12 @@ def build_base_comp_def() -> comp.Model:
         val_props=no_check_props,
     )
 
-    md = factory.org_metadata(
+    md = api.org_metadata(
         "CNCF Source Repository — Shared Base Component Definition",
         org_name="CNCF TAG Security and Compliance",
     )
 
-    return factory.component_definition(
+    return api.component_definition(
         md=md, components=[sw_component, privateer_component, cncf_component, no_check_component]
     )
 
@@ -227,7 +227,7 @@ def build_project_comp_def(repo_url: str, repo_name: str) -> comp.Model:
     base_href = "trestle://component-definitions/cncf-repo/component-definition.json"
 
     ci_kwargs: dict = {
-        "uuid": factory.new_uuid(),
+        "uuid": api.new_uuid(),
         "source": profile_href,
         "description": f"Control implementations for {repo_name}, inherited from the shared cncf-repo base.",
     }
@@ -235,7 +235,7 @@ def build_project_comp_def(repo_url: str, repo_name: str) -> comp.Model:
     # we declare a single placeholder that defers all rules to the base.
     ci_kwargs["implemented-requirements"] = [
         comp.ImplementedRequirement(
-            uuid=factory.new_uuid(),
+            uuid=api.new_uuid(),
             **{"control-id": "CNSC-71"},
             description=(
                 "All control implementations are inherited from the shared base "
@@ -244,19 +244,19 @@ def build_project_comp_def(repo_url: str, repo_name: str) -> comp.Model:
         )
     ]
 
-    component = factory.project_software_component(
+    component = api.project_software_component(
         repo_name=repo_name,
         repo_url=repo_url,
         control_implementations=[comp.ControlImplementation(**ci_kwargs)],
     )
 
-    md = factory.org_metadata(
+    md = api.org_metadata(
         f"Component Definition — {repo_name}",
         org_name=repo_name,
         org_href=repo_url,
     )
 
-    return factory.component_definition(
+    return api.component_definition(
         md=md,
         components=[component],
         imports=[comp.ImportComponentDefinition(href=base_href)],
@@ -291,17 +291,17 @@ def build_ssp(
         .read_text(encoding="utf-8")
     )["component-definition"]
 
-    # Load each DefinedComponent via trestle's pydantic model so the factory
+    # Load each DefinedComponent via trestle's pydantic model so the API
     # receives a typed object.
     from trestle.oscal.component import DefinedComponent as DefComp
 
     system_components = []
     for raw in base_cd["components"]:
         dc = DefComp(**raw)
-        system_components.append(factory.system_component_from_defined(dc, base_href))
+        system_components.append(api.system_component_from_defined(dc, base_href))
     for raw in proj_cd["components"]:
         dc = DefComp(**raw)
-        system_components.append(factory.system_component_from_defined(dc, proj_href))
+        system_components.append(api.system_component_from_defined(dc, proj_href))
 
     # The per-project software component UUID drives by-components references.
     # It is the first (and only) software component in the per-project comp-def.
@@ -312,12 +312,12 @@ def build_ssp(
     # ------------------------------------------------------------------ #
     implemented = [
         ssp_mod.ImplementedRequirement(
-            uuid=factory.new_uuid(),
+            uuid=api.new_uuid(),
             **{"control-id": cid},
             **{"by-components": [
                 ssp_mod.ByComponent(
                     **{"component-uuid": proj_sw_uuid},
-                    uuid=factory.new_uuid(),
+                    uuid=api.new_uuid(),
                     description=f"Repository component implements {cid}.",
                 )
             ]},
@@ -325,7 +325,7 @@ def build_ssp(
         for cid in dict.fromkeys(r["control_id"] for r in REQUIREMENTS)
     ]
 
-    return factory.system_security_plan(
+    return api.system_security_plan(
         repo_name=repo_name,
         repo_url=repo_url,
         profile_href=profile_href,
@@ -338,9 +338,9 @@ def build_ssp(
 # Assessment plan builder
 # ---------------------------------------------------------------------------
 
-def build_ap(repo_name: str, slug: str) -> factory.ap_mod.Model:
+def build_ap(repo_name: str, slug: str) -> api.ap_mod.Model:
     control_ids = list(dict.fromkeys(r["control_id"] for r in REQUIREMENTS))
-    return factory.assessment_plan(
+    return api.assessment_plan(
         repo_name=repo_name,
         slug=slug,
         control_ids=control_ids,
@@ -354,7 +354,7 @@ def build_ap(repo_name: str, slug: str) -> factory.ap_mod.Model:
 def cmd_base(trestle_ws: Path) -> int:
     # The base builds on the catalog and the profile, so they must be valid too.
     for doc in ("catalogs/cncf-controls/catalog.json", "profiles/cncf-repo/profile.json"):
-        if not factory.validate(trestle_ws, doc):
+        if not api.validate(trestle_ws, doc):
             return 1
     print("Building shared base component definition...")
     model = build_base_comp_def()
@@ -366,7 +366,7 @@ def cmd_base(trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {out_path}  ({len(REQUIREMENTS)} requirements)")
-    if not factory.validate(trestle_ws, "component-definitions/cncf-repo/component-definition.json"):
+    if not api.validate(trestle_ws, "component-definitions/cncf-repo/component-definition.json"):
         return 1
     return 0
 
@@ -387,7 +387,7 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {cd_path}")
-    if not factory.validate(trestle_ws, f"component-definitions/{slug}/component-definition.json"):
+    if not api.validate(trestle_ws, f"component-definitions/{slug}/component-definition.json"):
         return 1
 
     # 2. SSP
@@ -400,7 +400,7 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {ssp_path}")
-    if not factory.validate(trestle_ws, f"system-security-plans/{slug}/system-security-plan.json"):
+    if not api.validate(trestle_ws, f"system-security-plans/{slug}/system-security-plan.json"):
         return 1
 
     # 3. Assessment plan
@@ -413,7 +413,7 @@ def cmd_project(repo_url: str, trestle_ws: Path) -> int:
         encoding="utf-8",
     )
     print(f"  Written: {ap_path}")
-    if not factory.validate(trestle_ws, f"assessment-plans/{slug}/assessment-plan.json"):
+    if not api.validate(trestle_ws, f"assessment-plans/{slug}/assessment-plan.json"):
         return 1
 
     return 0

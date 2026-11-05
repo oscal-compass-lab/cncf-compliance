@@ -9,9 +9,10 @@ Usage: python scripts/generate_profile.py
 """
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
-import oscal_factory as factory
+import trestle_api as api
 from privateer_mapping import MAPPED, UNMAPPED, load_catalog
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -31,34 +32,22 @@ def main() -> int:
         return 1
 
     existing = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))["profile"]
-    profile = {
-        "profile": {
-            "uuid": existing["uuid"],
-            "metadata": {
-                "title": "CNCF Source Repository Profile",
-                "last-modified": existing["metadata"]["last-modified"],
-                "version": "1.0",
-                "oscal-version": "1.2.1",
-                "props": [
-                    {
-                        "name": "description",
-                        "value": "The CNCF controls that are in scope for git repositories. "
-                                 "All other catalog controls are out of scope.",
-                    }
-                ],
-                "parties": existing["metadata"].get("parties", []),
-            },
-            "imports": [
-                {
-                    "href": "trestle://catalogs/cncf-controls/catalog.json",
-                    "include-controls": [{"with-ids": in_scope}],
-                }
-            ],
-        }
-    }
-    PROFILE_PATH.write_text(json.dumps(profile, indent=2), encoding="utf-8")
+    model = api.profile(
+        profile_uuid=existing["uuid"],
+        title="CNCF Source Repository Profile",
+        description="The CNCF controls that are in scope for git repositories. "
+                    "All other catalog controls are out of scope.",
+        last_modified=datetime.fromisoformat(existing["metadata"]["last-modified"]),
+        parties=existing["metadata"].get("parties", []),
+        catalog_href="trestle://catalogs/cncf-controls/catalog.json",
+        control_ids=in_scope,
+    )
+    PROFILE_PATH.write_text(
+        model.model_dump_json(indent=2, exclude_none=True, by_alias=True),
+        encoding="utf-8",
+    )
     print(f"Written: {PROFILE_PATH} with {len(in_scope)} controls")
-    if not factory.validate(ROOT / "trestle.ws", "profiles/cncf-repo/profile.json"):
+    if not api.validate(ROOT / "trestle.ws", "profiles/cncf-repo/profile.json"):
         return 1
     return 0
 

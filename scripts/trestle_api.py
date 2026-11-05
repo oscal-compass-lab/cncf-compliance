@@ -1,7 +1,7 @@
-"""oscal_factory.py — typed factory API for oscal-compass/compliance-trestle objects.
+"""trestle_api.py — typed API for building and validating oscal-compass/compliance-trestle objects.
 
 All trestle OSCAL class construction for this project flows through this module.
-Callers work exclusively with the factory functions below; direct imports of
+Callers work exclusively with the functions below; direct imports of
 trestle internals are contained here and nowhere else.
 
 Observation idref props follow the pattern established by the oscal-compass
@@ -24,6 +24,7 @@ from trestle.oscal import assessment_plan as ap_mod
 from trestle.oscal import assessment_results as ar_mod
 from trestle.oscal import common
 from trestle.oscal import component as comp_mod
+from trestle.oscal import profile as profile_mod
 from trestle.oscal import ssp as ssp_mod
 
 # Namespace used across all CNCF OSCAL properties in this project.
@@ -118,6 +119,40 @@ def org_metadata(title: str, org_name: str,
     md = metadata(title)
     md.parties = [common.Parties(**party_kwargs)]
     return md
+
+
+# ---------------------------------------------------------------------------
+# Profile
+# ---------------------------------------------------------------------------
+
+def profile(
+    *,
+    profile_uuid: str,
+    title: str,
+    description: str,
+    last_modified: datetime,
+    parties: list[dict],
+    catalog_href: str,
+    control_ids: list[str],
+) -> profile_mod.Model:
+    """Build a ``Profile`` that imports ``catalog_href`` and includes only ``control_ids``.
+
+    The UUID, timestamp and parties are passed in, so a profile whose scope has
+    not changed can be written again unchanged.
+    """
+    md = metadata(title)
+    md.last_modified = last_modified
+    md.props = [prop("description", description)]
+    md.parties = [common.Parties(**party) for party in parties]
+    prof = profile_mod.Profile(
+        uuid=profile_uuid,
+        metadata=md,
+        imports=[profile_mod.Import2(
+            href=catalog_href,
+            **{"include-controls": [profile_mod.SelectControl(**{"with-ids": control_ids})]},
+        )],
+    )
+    return profile_mod.Model(profile=prof)
 
 
 # ---------------------------------------------------------------------------

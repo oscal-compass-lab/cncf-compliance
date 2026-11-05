@@ -111,22 +111,22 @@ Privateer evaluates the whole repository in one run, so the run happens once per
 
 This repository uses one tool from [CNCF OSCAL Compass <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass):
 
-- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle), used as a library.** [`scripts/oscal_factory.py`](scripts/oscal_factory.py) builds the component definitions, the system security plan, the assessment plan and the assessment results with trestle's typed Python models, and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the CNCF OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
+- **[Compliance Trestle <img src="icons/external-link.svg" alt="(external link)" width="12" height="12">](https://github.com/oscal-compass/compliance-trestle), used as a library.** [`scripts/trestle_api.py`](scripts/trestle_api.py) builds the profile, the component definitions, the system security plan, the assessment plan and the assessment results with trestle's typed Python models, and the scripts write them out with the model's JSON serializer. All trestle imports are in that one module. [`trestle.ws/`](trestle.ws) is a trestle workspace, and the profile imports the catalog with a `trestle://` reference. The observation properties follow the pattern of the CNCF OSCAL Compass `e2e-demo-compliance-posture` reference implementation.
 - **Validation with `trestle validate`.** Every OSCAL document is validated as soon as the script that writes it has written it, and a document that does not validate stops that script with an error. The last column of the table below shows where.
 
 #### OSCAL documents
 
 The dropdown in the last column links to these documents. The first three are shared by all projects. The others are specific to the project.
 
-| Document | Scope | Purpose | Built by | Validated by |
+| Document | Scope | Purpose | Origin | Validated by |
 | --- | --- | --- | --- | --- |
 | Catalog | Shared | The CNCF security controls. | Not built here: copied from [`cncf-controls`](#the-control-catalog). | [`build_project_compliance.py`](scripts/build_project_compliance.py) `base`, before the base is built |
-| Profile | Shared | The catalog controls that are in scope for git repositories. The other controls are out of scope. | [`generate_profile.py`](scripts/generate_profile.py), as plain JSON. Trestle's models are not used. | `generate_profile.py` after it is written, and `build_project_compliance.py base` before the base is built |
-| Base Component Definition | Shared | The automated check and default parameter values for each control. | Trestle's models, through [`oscal_factory.py`](scripts/oscal_factory.py). | `build_project_compliance.py base`, after it is written |
-| Component Definition | Project | Imports the base component definition and overrides the parameters that differ for this project. | Trestle's models, through [`oscal_factory.py`](scripts/oscal_factory.py). | `build_project_compliance.py project`, after it is written |
-| System Security Plan | Project | Binds the project component definition to the profile and records the parameter values found in the repository. | Trestle's models, through [`oscal_factory.py`](scripts/oscal_factory.py). | `build_project_compliance.py project`, after it is written |
-| Assessment Plan | Project | Selects the profile controls to assess for this project. | Trestle's models, through [`oscal_factory.py`](scripts/oscal_factory.py). | `build_project_compliance.py project`, after it is written |
-| Assessment Results | Project | One observation (the evidence) and one finding (satisfied or not satisfied) for each control. | Trestle's models, through [`oscal_factory.py`](scripts/oscal_factory.py). | [`assess_project.py`](scripts/assess_project.py), after it is written |
+| Profile | Shared | The catalog controls that are in scope for git repositories. The other controls are out of scope. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py), by [`generate_profile.py`](scripts/generate_profile.py). | `generate_profile.py` after it is written, and `build_project_compliance.py base` before the base is built |
+| Base Component Definition | Shared | The automated check and default parameter values for each control. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py). | `build_project_compliance.py base`, after it is written |
+| Component Definition | Project | Imports the base component definition and overrides the parameters that differ for this project. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py). | `build_project_compliance.py project`, after it is written |
+| System Security Plan | Project | Binds the project component definition to the profile and records the parameter values found in the repository. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py). | `build_project_compliance.py project`, after it is written |
+| Assessment Plan | Project | Selects the profile controls to assess for this project. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py). | `build_project_compliance.py project`, after it is written |
+| Assessment Results | Project | One observation (the evidence) and one finding (satisfied or not satisfied) for each control. | Trestle's models, through [`trestle_api.py`](scripts/trestle_api.py). | [`assess_project.py`](scripts/assess_project.py), after it is written |
 
 ## CNCF Projects
 

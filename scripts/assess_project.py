@@ -44,7 +44,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-import oscal_factory as factory
+import trestle_api as api
 from build_project_compliance import REQUIREMENTS, _repo_name, _slug, remote_head_commit
 from checks import dispatch_check
 from checks import privateer_client
@@ -152,8 +152,8 @@ def load_control_statements(path: Path) -> dict[str, str]:
 
 def build_results(repo_name: str, slug: str, outcomes: list[dict],
                   start: datetime) -> object:
-    """Build the complete OSCAL AssessmentResults model via the factory."""
-    now = factory.now_utc()
+    """Build the complete OSCAL AssessmentResults model via the api."""
+    now = api.now_utc()
     observations = []
     findings = []
 
@@ -165,7 +165,7 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
         method = "TEST" if o["spec"].startswith("privateer") else "EXAMINE"
         state = "satisfied" if o["ok"] else "not-satisfied"
 
-        obs_uuid, obs = factory.observation(
+        obs_uuid, obs = api.observation(
             title=f"{o['control_id']} evidence",
             description=o["evidence"],
             rule_id=o["rule_id"],
@@ -175,7 +175,7 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
             collected=now,
         )
         observations.append(obs)
-        findings.append(factory.finding(
+        findings.append(api.finding(
             title=f"{o['control_id']} {o['spec'].split('|')[0].strip()}",
             description=o["requirement"],
             control_id=o["control_id"],
@@ -184,7 +184,7 @@ def build_results(repo_name: str, slug: str, outcomes: list[dict],
             obs_uuid=obs_uuid,
         ))
 
-    return factory.assessment_results(
+    return api.assessment_results(
         repo_name=repo_name,
         slug=slug,
         observations=observations,
@@ -359,7 +359,7 @@ def main() -> int:
     specs, comp_rules, comp_rule_ids, comp_check_ids = load_base(base_path)
     statements = load_control_statements(catalog_path)
 
-    start = factory.now_utc()
+    start = api.now_utc()
 
     # Build lookup dicts, letting the comp-def values override REQUIREMENTS fallbacks.
     rules = {**{r["control_id"]: r["rule"] for r in REQUIREMENTS}, **comp_rules}
@@ -410,13 +410,13 @@ def main() -> int:
     passed = sum(o["ok"] for o in outcomes)
     manual = sum(o["reason"] in UNDETERMINED for o in outcomes)
     print(f"Written: {out}")
-    if not factory.validate(ws, f"assessment-results/{slug}/assessment-results.json"):
+    if not api.validate(ws, f"assessment-results/{slug}/assessment-results.json"):
         return 1
     print(f"Satisfied {passed}/{len(outcomes)}  "
           f"(failed {len(outcomes) - passed - manual}, not automated {manual})")
 
     level, detail = compute_level(outcomes)
-    assessed_at = factory.now_utc()
+    assessed_at = api.now_utc()
     report_rel = f"reports/{slug}.md"
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     (REPORTS_DIR / f"{slug}.md").write_text(
