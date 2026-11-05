@@ -1,11 +1,11 @@
 # CNCF controls report: CoHDI
 
-![cncf-controls: Not Assessed](../badges/tbd.svg)
+![cncf-controls: Assessment Incomplete](../badges/assessment-incomplete.svg)
 
 - **Repository:** [https://github.com/CoHDI](https://github.com/CoHDI)
 - **Commit assessed:** `unknown`
 - **Assessed at:** 2026-11-04 17:00 UTC
-- **Level:** **Not Assessed**. No controls had a decisive result
+- **Level:** **Assessment Incomplete**. No controls had a decisive result
 - **Totals:** 0 satisfied, 0 failed, 25 no result, 30 no check (of 55 controls in scope)
 
 The level depends on the percentage of controls with a decisive result (PASS or FAIL) that passed. All controls count equally.

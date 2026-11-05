@@ -31,7 +31,7 @@ When Privateer cannot evaluate the repository (timeout, crash, no results) every
 Privateer control is "no-result". What happens then is set by the environment
 variable ASSESS_PRIVATEER_FAILURE:
 
-  store          (default) write the result as usual, typically "Not Assessed"
+  store          (default) write the result as usual, typically "Assessment Incomplete"
   keep-previous  write nothing and exit with status 3, so the caller keeps the
                  project's earlier result
 """
@@ -215,8 +215,8 @@ LEVEL_BADGES = {
     "Bronze":             "../badges/bronze.svg",
     "Baseline Pass Only": "../badges/baseline-pass-only.svg",
     "Fail":               "../badges/fail.svg",
-    "TBD":                "../badges/tbd.svg",
-    "Not Assessed":       "../badges/tbd.svg",
+    "Not Assessed":          "../badges/not-assessed.svg",
+    "Assessment Incomplete": "../badges/assessment-incomplete.svg",
 }
 
 REPORTS_DIR = Path(__file__).resolve().parent.parent / "reports"
@@ -226,7 +226,7 @@ def compute_level(outcomes: list[dict]) -> tuple[str, str]:
     """Return (level, explanation). Controls without a decisive result are excluded."""
     decisive = [o for o in outcomes if o["reason"] not in UNDETERMINED]
     if not decisive:
-        return "Not Assessed", "No controls had a decisive result"
+        return "Assessment Incomplete", "No controls had a decisive result"
     ratio = sum(o["ok"] for o in decisive) / len(decisive)
     detail = (f"{sum(o['ok'] for o in decisive)}/{len(decisive)} controls with a "
               f"decisive result satisfied ({ratio:.0%})")
@@ -253,7 +253,7 @@ def render_report(repo_name: str, repo_url: str, commit: str, level: str,
     no_check = sum(o["reason"] == "no-check" for o in outcomes)
     no_result = sum(o["reason"] == "no-result" for o in outcomes)
     failed = len(outcomes) - passed - no_check - no_result
-    badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["TBD"])
+    badge_path = LEVEL_BADGES.get(level, LEVEL_BADGES["Not Assessed"])
     lines = [
         f"# CNCF controls report: {repo_name}",
         "",
