@@ -42,23 +42,38 @@ A control is **out of scope** when its subject is something a repository does no
 - deployment: registries, image hardening, dedicated environments, deployment strategies
 - access control to running systems, incident response and monitoring
 
-By catalog group:
+By catalog group, with how each in-scope control is assessed:
 
-| Group | In scope | Out of scope |
-| --- | --- | --- |
-| Develop | 13 | 7 |
-| Securing Build Pipelines | 12 | 9 |
-| Securing the Source Code | 11 | 2 |
-| Security Assurance | 9 | 13 |
-| Securing Materials | 8 | 1 |
-| Distribute | 2 | 38 |
-| Access Control | 0 | 22 |
-| Compute | 0 | 36 |
-| Deploy | 0 | 9 |
-| Securing Artefacts | 0 | 8 |
-| Storage | 0 | 14 |
+| Group | In scope | of which Privateer native | of which Privateer plugin | of which not checked | Out of scope |
+| --- | --- | --- | --- | --- | --- |
+| Develop | 13 | 4 | 0 | 9 | 7 |
+| Securing Build Pipelines | 12 | 2 | 0 | 10 | 9 |
+| Securing the Source Code | 11 | 6 | 3 | 2 | 2 |
+| Security Assurance | 9 | 2 | 2 | 5 | 13 |
+| Securing Materials | 8 | 5 | 0 | 3 | 1 |
+| Distribute | 2 | 1 | 0 | 1 | 38 |
+| Access Control | 0 | 0 | 0 | 0 | 22 |
+| Compute | 0 | 0 | 0 | 0 | 36 |
+| Deploy | 0 | 0 | 0 | 0 | 9 |
+| Securing Artefacts | 0 | 0 | 0 | 0 | 8 |
+| Storage | 0 | 0 | 0 | 0 | 14 |
+| **Total** | **55** | **20** | **5** | **30** | **159** |
 
-A control in scope is not necessarily checked. Each one either has its own [Privateer](#privateer-checks) check (25 controls) or is recorded as not checked, with the reason (30 controls). See [`docs/privateer-check-coverage.md`](docs/privateer-check-coverage.md). To change the scope, edit `MAPPED` and `UNMAPPED` in [`scripts/privateer_mapping.py`](scripts/privateer_mapping.py), then run [`scripts/generate_profile.py`](scripts/generate_profile.py) to rewrite the profile and `scripts/build_project_compliance.py base` to rebuild the base component definition.
+- **Privateer native:** checked by a requirement of the `github-repo` plugin that Privateer provides, which evaluates the OSPS Baseline.
+- **Privateer plugin:** checked by a requirement of our own `cncf-controls` plugin, used where the Baseline has none.
+- **Not checked:** no Privateer requirement, native or plugin, fully establishes the control. It is reported as NO-CHECK and left out of the badge percentage.
+
+```mermaid
+pie showData
+    title In-scope controls by how they are assessed (55)
+    "Privateer native (github-repo)" : 20
+    "Privateer plugin (cncf-controls)" : 5
+    "Not checked" : 30
+```
+
+Of the 25 controls with a check, 9 match their requirement exactly (8 native, 1 plugin) and 16 match only partly (12 native, 4 plugin). A partial match means a pass is necessary but not sufficient evidence for the control.
+
+A control in scope is not necessarily checked. Each one either has its own [Privateer](#privateer-checks) check (25 controls) or is recorded as not checked, with the reason (30 controls). [`docs/privateer-check-coverage.md`](docs/privateer-check-coverage.md) lists every control with its plugin, requirement and fidelity, and the reason for each control that is not checked. To change the scope, edit `MAPPED` and `UNMAPPED` in [`scripts/privateer_mapping.py`](scripts/privateer_mapping.py), then run [`scripts/generate_profile.py`](scripts/generate_profile.py) to rewrite the profile and `scripts/build_project_compliance.py base` to rebuild the base component definition.
 
 ### Assessment badges
 
